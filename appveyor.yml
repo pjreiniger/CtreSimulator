@@ -3,10 +3,11 @@ image: Visual Studio 2015
 
 build_script:
 - cmd: gradlew.bat build publishToMavenLocal
+- cmd: xcopy /s "%USERPROFILE%\.m2\repository\com\snobot\simulator" "build\publish_artifacts"
 
 after_build:
 - cmd: "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
 
 artifacts:
-- path: "%USERPROFILE%/.m2/repository/com/snobot/simulator/ctre_sim_override/0.0.0"
+- path: "build\publish_artifacts"
   name: full_maven_repo
