@@ -9,5 +9,5 @@ after_build:
 - cmd: "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
 
 artifacts:
-- path: "build\publish_artifacts"
+- path: "build/publish_artifacts"
   name: full_maven_repo
