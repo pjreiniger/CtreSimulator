@@ -76,4 +76,3 @@ task packageNativeFilesInJar(type: Jar) {
 }
 
 apply from: "publish.gradle"
-

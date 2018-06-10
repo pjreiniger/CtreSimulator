@@ -8,5 +8,5 @@ after_build:
 - cmd: "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
 
 artifacts:
-- path: %USERPROFILE%/.m2/repository/com/snobot/simulator/ctre_sim_override/0.0.0
+- path: "%USERPROFILE%/.m2/repository/com/snobot/simulator/ctre_sim_override/0.0.0"
   name: full_maven_repo

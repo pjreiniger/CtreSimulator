@@ -3,6 +3,7 @@
 #define CTRESIMULATOR_SRC_MAIN_NATIVE_INCLUDE_CTRESIMMOCKS_BASECTREWRAPPER_H_
 
 #include <string>
+#include <cstring>
 
 namespace SnobotSim
 {
