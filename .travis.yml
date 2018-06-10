@@ -29,7 +29,7 @@ script:
   - ./gradlew build publishToMavenLocal
   - git clone --depth=50 --branch=master https://github.com/pjreiniger/maven_repo.git ../../pjreiniger/maven_repo
   - mkdir -p ../../pjreiniger/maven_repo/com/snobot/simulator
-  - cp -r $HOME/.m2/repository/com/snobot/simulator ../../pjreiniger/maven_repo/com/snobot/simulator
+  - cp -r $HOME/.m2/repository/com/snobot/simulator ../../pjreiniger/maven_repo/com/snobot
 
 
 deploy:
