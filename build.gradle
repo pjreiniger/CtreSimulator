@@ -1,0 +1,79 @@
+
+plugins {
+    id 'edu.wpi.first.NativeUtils' version '1.6.7'
+    id "edu.wpi.first.GradleJni" version "0.2.2"
+	id "cpp"
+	id "java"
+}
+
+ext.release_version = "0.0.0"
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+        maven {
+            url "http://first.wpi.edu/FRC/roborio/maven/development/"
+        }
+}
+
+apply from: "config.gradle"
+model {
+
+	dependencyConfigs {
+		wpiutil(DependencyConfig) {
+			groupId = 'edu.wpi.first.wpiutil'
+			artifactId = 'wpiutil-cpp'
+			headerClassifier = 'headers'
+			ext = 'zip'
+			version = '2018.4.1-20180605191727-1035-g86285b4'
+			sharedConfigs = [ CtreSimulation: [] ]
+		}
+	}
+
+
+	components {
+		CtreSimulation(JniNativeLibrarySpec) {
+			baseName = 'CTRE_PhoenixCCI'
+
+			enableCheckTask true
+			javaCompileTasks << compileJava
+			jniCrossCompileOptions << JniCrossCompileOptions('athena')
+			sources {
+				cpp {
+					source {
+						srcDirs = ["src/main/native/cpp"]
+						includes = ["**/*.cpp"]
+					}
+					exportedHeaders {
+						srcDirs = ["src/main/native/include"]
+					}
+				}
+			}
+		}
+	}
+}
+
+
+task packageNativeFilesInJar(type: Jar) {
+	destinationDir = project.buildDir
+	classifier = "native-" + org.gradle.internal.os.OperatingSystem.current().getFamilyName();
+
+	project.model {
+		binaries {
+			withType(SharedLibraryBinarySpec) { binary ->
+				if (binary.component.name == "CtreSimulation")
+				{
+					println binary
+					println NativeUtils.getPlatformPath(binary)
+					from(binary.sharedLibraryFile) {
+
+						into NativeUtils.getPlatformPath(binary)
+					}
+				}
+			}
+		}
+	}
+}
+
+apply from: "publish.gradle"
+

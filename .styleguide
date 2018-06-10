@@ -1,0 +1,28 @@
+cppHeaderFileInclude {
+  \.h$
+  \.hpp$
+  \.inc$
+}
+
+cppSrcFileInclude {
+  \.cpp$
+}
+
+generatedFileExclude {
+}
+
+modifiableFileExclude {
+  \.so$
+}
+
+licenseUpdateExclude {
+ .*
+}
+
+includeGuardRoots {
+
+}
+
+includeProject {
+
+}
