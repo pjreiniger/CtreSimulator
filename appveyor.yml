@@ -3,8 +3,8 @@ image: Visual Studio 2015
 
 build_script:
 - cmd: gradlew.bat build publishToMavenLocal
-- cmd: xcopy /s "%USERPROFILE%\.m2\repository\com\snobot\simulator" "build\publish_artifacts"
 - cmd: mkdir "build\publish_artifacts"
+- cmd: xcopy /s "%USERPROFILE%\.m2\repository\com\snobot\simulator" "build\publish_artifacts"
 
 after_build:
 - cmd: "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
