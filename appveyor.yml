@@ -2,7 +2,7 @@ version: 1.0.{build}
 image: Visual Studio 2015
 
 build_script:
-- cmd: gradlew.bat build publishToMavenRepo
+- cmd: gradlew.bat build publishToMavenLocal
 
 after_build:
 - cmd: "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"

@@ -26,21 +26,19 @@ cache:
 script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then python3 -m wpiformat -y 2018 -clang 5.0; fi;
   - git --no-pager diff --exit-code HEAD  # Ensure formatter made no changes
-  - ./gradlew build
+  - ./gradlew build publishToMavenLocal
   - git clone --depth=50 --branch=master https://github.com/pjreiniger/maven_repo.git ../../pjreiniger/maven_repo
-  - ./gradlew publishToMavenLocal
   - ls -al $HOME
   - ls -al $HOME/.m2/
   - ls -al $HOME/.m2/repository
-  - cp $HOME/.m2/repository/com/snobot/simulator/ctre_sim_override/0.0.0 ../../pjreiniger/maven_repo
+  - ls -al $HOME/.m2/repository/com/snobot/
+  - cp -r $HOME/.m2/repository/com/snobot/simulator ../../pjreiniger/maven_repo
 
 
 deploy:
   - provider: script
     script: pwd; cd ../../pjreiniger/maven_repo; pwd; ls; chmod +x commit_updates.sh; ./commit_updates.sh
     skip_cleanup: true
-    on:
-      branch: master
 
 env:
   global:
