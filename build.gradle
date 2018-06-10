@@ -4,17 +4,35 @@ plugins {
     id "edu.wpi.first.GradleJni" version "0.2.2"
 	id "cpp"
 	id "java"
+	id "eclipse"
 }
 
-ext.release_version = "0.0.0"
+ext.ctre_library_version = "5.1.1.1"
+ext.release_version = "V0" + ctre_library_version
 
 repositories {
-	mavenCentral()
-	mavenLocal()
-        maven {
-            url "http://first.wpi.edu/FRC/roborio/maven/development/"
-        }
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url "http://first.wpi.edu/FRC/roborio/maven/development/"
+    }
+    maven {
+        url 'https://raw.githubusercontent.com/Open-RIO/Maven-Mirror/master/m2'
+    }
 }
+
+ext.allwpilibVersion = {
+	return '2018.4.1-20180605191727-1035-g86285b4'
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs += "ctre_source/main/java"
+		}
+	}
+}
+
 
 apply from: "config.gradle"
 model {
@@ -25,8 +43,8 @@ model {
 			artifactId = 'wpiutil-cpp'
 			headerClassifier = 'headers'
 			ext = 'zip'
-			version = '2018.4.1-20180605191727-1035-g86285b4'
-			sharedConfigs = [ CtreSimulation: [] ]
+			version = allwpilibVersion()
+			staticConfigs = [ CtreSimulation: [] ]
 		}
 	}
 
@@ -45,7 +63,7 @@ model {
 						includes = ["**/*.cpp"]
 					}
 					exportedHeaders {
-						srcDirs = ["src/main/native/include"]
+						srcDirs = ["src/main/native/include", "ctre_source/main/native/include"]
 					}
 				}
 			}
@@ -72,6 +90,52 @@ task packageNativeFilesInJar(type: Jar) {
 			}
 		}
 	}
+}
+
+
+dependencies {
+
+	testCompile 'edu.wpi.first.wpiutil:wpiutil-java:' + allwpilibVersion()
+    testCompile 'edu.wpi.first.wpilibj:wpilibj-java:' + allwpilibVersion()
+    testCompile 'edu.wpi.first.hal:hal-java:' + allwpilibVersion()
+    testCompile 'edu.wpi.first.hal:hal-jni:' + allwpilibVersion() + ":all"
+
+	testCompile 'org.junit.jupiter:junit-jupiter-api:5.2.0'
+	testCompile 'org.junit.jupiter:junit-jupiter-params:5.2.0'
+	testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
+	testRuntime 'org.junit.platform:junit-platform-launcher:1.2.0'
+
+	compile 'org.apache.logging.log4j:log4j-api:2.11.0'
+	compile 'org.apache.logging.log4j:log4j-core:2.11.0'
+
+	testRuntime packageNativeFilesInJar.outputs.files
+	testCompile "openrio.mirror.third.ctre:CTRE-phoenix-java:" + ctre_library_version
+}
+
+test {
+	useJUnitPlatform {
+	}
+}
+
+jar {
+	exclude('com/ctre/**')
+}
+
+javadoc {
+	failOnError = false
+}
+
+
+eclipse.classpath.file.whenMerged { classpath ->
+	classpath.entries.each {
+		if(it.path.contains("CtreSimulator")) {
+			it.setNativeLibraryLocation("$rootDir/build/libs/ctreSimulation/shared")
+		}
+	}
+}
+
+tasks.withType(Test) {
+    systemProperty "java.library.path", "$rootDir/build/libs/ctreSimulation/shared"
 }
 
 apply from: "publish.gradle"

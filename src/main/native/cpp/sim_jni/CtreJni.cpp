@@ -14,7 +14,8 @@ static JClass sCtreBufferCallbackClazz;
 static jmethodID sCtreBufferCallbackCallback;
 static jobject sCtreMotorCallbackObject = NULL;
 static jobject sCtrePigeonCallbackObject = NULL;
-} // namespace SnobotSimJava
+static jobject sCtreCanifierCallbackObject = NULL;
+}  // namespace SnobotSimJava
 
 extern "C" {
 
@@ -64,6 +65,12 @@ JNIEXPORT void JNICALL JNI_OnUnload(JavaVM* vm, void* reserved)
         env->DeleteGlobalRef(SnobotSimJava::sCtrePigeonCallbackObject);
     }
     SnobotSimJava::sCtrePigeonCallbackObject = nullptr;
+
+    if (SnobotSimJava::sCtreCanifierCallbackObject)
+    {
+        env->DeleteGlobalRef(SnobotSimJava::sCtreCanifierCallbackObject);
+    }
+    SnobotSimJava::sCtreCanifierCallbackObject = nullptr;
 
     SnobotSimJava::sJvm = NULL;
 }
@@ -162,4 +169,50 @@ Java_com_snobot_simulator_ctre_CtreJni_cancelCanPigeonImuCallback
     SnobotSimJava::sCtrePigeonCallbackObject = NULL;
 }
 
-} // extern "C"
+/*
+ * Class:     com_snobot_simulator_ctre_CtreJni
+ * Method:    registerCanCanifierCallback
+ * Signature: (Lcom/snobot/simulator/ctre/CtreCallback;)V
+ */
+JNIEXPORT void JNICALL Java_com_snobot_simulator_ctre_CtreJni_registerCanCanifierCallback
+  (JNIEnv * aEnv, jclass, jobject callback)
+{
+    SnobotSimJava::sCtreCanifierCallbackObject = aEnv->NewGlobalRef(callback);
+
+    auto callbackFunc = [](const char* name,
+                                uint32_t messageId,
+                                uint8_t* buffer,
+                                int length) {
+        JavaVMAttachArgs args = { JNI_VERSION_1_6, 0, 0 };
+        JNIEnv* env;
+        SnobotSimJava::sJvm->AttachCurrentThread(reinterpret_cast<void**>(&env), &args);
+
+        jobject dataBuffer = env->NewDirectByteBuffer(const_cast<uint8_t*>(buffer), static_cast<uint32_t>(length));
+        jstring nameString = MakeJString(env, name);
+
+        if (SnobotSimJava::sCtreCanifierCallbackObject)
+        {
+            env->CallVoidMethod(SnobotSimJava::sCtreCanifierCallbackObject, SnobotSimJava::sCtreBufferCallbackCallback, nameString,
+                    messageId, dataBuffer, length);
+        }
+    };
+
+    SnobotSim::SetCanifierCallback(callbackFunc);
+}
+
+/*
+ * Class:     com_snobot_simulator_ctre_CtreJni
+ * Method:    cancelCanCanifierCallback
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_snobot_simulator_ctre_CtreJni_cancelCanCanifierCallback
+  (JNIEnv * env, jclass)
+{
+    if (SnobotSimJava::sCtreCanifierCallbackObject)
+    {
+        env->DeleteGlobalRef(SnobotSimJava::sCtreCanifierCallbackObject);
+    }
+    SnobotSimJava::sCtreCanifierCallbackObject = NULL;
+}
+
+}  // extern "C"

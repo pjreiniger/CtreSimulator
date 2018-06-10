@@ -15,14 +15,9 @@ void SnobotSim::SetPigeonCallback(SnobotSim::CTRE_CallbackFunc callback)
 }
 
 SnobotSim::CtrePigeonImuWrapper::CtrePigeonImuWrapper(int aDeviceId) :
-        mDeviceId(aDeviceId)
+        mDeviceId(aDeviceId & 0x3F)
 {
-}
-
-void SnobotSim::CtrePigeonImuWrapper::Send(const std::string& aName)
-{
-    uint8_t buffer[1];
-    Send(aName, buffer, 1);
+    Send("Create");
 }
 
 void SnobotSim::CtrePigeonImuWrapper::Send(const std::string& aName,

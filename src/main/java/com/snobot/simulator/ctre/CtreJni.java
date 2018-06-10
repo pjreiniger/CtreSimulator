@@ -15,4 +15,8 @@ public final class CtreJni
     public static native void registerCanPigeonImuCallback(CtreCallback aCallback);
 
     public static native void cancelCanPigeonImuCallback();
+
+    public static native void registerCanCanifierCallback(CtreCallback aCallback);
+
+    public static native void cancelCanCanifierCallback();
 }
