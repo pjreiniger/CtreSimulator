@@ -12,17 +12,16 @@ namespace SnobotSim
 class CtrePigeonImuWrapper : public BaseCtreWrapper
 {
 public:
+    using BaseCtreWrapper::Send;
+
     explicit CtrePigeonImuWrapper(int aDeviceId);
+    const int mDeviceId;
 
-private:
     void Send(const std::string& aName, uint8_t* aBuffer, int aSize);
-    void Send(const std::string& aName);
-
     void Receive(const std::string& aName, uint8_t* aBuffer, int aSize);
 
-    const int mDeviceId;
 };
 
-} // namespace SnobotSim
+}  // namespace SnobotSim
 
-#endif // CTRESIMULATOR_SRC_MAIN_NATIVE_INCLUDE_CTRESIMMOCKS_CTREPIGEONIMUWRAPPER_H_
+#endif  // CTRESIMULATOR_SRC_MAIN_NATIVE_INCLUDE_CTRESIMMOCKS_CTREPIGEONIMUWRAPPER_H_

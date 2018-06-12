@@ -12,17 +12,15 @@ namespace SnobotSim
 class CtreMotorControllerWrapper : public BaseCtreWrapper
 {
 public:
-    explicit CtreMotorControllerWrapper(int aDeviceId);
+    using BaseCtreWrapper::Send;
 
-private:
-    void Send(const std::string& aName, uint8_t* aBuffer, int aSize);
-    void Send(const std::string& aName);
+    explicit CtreMotorControllerWrapper(int aDeviceId);
+    const int mDeviceId;
 
     void Receive(const std::string& aName, uint8_t* aBuffer, int aSize);
-
-    const int mDeviceId;
+    void Send(const std::string& aName, uint8_t* aBuffer, int aSize);
 };
 
-} // namespace SnobotSim
+}  // namespace SnobotSim
 
-#endif // CTRESIMULATOR_SRC_MAIN_NATIVE_INCLUDE_CTRESIMMOCKS_CTREMOTORCONTROLLERWRAPPER_H_
+#endif  // CTRESIMULATOR_SRC_MAIN_NATIVE_INCLUDE_CTRESIMMOCKS_CTREMOTORCONTROLLERWRAPPER_H_

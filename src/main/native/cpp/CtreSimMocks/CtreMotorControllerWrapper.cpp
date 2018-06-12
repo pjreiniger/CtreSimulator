@@ -15,14 +15,9 @@ void SnobotSim::SetMotControllerCallback(
 }
 
 SnobotSim::CtreMotorControllerWrapper::CtreMotorControllerWrapper(int aDeviceId) :
-        mDeviceId(aDeviceId)
+        mDeviceId(aDeviceId & 0x3F)
 {
-}
-
-void SnobotSim::CtreMotorControllerWrapper::Send(const std::string& aName)
-{
-    uint8_t buffer[1];
-    Send(aName, buffer, 1);
+    Send("Create");
 }
 
 void SnobotSim::CtreMotorControllerWrapper::Send(const std::string& aName,
