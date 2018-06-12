@@ -4,6 +4,7 @@
 
 #include <cstring>
 #include <string>
+#include <cstring>
 
 template <typename T>
 void PoplateReceiveResults(uint8_t* buffer, T* value, uint32_t& offset)
