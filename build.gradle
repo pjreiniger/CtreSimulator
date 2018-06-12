@@ -63,8 +63,7 @@ task packageNativeFilesInJar(type: Jar) {
 			withType(SharedLibraryBinarySpec) { binary ->
 				if (binary.component.name == "CtreSimulation")
 				{
-					println binary
-					println NativeUtils.getPlatformPath(binary)
+                    dependsOn binary.buildTask
 					from(binary.sharedLibraryFile) {
 
 						into NativeUtils.getPlatformPath(binary)
@@ -76,4 +75,3 @@ task packageNativeFilesInJar(type: Jar) {
 }
 
 apply from: "publish.gradle"
-
