@@ -449,6 +449,10 @@ ctre::phoenix::ErrorCode c_MotController_PushMotionProfileTrajectory(void *handl
     return (ctre::phoenix::ErrorCode)0;
 }
 
+ctre::phoenix::ErrorCode c_MotController_PushMotionProfileTrajectory_2(
+		void *handle, double position, double velocity, double headingDeg,
+		int profileSlotSelect0, int profileSlotSelect1, bool isLastPoint, bool zeroPos, int durationMs);
+
 ctre::phoenix::ErrorCode c_MotController_IsMotionProfileTopLevelBufferFull(void *handle, bool * value)
 {
     RECEIVE_HELPER("IsMotionProfileTopLevelBufferFull", sizeof(*value));
@@ -481,6 +485,12 @@ ctre::phoenix::ErrorCode c_MotController_GetMotionProfileStatus(void *handle,
     return (ctre::phoenix::ErrorCode)0;
 }
 
+ctre::phoenix::ErrorCode c_MotController_GetMotionProfileStatus_2(void *handle,
+		int *topBufferRem, int *topBufferCnt, int *btmBufferCnt,
+		bool *hasUnderrun, bool *isUnderrun, bool *activePointValid,
+		bool *isLast, int *profileSlotSelect, int *outputEnable, int *timeDurMs,
+		int *profileSlotSelect1);
+
 ctre::phoenix::ErrorCode c_MotController_ClearMotionProfileHasUnderrun(void *handle,
 		int timeoutMs)
 {
@@ -496,6 +506,9 @@ ctre::phoenix::ErrorCode c_MotController_ChangeMotionControlFramePeriod(void *ha
     wrapper->Send("ChangeMotionControlFramePeriod", periodMs);
     return (ctre::phoenix::ErrorCode)0;
 }
+
+ctre::phoenix::ErrorCode c_MotController_ConfigMotionProfileTrajectoryPeriod(
+		void *handle, int durationMs, int timeoutMs);
 
 ctre::phoenix::ErrorCode c_MotController_GetLastError(void *handle)
 {
@@ -787,5 +800,6 @@ ctre::phoenix::ErrorCode c_MotController_GetLimitSwitchState(void *handle, int *
     return (ctre::phoenix::ErrorCode)0;
 }
 
+ctre::phoenix::ErrorCode c_MotController_GetClosedLoopTarget(void *handle, int * value, int pidIdx);
 
 }  // extern "C"
