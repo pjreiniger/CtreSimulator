@@ -74,7 +74,7 @@ ctre::phoenix::ErrorCode c_CANifier_EnablePWMOutput(void *handle, uint32_t pwmCh
 ctre::phoenix::ErrorCode c_CANifier_GetGeneralInputs(void *handle, bool allPins[], uint32_t capacity)
 {
     RECEIVE_HELPER("GetGeneralInputs", sizeof(bool) * 11);
-    for(int i = 0; i < capacity; ++i)
+    for(unsigned int i = 0; i < capacity; ++i)
     {
     	PoplateReceiveResults(buffer, &allPins[i], buffer_pos);
     }

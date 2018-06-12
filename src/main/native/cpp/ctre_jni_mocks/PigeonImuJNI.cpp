@@ -4,7 +4,7 @@
 #include <cassert>
 
 #include "CtreSimMocks/MockHookUtilities.h"
-#include "com_ctre_phoenix_Sensors_PigeonImuJNI.h"
+#include "com_ctre_phoenix_sensors_PigeonImuJNI.h"
 #include "ctre/phoenix/CCI/PigeonIMU_CCI.h"
 
 #define GET_THREE_AXIS(type, capType, funcName, size)      \
