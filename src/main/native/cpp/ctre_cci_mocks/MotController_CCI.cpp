@@ -531,7 +531,8 @@ ctre::phoenix::ErrorCode c_MotController_ChangeMotionControlFramePeriod(void *ha
 ctre::phoenix::ErrorCode c_MotController_ConfigMotionProfileTrajectoryPeriod(
 		void *handle, int durationMs, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("ConfigMotionProfileTrajectoryPeriod", durationMs, timeoutMs);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -827,7 +828,9 @@ ctre::phoenix::ErrorCode c_MotController_GetLimitSwitchState(void *handle, int *
 
 ctre::phoenix::ErrorCode c_MotController_GetClosedLoopTarget(void *handle, int * value, int pidIdx)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    RECEIVE_HELPER("GetClosedLoopTarget", sizeof(*value) + sizeof(pidIdx));
+    PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
+    PoplateReceiveResults(buffer, value, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
