@@ -40,14 +40,13 @@ public class TestPigeonFunctions
         imu.setFusedHeadingToCompass(0);
         imu.setAccumZAngle(0, 0);
         imu.configTemperatureCompensationEnable(true, 0);
-        imu.configTemperatureCompensationEnable(false, 0);
         imu.setCompassDeclination(0, 0);
         imu.setCompassAngle(0, 0);
-        for(CalibrationMode calMode : CalibrationMode.values())
+        for(CalibrationMode calibrationMode : CalibrationMode.values())
         {
-        	imu.enterCalibrationMode(calMode, 0);
+            imu.enterCalibrationMode(calibrationMode, 0);
         }
-    	imu.getGeneralStatus(new GeneralStatus());
+        imu.getGeneralStatus(new GeneralStatus());
         imu.getLastError();
         imu.get6dQuaternion(new double[4]);
         imu.getYawPitchRoll(new double[3]);
@@ -71,26 +70,26 @@ public class TestPigeonFunctions
         imu.configGetCustomParam(0, 0);
         for(ParamEnum paramEnum : ParamEnum.values())
         {
-        	imu.configSetParameter(paramEnum, 0, 0, 0, 0);
+            imu.configSetParameter(paramEnum, 0, 0, 0, 0);
         }
         imu.configSetParameter(0, 0, 0, 0, 0);
         for(ParamEnum paramEnum : ParamEnum.values())
         {
-        	imu.configGetParameter(paramEnum, 0, 0);
+            imu.configGetParameter(paramEnum, 0, 0);
         }
         imu.configGetParameter(0, 0, 0);
-        for(PigeonIMU_StatusFrame statusFrame : PigeonIMU_StatusFrame.values())
+        for(PigeonIMU_StatusFrame pigeonIMU_StatusFrame : PigeonIMU_StatusFrame.values())
         {
-            imu.setStatusFramePeriod(statusFrame, 0, 0);
+            imu.setStatusFramePeriod(pigeonIMU_StatusFrame, 0, 0);
         }
         imu.setStatusFramePeriod(0, 0, 0);
-        for(PigeonIMU_StatusFrame statusFrame : PigeonIMU_StatusFrame.values())
+        for(PigeonIMU_StatusFrame pigeonIMU_StatusFrame : PigeonIMU_StatusFrame.values())
         {
-            imu.getStatusFramePeriod(statusFrame, 0);
+            imu.getStatusFramePeriod(pigeonIMU_StatusFrame, 0);
         }
-        for(PigeonIMU_ControlFrame statusFrame : PigeonIMU_ControlFrame.values())
+        for(PigeonIMU_ControlFrame pigeonIMU_ControlFrame : PigeonIMU_ControlFrame.values())
         {
-            imu.setControlFramePeriod(statusFrame, 0);
+            imu.setControlFramePeriod(pigeonIMU_ControlFrame, 0);
         }
         imu.setControlFramePeriod(0, 0);
         imu.getFaults(new PigeonIMU_Faults());

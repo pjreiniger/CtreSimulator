@@ -689,6 +689,21 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_P
 
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    PushMotionProfileTrajectory2
+ * Signature: (JDDDIIZZI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_PushMotionProfileTrajectory2
+  (JNIEnv *, jclass, jlong handle, jdouble position, jdouble velocity, jdouble headingDeg,
+        jint profileSlotSelect0, jint profileSlotSelect1, jboolean isLastPoint, jboolean zeroPos, jint durationMs)
+{
+    return (jint) c_MotController_PushMotionProfileTrajectory_2(
+            &handle, position, velocity, headingDeg,
+            profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos, durationMs);
+}
+
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
  * Method:    IsMotionProfileTopLevelBufferFull
  * Signature: (J)Z
  */
@@ -750,6 +765,44 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_G
 
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    GetMotionProfileStatus2
+ * Signature: (J[I)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetMotionProfileStatus2
+  (JNIEnv* env, jclass, jlong handle, jintArray result)
+{
+    static const int kSize = 11;
+    int output[kSize];
+
+    bool hasUnderrun = false;
+    bool isUnderrun = false;
+    bool activePointValid = false;
+    bool isLast = false;
+
+    c_MotController_GetMotionProfileStatus_2(&handle,
+            &output[0], &output[1], &output[2],
+            &hasUnderrun, &isUnderrun, &activePointValid,
+            &isLast, &output[7], &output[8],
+            &output[9], &output[10]);
+
+    output[3] = hasUnderrun;
+    output[4] = isUnderrun;
+    output[5] = activePointValid;
+    output[6] = isLast;
+
+    jint fill[kSize];
+    for (int i = 0; i < kSize; ++i)
+    {
+        fill[i] = output[i];
+    }
+
+    env->SetIntArrayRegion(result, 0, kSize, fill);
+
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
  * Method:    ClearMotionProfileHasUnderrun
  * Signature: (JI)I
  */
@@ -769,6 +822,18 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_C
 {
     return (jint)c_MotController_ChangeMotionControlFramePeriod(&handle, timeoutMs);
 }
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigMotionProfileTrajectoryPeriod
+ * Signature: (JII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigMotionProfileTrajectoryPeriod
+  (JNIEnv*, jclass, jlong handle, jint durationMs, jint timeoutMs)
+{
+    return (jint) c_MotController_ConfigMotionProfileTrajectoryPeriod(&handle, durationMs, timeoutMs);
+}
+
 
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
@@ -1182,6 +1247,19 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_E
   (JNIEnv *, jclass, jlong handle, jint value)
 {
     return (jint)c_MotController_EnableHeadingHold(&handle, value);
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    GetClosedLoopTarget
+ * Signature: (JI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetClosedLoopTarget
+  (JNIEnv*, jclass, jlong handle, jint pidIdx)
+{
+    int output = 0;
+    c_MotController_GetClosedLoopTarget(&handle, &output, pidIdx);
+    return output;
 }
 
 }  // extern "C"

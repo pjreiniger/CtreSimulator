@@ -79,8 +79,8 @@ def search_files(header_file, source_file, header_pattern, source_pattern):
 
 
 def search_jni():
-    jni_header_base = r'F:\git\FIRST\SnobotSim\CtreSimulator\ctre_source\main\native\include\ctre\phoenix\jni'
-    jni_source_base = r'F:\git\FIRST\SnobotSim\CtreSimulator\src\main\native\cpp\ctre_jni_mocks'
+    jni_header_base = r'ctre_source\main\native\include\ctre\phoenix\jni'
+    jni_source_base = r'src\main\native\cpp\ctre_jni_mocks'
 
     jni_header_pattern = re.compile(r'JNIEXPORT (.*) JNICALL (.*)\n +\((.*)\);', re.MULTILINE)
     jni_source_pattern = re.compile(r'JNIEXPORT (.*) JNICALL (.*)(\r?\n +)?\(', re.MULTILINE)
@@ -92,8 +92,8 @@ def search_jni():
 
 
 def search_cci():
-    cci_header_base = r'F:\git\FIRST\SnobotSim\CtreSimulator\ctre_source\main\native\include\ctre\phoenix\CCI'
-    cci_source_base = r'F:\git\FIRST\SnobotSim\CtreSimulator\src\main\native\cpp\ctre_cci_mocks'
+    cci_header_base = r'ctre_source\main\native\include\ctre\phoenix\CCI'
+    cci_source_base = r'src\main\native\cpp\ctre_cci_mocks'
 
     search_files(cci_header_base + '/CANifier_CCI.h',
                 cci_source_base + '/CANifier_CCI.cpp',
@@ -117,7 +117,7 @@ def search_cci():
 
 
 def check_jni_sources():
-    cci_base = r'F:\git\FIRST\SnobotSim\CtreSimulator\src\main\native\cpp\ctre_jni_mocks'
+    cci_base = r'src\main\native\cpp\ctre_jni_mocks'
 
     check(cci_base + '/CANifierJNI.cpp',
           "JNIEXPORT .* JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_[0-9]?(.*)",
@@ -138,7 +138,7 @@ def check_jni_sources():
 
 
 def check_cci_sources():
-    cci_base = r'F:\git\FIRST\SnobotSim\CtreSimulator\src\main\native\cpp\ctre_cci_mocks'
+    cci_base = r'src\main\native\cpp\ctre_cci_mocks'
 
     child_pattern = '.*(wrapper->Send|RECEIVE_HELPER)\("(.*)".*\);'
     max_diff = 5
@@ -157,6 +157,9 @@ def check_cci_sources():
 
 
 def main():
+    
+    root_path = "."
+    
     search_jni()
     search_cci()
     check_jni_sources()

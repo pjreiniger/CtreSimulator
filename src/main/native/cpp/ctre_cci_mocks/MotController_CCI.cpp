@@ -449,6 +449,16 @@ ctre::phoenix::ErrorCode c_MotController_PushMotionProfileTrajectory(void *handl
     return (ctre::phoenix::ErrorCode)0;
 }
 
+ctre::phoenix::ErrorCode c_MotController_PushMotionProfileTrajectory_2(
+		void *handle, double position, double velocity, double headingDeg,
+		int profileSlotSelect0, int profileSlotSelect1, bool isLastPoint, bool zeroPos, int durationMs)
+{
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("PushMotionProfileTrajectory_2", position, velocity, headingDeg,
+            profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
 ctre::phoenix::ErrorCode c_MotController_IsMotionProfileTopLevelBufferFull(void *handle, bool * value)
 {
     RECEIVE_HELPER("IsMotionProfileTopLevelBufferFull", sizeof(*value));
@@ -481,6 +491,27 @@ ctre::phoenix::ErrorCode c_MotController_GetMotionProfileStatus(void *handle,
     return (ctre::phoenix::ErrorCode)0;
 }
 
+ctre::phoenix::ErrorCode c_MotController_GetMotionProfileStatus_2(void *handle,
+		int *topBufferRem, int *topBufferCnt, int *btmBufferCnt,
+		bool *hasUnderrun, bool *isUnderrun, bool *activePointValid,
+		bool *isLast, int *profileSlotSelect, int *outputEnable, int *timeDurMs,
+		int *profileSlotSelect1)
+{
+    RECEIVE_HELPER("GetMotionProfileStatus2", sizeof(int) * 7 + sizeof(bool) * 4);
+    PoplateReceiveResults(buffer, topBufferRem, buffer_pos);
+    PoplateReceiveResults(buffer, topBufferCnt, buffer_pos);
+    PoplateReceiveResults(buffer, btmBufferCnt, buffer_pos);
+    PoplateReceiveResults(buffer, hasUnderrun, buffer_pos);
+    PoplateReceiveResults(buffer, isUnderrun, buffer_pos);
+    PoplateReceiveResults(buffer, activePointValid, buffer_pos);
+    PoplateReceiveResults(buffer, isLast, buffer_pos);
+    PoplateReceiveResults(buffer, profileSlotSelect, buffer_pos);
+    PoplateReceiveResults(buffer, outputEnable, buffer_pos);
+    PoplateReceiveResults(buffer, timeDurMs, buffer_pos);
+    PoplateReceiveResults(buffer, profileSlotSelect1, buffer_pos);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
 ctre::phoenix::ErrorCode c_MotController_ClearMotionProfileHasUnderrun(void *handle,
 		int timeoutMs)
 {
@@ -494,6 +525,14 @@ ctre::phoenix::ErrorCode c_MotController_ChangeMotionControlFramePeriod(void *ha
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
     wrapper->Send("ChangeMotionControlFramePeriod", periodMs);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_ConfigMotionProfileTrajectoryPeriod(
+		void *handle, int durationMs, int timeoutMs)
+{
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("ConfigMotionProfileTrajectoryPeriod", durationMs, timeoutMs);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -787,5 +826,12 @@ ctre::phoenix::ErrorCode c_MotController_GetLimitSwitchState(void *handle, int *
     return (ctre::phoenix::ErrorCode)0;
 }
 
+ctre::phoenix::ErrorCode c_MotController_GetClosedLoopTarget(void *handle, int * value, int pidIdx)
+{
+    RECEIVE_HELPER("GetClosedLoopTarget", sizeof(*value) + sizeof(pidIdx));
+    PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
+    PoplateReceiveResults(buffer, value, buffer_pos);
+    return (ctre::phoenix::ErrorCode)0;
+}
 
 }  // extern "C"

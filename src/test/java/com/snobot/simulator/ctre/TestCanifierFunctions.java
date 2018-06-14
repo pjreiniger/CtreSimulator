@@ -37,48 +37,48 @@ public class TestCanifierFunctions {
 
         for(LEDChannel ledChannel : LEDChannel.values())
         {
-        	canifier.setLEDOutput(0, ledChannel);
+            canifier.setLEDOutput(0, ledChannel);
         }
         for(GeneralPin generalPin : GeneralPin.values())
         {
-        	canifier.setGeneralOutput(generalPin, false, false);
+            canifier.setGeneralOutput(generalPin, false, false);
         }
         canifier.setGeneralOutputs(0, 0);
-    	canifier.getGeneralInputs(new PinValues());
+        canifier.getGeneralInputs(new PinValues());
         for(GeneralPin generalPin : GeneralPin.values())
         {
-        	canifier.getGeneralInput(generalPin);
+            canifier.getGeneralInput(generalPin);
         }
         canifier.getLastError();
         canifier.setPWMOutput(0, 0);
         canifier.enablePWMOutput(0, false);
         for(PWMChannel pwmChannel : PWMChannel.values())
         {
-        	canifier.getPWMInput(pwmChannel, new double[] {0});
+            canifier.getPWMInput(pwmChannel, new double[2]);
         }
         canifier.configSetCustomParam(0, 0, 0);
         canifier.configGetCustomParam(0, 0);
         for(ParamEnum paramEnum : ParamEnum.values())
         {
-        	canifier.configSetParameter(paramEnum, 0, 0, 0, 0);
+            canifier.configSetParameter(paramEnum, 0, 0, 0, 0);
         }
         canifier.configSetParameter(0, 0, 0, 0, 0);
         for(ParamEnum paramEnum : ParamEnum.values())
         {
-        	canifier.configGetParameter(paramEnum, 0, 0);
+            canifier.configGetParameter(paramEnum, 0, 0);
         }
         for(CANifierStatusFrame canifierStatusFrame : CANifierStatusFrame.values())
         {
-        	canifier.setStatusFramePeriod(canifierStatusFrame, 0, 0);
+            canifier.setStatusFramePeriod(canifierStatusFrame, 0, 0);
         }
         canifier.setStatusFramePeriod(0, 0, 0);
         for(CANifierStatusFrame canifierStatusFrame : CANifierStatusFrame.values())
         {
-        	canifier.getStatusFramePeriod(canifierStatusFrame, 0);
+            canifier.getStatusFramePeriod(canifierStatusFrame, 0);
         }
-        for(CANifierControlFrame canifierStatusFrame : CANifierControlFrame.values())
+        for(CANifierControlFrame canifierControlFrame : CANifierControlFrame.values())
         {
-        	canifier.setControlFramePeriod(canifierStatusFrame, 0);
+            canifier.setControlFramePeriod(canifierControlFrame, 0);
         }
         canifier.setControlFramePeriod(0, 0);
         canifier.getFirmwareVersion();
@@ -87,6 +87,9 @@ public class TestCanifierFunctions {
         canifier.getStickyFaults(new CANifierStickyFaults());
         canifier.clearStickyFaults(0);
         canifier.getBusVoltage();
+
+
+
     }
 
 }
