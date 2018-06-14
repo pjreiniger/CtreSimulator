@@ -140,6 +140,66 @@ JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetBatteryVolta
 
 /*
  * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_GetQuadraturePosition
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetQuadraturePosition
+  (JNIEnv *, jclass, jlong aHandle)
+{
+    int output = 0;
+    c_CANifier_GetQuadraturePosition(&aHandle, &output);
+    return output;
+}
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_SetQuadraturePosition
+ * Signature: (JII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetQuadraturePosition
+  (JNIEnv *, jclass, jlong aHandle, jint newPosition, jint timeoutMs)
+{
+    return (jint) c_CANifier_SetQuadraturePosition(&aHandle, newPosition, timeoutMs);
+}
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_GetQuadratureVelocity
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetQuadratureVelocity
+  (JNIEnv *, jclass, jlong aHandle)
+{
+    int output = 0;
+    c_CANifier_GetQuadratureVelocity(&aHandle, &output);
+    return output;
+}
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_ConfigVelocityMeasurementPeriod
+ * Signature: (JII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigVelocityMeasurementPeriod
+  (JNIEnv *, jclass, jlong aHandle, jint period, jint timeoutMs)
+{
+    return (jint) c_CANifier_ConfigVelocityMeasurementPeriod(&aHandle, period, timeoutMs);
+}
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_ConfigVelocityMeasurementWindow
+ * Signature: (JII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigVelocityMeasurementWindow
+  (JNIEnv *, jclass, jlong aHandle, jint windowSize, jint timeoutMs)
+{
+    return (jint) c_CANifier_ConfigVelocityMeasurementWindow(&aHandle, windowSize, timeoutMs);
+}
+
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
  * Method:    JNI_ConfigSetCustomParam
  * Signature: (JIII)I
  */

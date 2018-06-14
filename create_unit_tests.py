@@ -71,7 +71,7 @@ def run_javap(objName, class_file):
                     if a == "int" or a == "double":
                         arg_replacement.append("0")
                     elif a == "boolean":
-                        arg_replacement.append("true")
+                        arg_replacement.append("false")
                     elif a != "":
                         stripped_name = a[a.rfind(".") + 1:]
                         if "$" in stripped_name:
@@ -93,4 +93,4 @@ def run_javap(objName, class_file):
 #     print stdout
 
 
-create_tests(r'C:/Users/PJ/.gradle/caches/modules-2/files-2.1/openrio.mirror.third.ctre/CTRE-phoenix-java/5.2.1.1/469f4905ff49fe297be19c0c6724e27b444fbb5c/CTRE-phoenix-java-5.2.1.1.jar')
+create_tests(r'C:/Users/PJ/.gradle/caches/modules-2/files-2.1/openrio.mirror.third.ctre/CTRE-phoenix-java/5.3.1.0/a72e43884bdab932374599f719e0d65aa6d804bc/CTRE-phoenix-java-5.3.1.0.jar')

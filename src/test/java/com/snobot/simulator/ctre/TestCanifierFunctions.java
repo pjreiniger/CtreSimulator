@@ -10,6 +10,7 @@ import com.ctre.phoenix.CANifier.GeneralPin;
 import com.ctre.phoenix.CANifier.LEDChannel;
 import com.ctre.phoenix.CANifier.PWMChannel;
 import com.ctre.phoenix.CANifier.PinValues;
+import com.ctre.phoenix.CANifier.VelocityPeriod;
 import com.ctre.phoenix.CANifierControlFrame;
 import com.ctre.phoenix.CANifierFaults;
 import com.ctre.phoenix.CANifierStatusFrame;
@@ -56,6 +57,14 @@ public class TestCanifierFunctions {
         {
             canifier.getPWMInput(pwmChannel, new double[2]);
         }
+        canifier.getQuadraturePosition();
+        canifier.setQuadraturePosition(0, 0);
+        canifier.getQuadratureVelocity();
+        for(VelocityPeriod velocityPeriod : VelocityPeriod.values())
+        {
+            canifier.configVelocityMeasurementPeriod(velocityPeriod, 0);
+        }
+        canifier.configVelocityMeasurementWindow(0, 0);
         canifier.configSetCustomParam(0, 0, 0);
         canifier.configGetCustomParam(0, 0);
         for(ParamEnum paramEnum : ParamEnum.values())
@@ -87,9 +96,7 @@ public class TestCanifierFunctions {
         canifier.getStickyFaults(new CANifierStickyFaults());
         canifier.clearStickyFaults(0);
         canifier.getBusVoltage();
-
-
-
+        canifier.getDeviceID();
     }
 
 }

@@ -10,8 +10,11 @@ import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motion.TrajectoryPoint.TrajectoryDuration;
 import com.ctre.phoenix.motorcontrol.ControlFrame;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.FollowerType;
+import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -38,6 +41,7 @@ public class TestMotorControllerFunctions {
     public void testAllFunctions()
     {
         TalonSRX talon = new TalonSRX(0);
+        TalonSRX followTalon = new TalonSRX(1);
         CtreJni.registerCanMotorCallback(mTestCallback);
         
         TrajectoryPoint trajectoryPoint = new TrajectoryPoint();
@@ -53,6 +57,13 @@ public class TestMotorControllerFunctions {
         for(ControlMode controlMode : ControlMode.values())
         {
             talon.set(controlMode, 0, 0);
+        }
+        for(ControlMode controlMode : ControlMode.values())
+        {
+        	for(DemandType demandType : DemandType.values())
+        	{
+        	    talon.set(controlMode, 0, demandType, 0);
+        	}
         }
         talon.neutralOutput();
         for(NeutralMode neutralMode : NeutralMode.values())
@@ -87,6 +98,7 @@ public class TestMotorControllerFunctions {
         {
             talon.configSelectedFeedbackSensor(feedbackDevice, 0, 0);
         }
+        talon.configSelectedFeedbackCoefficient(0, 0, 0);
         for(RemoteSensorSource remoteSensorSource : RemoteSensorSource.values())
         {
             talon.configRemoteFeedbackFilter(0, remoteSensorSource, 0, 0);
@@ -159,6 +171,9 @@ public class TestMotorControllerFunctions {
         talon.config_IntegralZone(0, 0, 0);
         talon.configAllowableClosedloopError(0, 0, 0);
         talon.configMaxIntegralAccumulator(0, 0, 0);
+        talon.configClosedLoopPeakOutput(0, 0, 0);
+        talon.configClosedLoopPeriod(0, 0, 0);
+        talon.configAuxPIDPolarity(false, 0);
         talon.setIntegralAccumulator(0, 0, 0);
         talon.getClosedLoopError(0);
         talon.getIntegralAccumulator(0);
@@ -199,10 +214,11 @@ public class TestMotorControllerFunctions {
         talon.configGetParameter(0, 0, 0);
         talon.getBaseID();
         talon.getControlMode();
-//        for(IMotorController iMotorController : IMotorController.values())
-//        {
-//            talon.follow(iMotorController);
-//        }
+        for(FollowerType followerType : FollowerType.values())
+        {
+            talon.follow(followTalon, followerType);
+        }
+        talon.follow(followTalon);
         talon.valueUpdated();
         talon.getSensorCollection();
         
@@ -240,7 +256,7 @@ public class TestMotorControllerFunctions {
         talon.configPeakCurrentLimit(0, 0);
         talon.configPeakCurrentDuration(0, 0);
         talon.configContinuousCurrentLimit(0, 0);
-        talon.enableCurrentLimit(true);
+        talon.enableCurrentLimit(false);
     }
 
 }
