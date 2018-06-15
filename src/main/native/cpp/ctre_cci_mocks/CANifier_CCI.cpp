@@ -112,6 +112,49 @@ ctre::phoenix::ErrorCode c_CANifier_GetBusVoltage(void *handle, double * battery
     PoplateReceiveResults(buffer, batteryVoltage, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
+ctre::phoenix::ErrorCode c_CANifier_GetQuadraturePosition(void *handle, int * pos)
+{
+    RECEIVE_HELPER("GetQuadraturePosition", sizeof(*pos));
+    PoplateReceiveResults(buffer, pos, buffer_pos);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_CANifier_SetQuadraturePosition(void *handle, int pos, int timeoutMs)
+{
+	SnobotSim::CtreCanifierWrapper* wrapper = ConvertToCanifierWrapper(handle);
+    wrapper->Send("SetQuadraturePosition", pos);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_CANifier_GetQuadratureVelocity(void *handle, int * vel)
+{
+    RECEIVE_HELPER("GetQuadratureVelocity", sizeof(*vel));
+    PoplateReceiveResults(buffer, vel, buffer_pos);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_CANifier_GetQuadratureSensor(void *handle, int * pos, int * vel)
+{
+    RECEIVE_HELPER("GetQuadratureSensor", sizeof(*pos) + sizeof(*vel));
+    PoplateReceiveResults(buffer, pos, buffer_pos);
+    PoplateReceiveResults(buffer, vel, buffer_pos);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_CANifier_ConfigVelocityMeasurementPeriod(void *handle, int period, int timeoutMs)
+{
+	SnobotSim::CtreCanifierWrapper* wrapper = ConvertToCanifierWrapper(handle);
+    wrapper->Send("ConfigVelocityMeasurementPeriod", period);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_CANifier_ConfigVelocityMeasurementWindow(void *handle, int window, int timeoutMs)
+{
+	SnobotSim::CtreCanifierWrapper* wrapper = ConvertToCanifierWrapper(handle);
+    wrapper->Send("ConfigVelocityMeasurementWindow", window);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
 
 void c_CANifier_SetLastError(void *handle, int error)
 {

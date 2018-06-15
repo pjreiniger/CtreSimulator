@@ -45,6 +45,18 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_S
 
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    Set_4
+ * Signature: (JIDDI)V
+ */
+JNIEXPORT void JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_Set_14
+  (JNIEnv *, jclass, jlong handle, jint mode, jdouble demand0, jdouble demand1, jint demand1Type)
+{
+	c_MotController_Set_4(&handle, mode, demand0, demand1, demand1Type);
+}
+
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
  * Method:    SetNeutralMode
  * Signature: (JI)V
  */
@@ -1260,6 +1272,39 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_G
     int output = 0;
     c_MotController_GetClosedLoopTarget(&handle, &output, pidIdx);
     return output;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigSelectedFeedbackCoefficient
+ * Signature: (JDII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigSelectedFeedbackCoefficient
+  (JNIEnv *, jclass, jlong handle, jdouble coefficient, jint pidIdx, jint timeoutMs)
+{
+    return (jint)c_MotController_ConfigSelectedFeedbackCoefficient(&handle, coefficient, pidIdx, timeoutMs);
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigClosedLoopPeakOutput
+ * Signature: (JIDI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigClosedLoopPeakOutput
+  (JNIEnv *, jclass, jlong handle, jint coefficient, jdouble pidIdx, jint timeoutMs)
+{
+    return (jint)c_MotController_ConfigClosedLoopPeakOutput(&handle, coefficient, pidIdx, timeoutMs);
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigClosedLoopPeriod
+ * Signature: (JIII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigClosedLoopPeriod
+  (JNIEnv *, jclass, jlong handle, jint slotIdx, jint loopTimeMs, jint timeoutMs)
+{
+    return (jint)c_MotController_ConfigClosedLoopPeriod(&handle, slotIdx, loopTimeMs, timeoutMs);
 }
 
 }  // extern "C"

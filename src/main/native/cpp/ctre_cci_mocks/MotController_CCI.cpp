@@ -53,6 +53,13 @@ ctre::phoenix::ErrorCode c_MotController_SetDemand(void *handle, int mode, int d
     return (ctre::phoenix::ErrorCode)0;
 }
 
+ctre::phoenix::ErrorCode c_MotController_Set_4(void *handle, int mode, double demand0, double demand1, int demand1Type)
+{
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("Set_4", mode, demand0, demand1, demand1Type);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
 void c_MotController_SetNeutralMode(void *handle, int neutralMode)
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
@@ -172,6 +179,13 @@ ctre::phoenix::ErrorCode c_MotController_ConfigSelectedFeedbackSensor(void *hand
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
     wrapper->Send("ConfigSelectedFeedbackSensor", feedbackDevice, pidIdx);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_ConfigSelectedFeedbackCoefficient(void *handle, double coefficient, int pidIdx, int timeoutMs)
+{
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("ConfigSelectedFeedbackCoefficient", coefficient, pidIdx);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -345,6 +359,20 @@ ctre::phoenix::ErrorCode c_MotController_ConfigMaxIntegralAccumulator(void *hand
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
     wrapper->Send("ConfigMaxIntegralAccumulator", slotIdx, iaccum);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_ConfigClosedLoopPeakOutput(void *handle, int slotIdx, double percentOut, int timeoutMs)
+{
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("ConfigClosedLoopPeakOutput", slotIdx, percentOut);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_ConfigClosedLoopPeriod(void *handle, int slotIdx, int loopTimeMs, int timeoutMs)
+{
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("ConfigClosedLoopPeriod", slotIdx, loopTimeMs);
     return (ctre::phoenix::ErrorCode)0;
 }
 

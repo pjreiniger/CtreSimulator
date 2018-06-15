@@ -39,7 +39,7 @@ public class TestPigeonFunctions
         imu.addFusedHeading(0, 0);
         imu.setFusedHeadingToCompass(0);
         imu.setAccumZAngle(0, 0);
-        imu.configTemperatureCompensationEnable(true, 0);
+        imu.configTemperatureCompensationEnable(false, 0);
         imu.setCompassDeclination(0, 0);
         imu.setCompassAngle(0, 0);
         for(CalibrationMode calibrationMode : CalibrationMode.values())
@@ -95,6 +95,7 @@ public class TestPigeonFunctions
         imu.getFaults(new PigeonIMU_Faults());
         imu.getStickyFaults(new PigeonIMU_StickyFaults());
         imu.clearStickyFaults(0);
+        imu.getDeviceID();
     }
 
 }
