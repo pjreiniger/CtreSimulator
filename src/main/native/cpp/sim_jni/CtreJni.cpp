@@ -1,16 +1,13 @@
 
 #include <jni.h>
-#include <wpi/jni_util.h>
 
 #include "CtreSimMocks/MockHooks.h"
 #include "com_snobot_simulator_ctre_CtreJni.h"
 
-using namespace wpi::java;
-
 namespace SnobotSimJava
 {
 JavaVM* sJvm = NULL;
-static JClass sCtreBufferCallbackClazz;
+static jclass sCtreBufferCallbackClazz;
 static jmethodID sCtreBufferCallbackCallback;
 static jobject sCtreMotorCallbackObject = NULL;
 static jobject sCtrePigeonCallbackObject = NULL;
@@ -29,7 +26,10 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)
         return JNI_ERR;
     }
 
-    SnobotSimJava::sCtreBufferCallbackClazz = JClass(env, "com/snobot/simulator/ctre/CtreCallback");
+    jclass localCallbackClazz = env->FindClass("com/snobot/simulator/ctre/CtreCallback");
+    SnobotSimJava::sCtreBufferCallbackClazz = static_cast<jclass>(env->NewGlobalRef(localCallbackClazz));
+    env->DeleteLocalRef(localCallbackClazz);
+
     if (!SnobotSimJava::sCtreBufferCallbackClazz)
     {
         return JNI_ERR;
@@ -52,7 +52,7 @@ JNIEXPORT void JNICALL JNI_OnUnload(JavaVM* vm, void* reserved)
         return;
     }
 
-    SnobotSimJava::sCtreBufferCallbackClazz.free(env);
+    env->DeleteGlobalRef(SnobotSimJava::sCtreBufferCallbackClazz);
 
     if (SnobotSimJava::sCtreMotorCallbackObject)
     {
@@ -94,7 +94,7 @@ Java_com_snobot_simulator_ctre_CtreJni_registerCanMotorCallback
         SnobotSimJava::sJvm->AttachCurrentThread(reinterpret_cast<void**>(&env), &args);
 
         jobject dataBuffer = env->NewDirectByteBuffer(const_cast<uint8_t*>(buffer), static_cast<uint32_t>(length));
-        jstring nameString = MakeJString(env, name);
+        jstring nameString = env->NewStringUTF(name);
 
         if (SnobotSimJava::sCtreMotorCallbackObject)
         {
@@ -141,7 +141,7 @@ Java_com_snobot_simulator_ctre_CtreJni_registerCanPigeonImuCallback
         SnobotSimJava::sJvm->AttachCurrentThread(reinterpret_cast<void**>(&env), &args);
 
         jobject dataBuffer = env->NewDirectByteBuffer(const_cast<uint8_t*>(buffer), static_cast<uint32_t>(length));
-        jstring nameString = MakeJString(env, name);
+        jstring nameString = env->NewStringUTF(name);
 
         if (SnobotSimJava::sCtrePigeonCallbackObject)
         {
@@ -188,7 +188,7 @@ JNIEXPORT void JNICALL Java_com_snobot_simulator_ctre_CtreJni_registerCanCanifie
         SnobotSimJava::sJvm->AttachCurrentThread(reinterpret_cast<void**>(&env), &args);
 
         jobject dataBuffer = env->NewDirectByteBuffer(const_cast<uint8_t*>(buffer), static_cast<uint32_t>(length));
-        jstring nameString = MakeJString(env, name);
+        jstring nameString = env->NewStringUTF(name);
 
         if (SnobotSimJava::sCtreCanifierCallbackObject)
         {
