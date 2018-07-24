@@ -66,7 +66,7 @@ model {
 
 task packageNativeFilesInJar(type: Jar) {
 	destinationDir = project.buildDir
-	classifier = "native-" + org.gradle.internal.os.OperatingSystem.current().getFamilyName();
+    classifier = org.gradle.internal.os.OperatingSystem.current().getFamilyName() + "-" + getCurrentArch();
 
 	project.model {
 		binaries {
