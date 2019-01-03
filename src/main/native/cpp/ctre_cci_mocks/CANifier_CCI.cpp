@@ -17,9 +17,7 @@
 
 SnobotSim::CtreCanifierWrapper* ConvertToCanifierWrapper(void* param)
 {
-    long handle = *static_cast<long*>(param); //NOLINT
-
-    return reinterpret_cast<SnobotSim::CtreCanifierWrapper*>(handle);
+    return reinterpret_cast<SnobotSim::CtreCanifierWrapper*>(param);
 }
 
 extern "C"{

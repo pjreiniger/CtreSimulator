@@ -1,5 +1,9 @@
 .gradle
-/build/
+build/
+
+hs_err_pid*.log
+
+hs_err_pid*.log
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -20,3 +24,6 @@ bin/
 .project
 .classpath
 .pydevproject
+
+# Intellij
+.idea/

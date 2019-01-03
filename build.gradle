@@ -1,7 +1,7 @@
 
 plugins {
-    id 'edu.wpi.first.NativeUtils' version '1.6.7'
-    id "edu.wpi.first.GradleJni" version "0.2.2"
+    id 'edu.wpi.first.NativeUtils' version '1.7.7'
+    id "edu.wpi.first.GradleJni" version "0.3.0"
 	id "cpp"
 	id "java"
 	id "eclipse"
@@ -14,7 +14,7 @@ repositories {
     mavenCentral()
     mavenLocal()
     maven {
-        url "http://first.wpi.edu/FRC/roborio/maven/development/"
+        url "http://first.wpi.edu/FRC/roborio/maven/release/"
     }
     maven {
         url 'https://raw.githubusercontent.com/Open-RIO/Maven-Mirror/master/m2'
@@ -22,7 +22,11 @@ repositories {
 }
 
 ext.allwpilibVersion = {
-	return '2018.4.1-20180605191727-1035-g86285b4'
+    return '2018.4.1'
+}
+
+ext.getWpiUtilVersion = {
+	return '3.2.0'
 }
 
 sourceSets {
@@ -36,18 +40,6 @@ sourceSets {
 
 apply from: "config.gradle"
 model {
-
-	dependencyConfigs {
-		wpiutil(DependencyConfig) {
-			groupId = 'edu.wpi.first.wpiutil'
-			artifactId = 'wpiutil-cpp'
-			headerClassifier = 'headers'
-			ext = 'zip'
-			version = allwpilibVersion()
-			staticConfigs = [ CtreSimulation: [] ]
-		}
-	}
-
 
 	components {
 		CtreSimulation(JniNativeLibrarySpec) {
@@ -74,7 +66,7 @@ model {
 
 task packageNativeFilesInJar(type: Jar) {
 	destinationDir = project.buildDir
-	classifier = "native-" + org.gradle.internal.os.OperatingSystem.current().getFamilyName();
+    classifier = org.gradle.internal.os.OperatingSystem.current().getFamilyName() + "-" + getCurrentArch();
 
 	project.model {
 		binaries {
@@ -95,10 +87,9 @@ task packageNativeFilesInJar(type: Jar) {
 
 dependencies {
 
-	testCompile 'edu.wpi.first.wpiutil:wpiutil-java:' + allwpilibVersion()
+	testCompile 'edu.wpi.first.wpiutil:wpiutil-java:' + getWpiUtilVersion()
     testCompile 'edu.wpi.first.wpilibj:wpilibj-java:' + allwpilibVersion()
-    testCompile 'edu.wpi.first.hal:hal-java:' + allwpilibVersion()
-    testCompile 'edu.wpi.first.hal:hal-jni:' + allwpilibVersion() + ":all"
+    compile 'edu.wpi.first.wpilibj:wpilibj-jni:' + allwpilibVersion() + ":all"
 
 	testCompile 'org.junit.jupiter:junit-jupiter-api:5.2.0'
 	testCompile 'org.junit.jupiter:junit-jupiter-params:5.2.0'

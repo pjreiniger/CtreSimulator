@@ -11,8 +11,21 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 	from sourceSets.main.allSource
 }
 
+ext.maven_publishing_path = "$rootDir/build/maven_repo/"
 
 publishing {
+
+    repositories {
+       maven {
+           url maven_publishing_path
+       }
+    }
+
+    def createAllTask
+    if(!project.hasProperty('ciBuild')) {
+        createAllTask = createAllCombined(project.packageNativeFilesInJar, "", "", Jar, project)
+    }
+
 	publications {
 		snobot_sim_java(MavenPublication) {
 			groupId 'com.snobot.simulator'
@@ -23,6 +36,10 @@ publishing {
 			artifact javadocJar
 			artifact sourcesJar
 			artifact packageNativeFilesInJar
+
+            if(!project.hasProperty('ciBuild')) {
+                artifact createAllTask
+            }
 		}
 	}
 

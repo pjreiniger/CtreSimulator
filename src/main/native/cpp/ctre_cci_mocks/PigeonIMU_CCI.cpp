@@ -19,9 +19,7 @@ typedef SnobotSim::CtrePigeonImuWrapper PigeonImuSimulatorWrapper;
 
 PigeonImuSimulatorWrapper* ConvertToPigeonWrapper(void* param)
 {
-    long handle = *static_cast<long*>(param); // NOLINT
-
-    return reinterpret_cast<PigeonImuSimulatorWrapper*>(handle);
+    return reinterpret_cast<PigeonImuSimulatorWrapper*>(param);
 }
 
 extern "C"{
@@ -42,6 +40,34 @@ ctre::phoenix::ErrorCode c_PigeonIMU_GetDescription(void *handle, char * toFill,
 {
     RECEIVE_HELPER("GetDescription", 1);
     offset += 1; // Removes compiler warning
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_PigeonIMU_ConfigSetParameter(void *handle, int param, double value, int subValue, int ordinal, int timeoutMs)
+{
+    PigeonImuSimulatorWrapper* wrapper = ConvertToPigeonWrapper(handle);
+    wrapper->Send("ConfigSetParameter", param, value, subValue, ordinal);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetParameter(void *handle, int param, double *value, int ordinal, int timeoutMs)
+{
+    RECEIVE_HELPER("ConfigGetParameter", sizeof(param) + sizeof(*value) + sizeof(ordinal));
+    PoplateReceiveResults(buffer, value, offset);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_PigeonIMU_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs)
+{
+    PigeonImuSimulatorWrapper* wrapper = ConvertToPigeonWrapper(handle);
+    wrapper->Send("ConfigSetCustomParam", newValue, paramIndex, timeoutMs);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs)
+{
+    RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex));
+    PoplateReceiveResults(buffer, readValue, offset);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -313,34 +339,6 @@ ctre::phoenix::ErrorCode c_PigeonIMU_SetLastError(void *handle, int value)
 {
     PigeonImuSimulatorWrapper* wrapper = ConvertToPigeonWrapper(handle);
     wrapper->Send("SetLastError", value);
-    return (ctre::phoenix::ErrorCode)0;
-}
-
-ctre::phoenix::ErrorCode c_PigeonIMU_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs)
-{
-    PigeonImuSimulatorWrapper* wrapper = ConvertToPigeonWrapper(handle);
-    wrapper->Send("ConfigSetCustomParam", newValue, paramIndex, timeoutMs);
-    return (ctre::phoenix::ErrorCode)0;
-}
-
-ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs)
-{
-    RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex));
-    PoplateReceiveResults(buffer, readValue, offset);
-    return (ctre::phoenix::ErrorCode)0;
-}
-
-ctre::phoenix::ErrorCode c_PigeonIMU_ConfigSetParameter(void *handle, int param, double value, int subValue, int ordinal, int timeoutMs)
-{
-    PigeonImuSimulatorWrapper* wrapper = ConvertToPigeonWrapper(handle);
-    wrapper->Send("ConfigSetParameter", param, value, subValue, ordinal);
-    return (ctre::phoenix::ErrorCode)0;
-}
-
-ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetParameter(void *handle, int param, double *value, int ordinal, int timeoutMs)
-{
-    RECEIVE_HELPER("ConfigGetParameter", sizeof(param) + sizeof(*value) + sizeof(ordinal));
-    PoplateReceiveResults(buffer, value, offset);
     return (ctre::phoenix::ErrorCode)0;
 }
 

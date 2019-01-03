@@ -4,8 +4,15 @@
 #include <cassert>
 
 #include "CtreSimMocks/MockHookUtilities.h"
+#include "CtreSimMocks/CtreCanifierWrapper.h"
 #include "com_ctre_phoenix_CANifierJNI.h"
 #include "ctre/phoenix/CCI/CANifier_CCI.h"
+
+
+SnobotSim::CtreCanifierWrapper* ConvertToCanifierWrapper(jlong handle)
+{
+    return reinterpret_cast<SnobotSim::CtreCanifierWrapper*>(handle);
+}
 
 extern "C" {
 
@@ -28,7 +35,7 @@ JNIEXPORT jlong JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1new_1CANifier
 JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetLEDOutput
   (JNIEnv *, jclass, jlong aHandle, jint aDutyCycle, jint aLedChannel)
 {
-    c_CANifier_SetLEDOutput(&aHandle, aDutyCycle, aLedChannel);
+    c_CANifier_SetLEDOutput(ConvertToCanifierWrapper(aHandle), aDutyCycle, aLedChannel);
 }
 
 /*
@@ -39,7 +46,7 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetLEDOutput
 JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetGeneralOutputs
   (JNIEnv *, jclass, jlong aHandle, jint aOutputBits, jint aIsOutputBits)
 {
-    c_CANifier_SetGeneralOutputs(&aHandle, aOutputBits, aIsOutputBits);
+    c_CANifier_SetGeneralOutputs(ConvertToCanifierWrapper(aHandle), aOutputBits, aIsOutputBits);
 }
 
 /*
@@ -50,7 +57,7 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetGeneralOutputs
 JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetGeneralOutput
   (JNIEnv *, jclass, jlong aHandle, jint aOutputPin, jboolean aOutputValue, jboolean aOutputEnable)
 {
-    c_CANifier_SetGeneralOutput(&aHandle, aOutputPin, aOutputValue, aOutputEnable);
+    c_CANifier_SetGeneralOutput(ConvertToCanifierWrapper(aHandle), aOutputPin, aOutputValue, aOutputEnable);
 }
 
 /*
@@ -61,7 +68,7 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetGeneralOutput
 JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetPWMOutput
   (JNIEnv *, jclass, jlong aHandle, jint aPwmChannel, jint aDutyCycle)
 {
-    c_CANifier_SetPWMOutput(&aHandle, aPwmChannel, aDutyCycle);
+    c_CANifier_SetPWMOutput(ConvertToCanifierWrapper(aHandle), aPwmChannel, aDutyCycle);
 }
 
 /*
@@ -72,7 +79,7 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetPWMOutput
 JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1EnablePWMOutput
   (JNIEnv *, jclass, jlong aHandle, jint aPwmChannel, jboolean aEnable)
 {
-    c_CANifier_EnablePWMOutput(&aHandle, aPwmChannel, aEnable);
+    c_CANifier_EnablePWMOutput(ConvertToCanifierWrapper(aHandle), aPwmChannel, aEnable);
 }
 
 /*
@@ -86,7 +93,7 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetGeneralInputs
 	const int capacity = 11;
 	bool allPins[capacity];
 
-	c_CANifier_GetGeneralInputs(&aHandle, allPins, capacity);
+	c_CANifier_GetGeneralInputs(ConvertToCanifierWrapper(aHandle), allPins, capacity);
 }
 
 /*
@@ -98,7 +105,7 @@ JNIEXPORT jboolean JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetGeneralInpu
   (JNIEnv *, jclass, jlong aHandle, jint aInputPin)
 {
     bool output = false;
-    c_CANifier_GetGeneralInput(&aHandle, aInputPin, &output);
+    c_CANifier_GetGeneralInput(ConvertToCanifierWrapper(aHandle), aInputPin, &output);
     return output;
 }
 
@@ -111,7 +118,7 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetPWMInput
   (JNIEnv *, jclass, jlong aHandle, jint aPwmChannel, jdoubleArray aDutyCyclePeriodPtr)
 {
     double dutyCycleAndPeriod[2];
-    c_CANifier_GetPWMInput(&aHandle,  aPwmChannel, dutyCycleAndPeriod);
+    c_CANifier_GetPWMInput(ConvertToCanifierWrapper(aHandle),  aPwmChannel, dutyCycleAndPeriod);
 }
 
 /*
@@ -122,7 +129,7 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetPWMInput
 JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetLastError
   (JNIEnv *, jclass, jlong aHandle)
 {
-    return c_CANifier_GetLastError(&aHandle);
+    return c_CANifier_GetLastError(ConvertToCanifierWrapper(aHandle));
 }
 
 /*
@@ -134,7 +141,7 @@ JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetBatteryVolta
   (JNIEnv *, jclass, jlong aHandle)
 {
     double output = 0;
-    c_CANifier_GetBusVoltage(&aHandle, &output);
+    c_CANifier_GetBusVoltage(ConvertToCanifierWrapper(aHandle), &output);
     return output;
 }
 
@@ -206,7 +213,7 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigVelocityMeas
 JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigSetCustomParam
   (JNIEnv *, jclass, jlong aHandle, jint aNewValue, jint aParamIndex, jint aTimeout)
 {
-    return c_CANifier_ConfigSetCustomParam(&aHandle, aNewValue, aParamIndex, aTimeout);
+    return c_CANifier_ConfigSetCustomParam(ConvertToCanifierWrapper(aHandle), aNewValue, aParamIndex, aTimeout);
 }
 
 /*
@@ -218,7 +225,7 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigGetCustomPar
   (JNIEnv *, jclass, jlong aHandle, jint aParamIndex, jint aTimeout)
 {
     int output = 0;
-    c_CANifier_ConfigGetCustomParam(&aHandle, &output, aParamIndex, aTimeout);
+    c_CANifier_ConfigGetCustomParam(ConvertToCanifierWrapper(aHandle), &output, aParamIndex, aTimeout);
     return output;
 }
 
@@ -230,7 +237,7 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigGetCustomPar
 JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigSetParameter
   (JNIEnv *, jclass, jlong aHandle, jint aParam, jdouble aValue, jint aSubValue, jint aOrdinal, jint aTimeout)
 {
-    return (jint) c_CANifier_ConfigSetParameter(&aHandle, aParam, aValue, aSubValue, aOrdinal, aTimeout);
+    return (jint) c_CANifier_ConfigSetParameter(ConvertToCanifierWrapper(aHandle), aParam, aValue, aSubValue, aOrdinal, aTimeout);
 }
 
 /*
@@ -242,7 +249,7 @@ JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigGetParame
   (JNIEnv *, jclass, jlong aHandle, jint aParam, jint aOrdinal, jint aTimeout)
 {
     double output = 0;
-    c_CANifier_ConfigGetParameter(&aHandle, aParam, &output, aOrdinal, aTimeout);
+    c_CANifier_ConfigGetParameter(ConvertToCanifierWrapper(aHandle), aParam, &output, aOrdinal, aTimeout);
     return output;
 }
 
@@ -254,7 +261,7 @@ JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigGetParame
 JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetStatusFramePeriod
   (JNIEnv *, jclass, jlong aHandle, jint aFrame, jint aPeriod, jint aTimeout)
 {
-    return c_CANifier_SetStatusFramePeriod(&aHandle, aFrame, aPeriod, aTimeout);
+    return c_CANifier_SetStatusFramePeriod(ConvertToCanifierWrapper(aHandle), aFrame, aPeriod, aTimeout);
 }
 
 /*
@@ -266,7 +273,7 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetStatusFramePeri
   (JNIEnv *, jclass, jlong aHandle, jint aFrame, jint aTimeout)
 {
     int output = 0;
-    c_CANifier_GetStatusFramePeriod(&aHandle, aFrame, &output, aTimeout);
+    c_CANifier_GetStatusFramePeriod(ConvertToCanifierWrapper(aHandle), aFrame, &output, aTimeout);
     return output;
 }
 
@@ -278,7 +285,7 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetStatusFramePeri
 JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetControlFramePeriod
   (JNIEnv *, jclass, jlong aHandle, jint aFrame, jint aPeriod)
 {
-    return c_CANifier_SetControlFramePeriod(&aHandle, aFrame, aPeriod);
+    return c_CANifier_SetControlFramePeriod(ConvertToCanifierWrapper(aHandle), aFrame, aPeriod);
 }
 
 /*
@@ -290,7 +297,7 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetFirmwareVersion
   (JNIEnv *, jclass, jlong aHandle)
 {
     int output = 0;
-    c_CANifier_GetFirmwareVersion(&aHandle, &output);
+    c_CANifier_GetFirmwareVersion(ConvertToCanifierWrapper(aHandle), &output);
     return output;
 }
 
@@ -303,7 +310,7 @@ JNIEXPORT jboolean JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1HasResetOccurr
   (JNIEnv *, jclass, jlong aHandle)
 {
 	bool output = false;
-    c_CANifier_HasResetOccurred(&aHandle, &output);
+    c_CANifier_HasResetOccurred(ConvertToCanifierWrapper(aHandle), &output);
     return output;
 }
 
@@ -316,7 +323,7 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetFaults
   (JNIEnv *, jclass, jlong aHandle)
 {
     int output = false;
-    c_CANifier_GetFaults(&aHandle, &output);
+    c_CANifier_GetFaults(ConvertToCanifierWrapper(aHandle), &output);
     return output;
 }
 
@@ -329,7 +336,7 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetStickyFaults
   (JNIEnv *, jclass, jlong aHandle)
 {
     int output = 0;
-    c_CANifier_GetStickyFaults(&aHandle, &output);
+    c_CANifier_GetStickyFaults(ConvertToCanifierWrapper(aHandle), &output);
     return output;
 }
 
@@ -341,7 +348,7 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetStickyFaults
 JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ClearStickyFaults
   (JNIEnv *, jclass, jlong aHandle, jint aTimeout)
 {
-    return (jint) c_CANifier_ClearStickyFaults(&aHandle, aTimeout);
+    return (jint) c_CANifier_ClearStickyFaults(ConvertToCanifierWrapper(aHandle), aTimeout);
 }
 
 /*
@@ -353,7 +360,7 @@ JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetBusVoltage
   (JNIEnv *, jclass, jlong aHandle)
 {
     double output = 0;
-    c_CANifier_GetBusVoltage(&aHandle, &output);
+    c_CANifier_GetBusVoltage(ConvertToCanifierWrapper(aHandle), &output);
     return output;
 }
 

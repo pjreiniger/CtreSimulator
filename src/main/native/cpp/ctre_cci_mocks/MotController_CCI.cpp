@@ -20,9 +20,7 @@ typedef SnobotSim::CtreMotorControllerWrapper MotorControllerWrapper;
 
 MotorControllerWrapper* ConvertToMotorControllerWrapper(void* param)
 {
-    long handle = *static_cast<long*>(param); //NOLINT
-
-    return reinterpret_cast<MotorControllerWrapper*>(handle);
+    return reinterpret_cast<MotorControllerWrapper*>(param);
 }
 
 extern "C"{

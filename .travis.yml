@@ -26,23 +26,18 @@ cache:
 script:
   #- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then python3 -m wpiformat -y 2018 -clang 5.0; fi;
   #- git --no-pager diff --exit-code HEAD  # Ensure formatter made no changes
-  - ./gradlew build publishToMavenLocal
+  - ./gradlew build publishToMavenLocal -PciBuild
   - git clone --depth=50 --branch=master https://github.com/pjreiniger/maven_repo.git ../../pjreiniger/maven_repo
   - mkdir -p ../../pjreiniger/maven_repo/com/snobot/simulator
   - cp -r $HOME/.m2/repository/com/snobot/simulator ../../pjreiniger/maven_repo/com/snobot
 
 
-deploy:
-  - provider: script
-    script: pwd; cd ../../pjreiniger/maven_repo; pwd; ls; chmod +x commit_updates.sh; ./commit_updates.sh
-    skip_cleanup: true
-    on:
-      branch: master
-  - provider: script
-    script: pwd; cd ../../pjreiniger/maven_repo; pwd; ls; chmod +x commit_updates.sh; ./commit_updates.sh
-    skip_cleanup: true
-    on:
-      branch: setupCi
+# deploy:
+#   - provider: script
+#     script: pwd; cd ../../pjreiniger/maven_repo; pwd; ls; chmod +x commit_updates.sh; ./commit_updates.sh
+#     skip_cleanup: true
+#     on:
+#       branch: master
 
 env:
   global:
