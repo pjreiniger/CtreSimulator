@@ -1,5 +1,5 @@
 
-#include "ctre/phoenix/CCI/PigeonIMU_CCI.h"
+#include "ctre/phoenix/cci/PigeonIMU_CCI.h"
 
 #include <cstring>
 #include <vector>

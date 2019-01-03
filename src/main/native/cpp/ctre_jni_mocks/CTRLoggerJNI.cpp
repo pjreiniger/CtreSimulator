@@ -4,7 +4,7 @@
 #include <cassert>
 
 #include "com_ctre_phoenix_CTRLoggerJNI.h"
-#include "ctre/phoenix/CCI/Logger_CCI.h"
+#include "ctre/phoenix/cci/Logger_CCI.h"
 
 #include "CtreSimMocks/MockHookUtilities.h"
 

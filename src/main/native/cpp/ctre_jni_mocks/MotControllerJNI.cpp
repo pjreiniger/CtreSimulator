@@ -4,7 +4,7 @@
 #include <cassert>
 
 #include "com_ctre_phoenix_motorcontrol_can_MotControllerJNI.h"
-#include "ctre/phoenix/CCI/MotController_CCI.h"
+#include "ctre/phoenix/cci/MotController_CCI.h"
 #include "CtreSimMocks/CtreMotorControllerWrapper.h"
 #include "CtreSimMocks/MockHookUtilities.h"
 

@@ -129,13 +129,13 @@ javadoc {
 eclipse.classpath.file.whenMerged { classpath ->
     classpath.entries.each {
         if(it.path.contains("CtreSimulator")) {
-            it.setNativeLibraryLocation("$rootDir/build/libs/ctreSimulation/shared")
+            it.setNativeLibraryLocation("$rootDir/build/libs/ctreSimulation/shared/release")
         }
     }
 }
 
 tasks.withType(Test) {
-    systemProperty "java.library.path", "$rootDir/build/libs/ctreSimulation/shared"
+    systemProperty "java.library.path", "$rootDir/build/libs/ctreSimulation/shared/release"
 }
 
 wrapper {

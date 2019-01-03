@@ -6,7 +6,7 @@
 #include "CtreSimMocks/MockHookUtilities.h"
 #include "CtreSimMocks/CtreCanifierWrapper.h"
 #include "com_ctre_phoenix_CANifierJNI.h"
-#include "ctre/phoenix/CCI/CANifier_CCI.h"
+#include "ctre/phoenix/cci/CANifier_CCI.h"
 
 
 SnobotSim::CtreCanifierWrapper* ConvertToCanifierWrapper(jlong handle)

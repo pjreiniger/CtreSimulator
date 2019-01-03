@@ -1,4 +1,4 @@
-#include "ctre/phoenix/CCI/MotController_CCI.h"
+#include "ctre/phoenix/cci/MotController_CCI.h"
 
 #include <cstring>
 #include <iostream>
