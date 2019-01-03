@@ -52,13 +52,13 @@ def search_files(header_file, source_file, header_pattern, source_pattern):
         for match in source_pattern.finditer(lines):
             source_functions[match.group(2)] = (match.group(1))
 
-    # print "Headers..."
-    # for func_name in header_functions:
-       # print "  ", header_functions[func_name], func_name
-
-    # print "Source..."
-    # for func_name in source_functions:
-       # print "  ", source_functions[func_name], func_name
+#     print "Headers..."
+#     for func_name in header_functions:
+#        print "  ", header_functions[func_name], func_name
+# 
+#     print "Source..."
+#     for func_name in source_functions:
+#        print "  ", source_functions[func_name], func_name
 
     source_function_set = set(source_functions.keys())
     header_function_set = set(header_functions.keys())
@@ -79,7 +79,7 @@ def search_files(header_file, source_file, header_pattern, source_pattern):
 
 
 def search_jni():
-    jni_header_base = r'ctre_source\main\native\include\ctre\phoenix\jni'
+    jni_header_base = r'ctre_source\cci\native\include\ctre\phoenix\jni'
     jni_source_base = r'src\main\native\cpp\ctre_jni_mocks'
 
     jni_header_pattern = re.compile(r'JNIEXPORT (.*) JNICALL (.*)\n +\((.*)\);', re.MULTILINE)
@@ -92,27 +92,27 @@ def search_jni():
 
 
 def search_cci():
-    cci_header_base = r'ctre_source\main\native\include\ctre\phoenix\CCI'
+    cci_header_base = r'ctre_source\cci\native\include\ctre\phoenix\CCI'
     cci_source_base = r'src\main\native\cpp\ctre_cci_mocks'
 
     search_files(cci_header_base + '/CANifier_CCI.h',
                 cci_source_base + '/CANifier_CCI.cpp',
-                re.compile(r'\t(.*)(c_CANifier_.*)\(', re.MULTILINE),
+                re.compile(r'\s(.*)(c_CANifier_.*)\(', re.MULTILINE),
                 re.compile(r'(.*)(c_CANifier_.*)\(', re.MULTILINE))
 
     search_files(cci_header_base + '/Logger_CCI.h',
                 cci_source_base + '/Logger_CCI.cpp',
-                re.compile(r'\t(.*)(c_Logger_.*)\(', re.MULTILINE),
+                re.compile(r'\s(.*)(c_Logger_.*)\(', re.MULTILINE),
                 re.compile(r'(.*)(c_Logger_.*)\(', re.MULTILINE))
 
     search_files(cci_header_base + '/MotController_CCI.h',
                 cci_source_base + '/MotController_CCI.cpp',
-                re.compile(r'\t(.*)(c_MotController_.*)\(', re.MULTILINE),
+                re.compile(r'\s(.*)(c_MotController_.*)\(', re.MULTILINE),
                 re.compile(r'(.*)(c_MotController_.*)\(', re.MULTILINE))
 
     search_files(cci_header_base + '/PigeonIMU_CCI.h',
                  cci_source_base + '/PigeonIMU_CCI.cpp',
-                 re.compile(r'\t(.*)(c_PigeonIMU_.*)\(', re.MULTILINE),
+                 re.compile(r'\s(.*)(c_PigeonIMU_.*)\(', re.MULTILINE),
                  re.compile(r'(.*)(c_PigeonIMU_.*)\(', re.MULTILINE))
 
 
@@ -162,7 +162,7 @@ def main():
     
     search_jni()
     search_cci()
-    check_jni_sources()
-    check_cci_sources()
+#     check_jni_sources()
+#     check_cci_sources()
 
 main()

@@ -61,8 +61,15 @@ enum ErrorCode
 	
 	//Firmware Versions
 	FeatureRequiresHigherFirm = -700,
-	TalonFeatureRequiresHigherFirm = -701,
+    MotorControllerFeatureRequiresHigherFirm = -701,
+    TalonFeatureRequiresHigherFirm = MotorControllerFeatureRequiresHigherFirm,
+    ConfigFactoryDefaultRequiresHigherFirm = -702,
 
+	//Operating system centric
+	LibraryCouldNotBeLoaded = -800,
+	MissingRoutineInLibrary = -801,
+	ResourceNotAvailable = -802,
+	
 	//CAN Related
 	PulseWidthSensorNotPresent = 10,	//!< Special Code for "isSensorPresent"
 
@@ -80,6 +87,28 @@ enum ErrorCode
 	RemoteSensorsNotSupportedYet= 108,
 	MotProfFirmThreshold= 109,
 	MotProfFirmThreshold2 = 110,
+};
+class ErrorCollection {
+public:
+    static ErrorCode worstOne(ErrorCode errorCode1, ErrorCode errorCode2) {
+        if (errorCode1 != OK)
+            return errorCode1;
+        return errorCode2;
+    }
+    void NewError(ErrorCode err) {
+        _worstError = worstOne(_worstError, err);
+    }
+    void NewError(int err) {
+        _worstError = worstOne(_worstError, (ErrorCode) err); 
+    }
+    ErrorCode _worstError;
+    ErrorCollection() {
+        _worstError = OK;
+    }
+
+
+
+
 };
 
 } // namespace phoenix

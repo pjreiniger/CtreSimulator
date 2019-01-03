@@ -12,7 +12,7 @@ def create_tests(jar_path):
         
         
     unzip_args = []
-    unzip_args.append(r'C:\Program Files\Java\jdk1.8.0_65\bin\jar')
+    unzip_args.append(r'C:\Program Files\Java\jdk1.8.0_191\bin\jar')
     unzip_args.append("xf")
     unzip_args.append(jar_path)
     unzip_args.append("com/ctre/phoenix/motorcontrol/can/TalonSRX.class")
@@ -47,7 +47,7 @@ def run_javap(objName, class_file):
     print "File %s ---------------------" % class_file
 
     javap_args = []
-    javap_args.append(r'C:\Program Files\Java\jdk1.8.0_65\bin\javap')
+    javap_args.append(r'C:\Program Files\Java\jdk1.8.0_191\bin\javap')
     javap_args.append(class_file)
     p = subprocess.Popen(javap_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     
@@ -93,4 +93,4 @@ def run_javap(objName, class_file):
 #     print stdout
 
 
-create_tests(r'C:/Users/PJ/.gradle/caches/modules-2/files-2.1/openrio.mirror.third.ctre/CTRE-phoenix-java/5.3.1.0/a72e43884bdab932374599f719e0d65aa6d804bc/CTRE-phoenix-java-5.3.1.0.jar')
+create_tests(r'C:\Users\PJ\.gradle\caches\modules-2\files-2.1\com.ctre.phoenix\api-java\5.9.2\64e79e598e81bcb62fd084bfb70c8abffad1524e/api-java-5.9.2.jar')
