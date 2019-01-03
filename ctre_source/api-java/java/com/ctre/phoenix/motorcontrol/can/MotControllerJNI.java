@@ -61,6 +61,16 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	 *            Invert state to set.
 	 **/
 	public static native void SetInverted(long handle, boolean invert);
+
+	/**
+	 * Inverts the output of the motor controller. LEDs, sensor phase, and limit
+	 * switches will also be inverted to match the new forward/reverse
+	 * directions.
+	 *
+	 * @param invert
+	 *            Invert state to set.
+	 **/
+	public static native void SetInverted_2(long handle, int invert);
 	
 	/**
 	 * Configure all configurations to factory default values
@@ -183,6 +193,13 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	 *            Enable state of voltage compensation.
 	 **/
 	public static native void EnableVoltageCompensation(long handle, boolean enable);
+
+	/**
+	 * Gets the invert state of the motor controller.
+	 *
+	 * @return The invert state.
+	 */
+	public static native boolean GetInverted(long handle);
 
 	/**
 	 * Gets the bus voltage seen by the motor controller.
@@ -555,6 +572,10 @@ public class MotControllerJNI extends CTREJNIWrapper {
 
 	public static native double GetActiveTrajectoryHeading(long handle);
 
+	public static native int GetActiveTrajectoryPosition3(long handle, int pidIdx);
+	public static native int GetActiveTrajectoryVelocity3(long handle, int pidIdx);
+	public static native double GetActiveTrajectoryArbFeedFwd3(long handle, int pidIdx);
+
 	/**
 	 * Sets the Motion Magic Cruise Velocity.
 	 *
@@ -587,8 +608,14 @@ public class MotControllerJNI extends CTREJNIWrapper {
 
 	public static native int PushMotionProfileTrajectory2(long handle, double position, double velocity, double headingDeg,
 			int profileSlotSelect0, int profileSlotSelect1, boolean isLastPoint, boolean zeroPos, int durationMs);
+	
+	public static native int PushMotionProfileTrajectory3(long handle, double position, double velocity, double arbFeedFwd, double auxiliaryPos, double auxiliaryVel, double auxiliaryArbFeedFwd, int profileSlotSelect0, int profileSlotSelect1, boolean isLastPoint, boolean zeroPos0, int timeDur, boolean useAuxPID);
+
+	public static native int StartMotionProfile(long handle, long streamHandle, int minBufferedPts, int controlMode);
 
 	public static native boolean IsMotionProfileTopLevelBufferFull(long handle);
+
+	public static native boolean IsMotionProfileFinished(long handle);
 
 	public static native int ProcessMotionProfileBuffer(long handle);
 
@@ -601,6 +628,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	public static native int ChangeMotionControlFramePeriod(long handle, int periodMs);
 
 	public static native int ConfigMotionProfileTrajectoryPeriod(long handle, int periodMs, int timeoutMs);
+
+	public static native int ConfigMotionProfileTrajectoryInterpolationEnable(long handle, boolean enable, int timeoutMs);
 
     public static native int ConfigFeedbackNotContinuous(long handle, boolean feedbackNotContinuous, int timeoutMs);
  

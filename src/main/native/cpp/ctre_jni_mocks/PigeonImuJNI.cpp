@@ -57,10 +57,9 @@ JNIEXPORT jlong JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1new_1Pig
  * Signature: (J)I
  */
 JNIEXPORT jint JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1destroy_1PigeonImu
-  (JNIEnv *, jclass, jlong)
+  (JNIEnv *, jclass, jlong handle)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
-    return 0;
+    return (jint) c_PigeonIMU_Destroy(ConvertToPigeonWrapper(handle));
 }
 
 /*

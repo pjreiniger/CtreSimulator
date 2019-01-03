@@ -23,6 +23,14 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_unmanaged_UnmanagedJNI_JNI_1FeedEna
 JNIEXPORT jboolean JNICALL Java_com_ctre_phoenix_unmanaged_UnmanagedJNI_JNI_1GetEnableState
   (JNIEnv *, jclass);
 
+/*
+ * Class:     com_ctre_phoenix_unmanaged_UnmanagedJNI
+ * Method:    JNI_GetPhoenixVersion
+ * Signature: ()Z
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_unmanaged_UnmanagedJNI_JNI_1GetPhoenixVersion
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif

@@ -9,8 +9,8 @@ plugins {
     id "eclipse"
 }
 
-ext.ctre_library_version = "5.9.2"
-ext.release_version = "V0_" + ctre_library_version + "_RC"
+ext.ctre_library_version = "5.12.0"
+ext.release_version = ctre_library_version + "_V0_RC"
 
 repositories {
     mavenCentral()
@@ -133,13 +133,13 @@ javadoc {
 eclipse.classpath.file.whenMerged { classpath ->
     classpath.entries.each {
         if(it.path.contains("CtreSimulator")) {
-            it.setNativeLibraryLocation("$rootDir/build/libs/ctreSimulation/shared/release")
+            it.setNativeLibraryLocation("$rootDir/build/libs/ctreSimulation/shared/x86-64/release")
         }
     }
 }
 
 tasks.withType(Test) {
-    systemProperty "java.library.path", "$rootDir/build/libs/ctreSimulation/shared/release"
+    systemProperty "java.library.path", "$rootDir/build/libs/ctreSimulation/shared/x86-64/release"
 }
 
 wrapper {

@@ -36,6 +36,18 @@ void *c_PigeonIMU_Create1(int deviceNumber)
     return output;
 }
 
+ctre::phoenix::ErrorCode c_PigeonIMU_Destroy(void *handle)
+{
+    PigeonImuSimulatorWrapper* wrapper = ConvertToPigeonWrapper(handle);
+    delete wrapper;
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+void c_PigeonIMU_DestroyAll()
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+}
+
 ctre::phoenix::ErrorCode c_PigeonIMU_GetDescription(void *handle, char * toFill, int toFillByteSz, size_t * numBytesFilled)
 {
     RECEIVE_HELPER("GetDescription", 1);
@@ -79,7 +91,8 @@ ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetCustomParam(void *handle, int *rea
 
 ctre::phoenix::ErrorCode c_PigeonIMU_ConfigFactoryDefault(void *handle, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    PigeonImuSimulatorWrapper* wrapper = ConvertToPigeonWrapper(handle);
+    wrapper->Send("ConfigFactoryDefault");
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -134,7 +147,8 @@ ctre::phoenix::ErrorCode c_PigeonIMU_SetAccumZAngle(void *handle, double angleDe
 
 ctre::phoenix::ErrorCode c_PigeonIMU_SetTemperatureCompensationDisable(void *handle, int bTempCompDisable, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    PigeonImuSimulatorWrapper* wrapper = ConvertToPigeonWrapper(handle);
+    wrapper->Send("SetTemperatureCompensationDisable", bTempCompDisable);
     return (ctre::phoenix::ErrorCode)0;
 }
 

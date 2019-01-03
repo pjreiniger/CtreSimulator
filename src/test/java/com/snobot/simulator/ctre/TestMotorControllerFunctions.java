@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.TrajectoryPoint;
-import com.ctre.phoenix.motion.TrajectoryPoint.TrajectoryDuration;
 import com.ctre.phoenix.motorcontrol.ControlFrame;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
@@ -48,7 +47,7 @@ public class TestMotorControllerFunctions {
         CtreJni.registerCanMotorCallback(mTestCallback);
         
         TrajectoryPoint trajectoryPoint = new TrajectoryPoint();
-        trajectoryPoint.timeDur = TrajectoryDuration.Trajectory_Duration_10ms;
+        trajectoryPoint.timeDur = 10;
 
 
         talon.getHandle();
@@ -355,7 +354,6 @@ public class TestMotorControllerFunctions {
         }
         talon.follow(followTalon);
         talon.valueUpdated();
-        talon.configureSlot(new SlotConfiguration(), 0, 0, false);
         talon.configureSlot(new SlotConfiguration());
         talon.getSlotConfigs(new SlotConfiguration(), 0, 0);
         talon.getSlotConfigs(new SlotConfiguration());

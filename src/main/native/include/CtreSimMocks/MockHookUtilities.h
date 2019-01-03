@@ -14,7 +14,7 @@
 
 #define LOG_UNSUPPORTED_CAN_FUNC(x)                                           \
     std::cerr << __FUNCTION_NAME__ << "(" << __FILE__ ":" << __LINE__ << ") " \
-              << " Unsupported" << std::endl;
+              << " Unsupported" << x << std::endl;
 
 #ifdef _MSC_VER
 #define EXPORT_ __declspec(dllexport)
