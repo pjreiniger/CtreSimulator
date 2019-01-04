@@ -44,10 +44,6 @@ model {
     publishing {
 
         def jniLibraryTaskList = createComponentZipTasks($.components, [libraryName], zipBaseName, Zip, project, includeStandardZipFormat)
-        println jniLibraryTaskList
-        println "ZcD   " + $.components.size()
-        
-        jniLibraryTaskList.each { println"FJDLSKJFKL" }
     
         def createAllTask
         if(!project.hasProperty('ciBuild')) {
