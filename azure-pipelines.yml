@@ -44,13 +44,13 @@ jobs:
         gradleOptions: '-Xmx3072m'
         publishJUnitResults: true
         testResultsFiles: '**/TEST-*.xml'
-        tasks: 'build publish'
+        tasks: 'build publishToMavenLocal'
         options: '-PciBuild -Dhttp.socketTimeout=60000 -Dhttp.connectionTimeout=60000'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: maven repo'
       inputs:
-        PathtoPublish: 'build/maven_repo'
+        PathtoPublish: '%USERPROFILE%/.m2/repository/com/snobot/simulator'
         ArtifactName: 'Win64Maven'
 
 
@@ -76,13 +76,13 @@ jobs:
         gradleOptions: '-Xmx1024m'
         publishJUnitResults: true
         testResultsFiles: '**/TEST-*.xml'
-        tasks: 'build publish'
+        tasks: 'build publishToMavenLocal'
         options: '-PciBuild -Dhttp.socketTimeout=60000 -Dhttp.connectionTimeout=60000'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: maven repo'
       inputs:
-        PathtoPublish: 'build/maven_repo'
+        PathtoPublish: '%USERPROFILE%/.m2/repository/com/snobot/simulator'
         ArtifactName: 'Win32Maven'
 
  - job: Mac
@@ -104,13 +104,13 @@ jobs:
         jdkDirectory: '/Library/Java/JavaVirtualMachines/jdk-11.jdk/Contents/Home/'
         publishJUnitResults: true
         testResultsFiles: '**/TEST-*.xml'
-        tasks: 'build publish'
+        tasks: 'build publishToMavenLocal'
         options: '-PciBuild -Dhttp.socketTimeout=60000 -Dhttp.connectionTimeout=60000'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: maven repo'
       inputs:
-        PathtoPublish: 'build/maven_repo'
+        PathtoPublish: '~/.m2/repository/com/snobot/simulator'
         ArtifactName: 'OSXMaven'
 
  - job: PrepareMaven
