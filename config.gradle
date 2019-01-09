@@ -108,44 +108,6 @@ def mac32PlatformDetect = {
     }
 }
 
-if (!project.hasProperty('skipAthena') && !project.hasProperty('onlyRaspbian')) {
-    model {
-        buildConfigs {
-            roboRio(CrossBuildConfig) {
-                architecture = 'athena'
-                operatingSystem = 'linux'
-                toolChainPrefix = 'arm-frc2019-linux-gnueabi-'
-                compilerArgs = linuxCrossCompilerArgs
-                CCompilerArgs = linuxCrossCCompilerArgs
-                linkerArgs = linuxCrossLinkerArgs
-                debugCompilerArgs = linuxCrossDebugCompilerArgs
-                releaseCompilerArgs = linuxCrossReleaseCompilerArgs
-                stripBuildTypes = ['debug', 'release']
-                compilerFamily = 'Gcc'
-            }
-        }
-    }
-}
-
-if (!project.hasProperty('skipRaspbian') && !project.hasProperty('onlyAthena')) {
-    model {
-        buildConfigs {
-            raspbian(CrossBuildConfig) {
-                architecture = 'raspbian'
-                operatingSystem = 'linux'
-                toolChainPrefix = 'arm-raspbian9-linux-gnueabihf-'
-                compilerArgs = linuxCrossCompilerArgs
-                CCompilerArgs = linuxCrossCCompilerArgs
-                linkerArgs = linuxCrossLinkerArgs
-                debugCompilerArgs = linuxCrossDebugCompilerArgs
-                releaseCompilerArgs = linuxCrossReleaseCompilerArgs
-                stripBuildTypes = ['debug', 'release']
-                compilerFamily = 'Gcc'
-            }
-        }
-    }
-}
-
 if (!project.hasProperty('onlyAthena') && !hasProperty('onlyRaspbian')) {
     model {
         buildConfigs {
