@@ -50,7 +50,7 @@ jobs:
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: maven repo'
       inputs:
-        PathtoPublish: '%USERPROFILE%/.m2/repository/com/snobot/simulator'
+        PathtoPublish: '$(Agent.HomeDirectory)/.m2/repository/com/snobot/simulator'
         ArtifactName: 'Win64Maven'
 
 
@@ -82,7 +82,7 @@ jobs:
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: maven repo'
       inputs:
-        PathtoPublish: '%USERPROFILE%/.m2/repository/com/snobot/simulator'
+        PathtoPublish: '$(Agent.HomeDirectory)/.m2/repository/com/snobot/simulator'
         ArtifactName: 'Win32Maven'
 
  - job: Mac
@@ -110,7 +110,7 @@ jobs:
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: maven repo'
       inputs:
-        PathtoPublish: '~/.m2/repository/com/snobot/simulator'
+        PathtoPublish: '$(Agent.HomeDirectory)/.m2/repository/com/snobot/simulator'
         ArtifactName: 'OSXMaven'
 
  - job: PrepareMaven
