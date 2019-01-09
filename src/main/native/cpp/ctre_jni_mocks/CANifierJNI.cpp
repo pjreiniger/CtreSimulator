@@ -6,7 +6,7 @@
 #include "CtreSimMocks/MockHookUtilities.h"
 #include "CtreSimMocks/CtreCanifierWrapper.h"
 #include "com_ctre_phoenix_CANifierJNI.h"
-#include "ctre/phoenix/CCI/CANifier_CCI.h"
+#include "ctre/phoenix/cci/CANifier_CCI.h"
 
 
 SnobotSim::CtreCanifierWrapper* ConvertToCanifierWrapper(jlong handle)
@@ -25,6 +25,17 @@ JNIEXPORT jlong JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1new_1CANifier
   (JNIEnv *, jclass, jint deviceNumber)
 {
     return (jlong)c_CANifier_Create1(deviceNumber);
+}
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_destroy_CANifier
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1destroy_1CANifier
+  (JNIEnv *, jclass, jlong aHandle)
+{
+    return c_CANifier_Destroy(ConvertToCanifierWrapper(aHandle));
 }
 
 /*
@@ -154,7 +165,7 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetQuadraturePosit
   (JNIEnv *, jclass, jlong aHandle)
 {
     int output = 0;
-    c_CANifier_GetQuadraturePosition(&aHandle, &output);
+    c_CANifier_GetQuadraturePosition(ConvertToCanifierWrapper(aHandle), &output);
     return output;
 }
 
@@ -166,7 +177,7 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetQuadraturePosit
 JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetQuadraturePosition
   (JNIEnv *, jclass, jlong aHandle, jint newPosition, jint timeoutMs)
 {
-    return (jint) c_CANifier_SetQuadraturePosition(&aHandle, newPosition, timeoutMs);
+    return (jint) c_CANifier_SetQuadraturePosition(ConvertToCanifierWrapper(aHandle), newPosition, timeoutMs);
 }
 
 /*
@@ -178,7 +189,7 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetQuadratureVeloc
   (JNIEnv *, jclass, jlong aHandle)
 {
     int output = 0;
-    c_CANifier_GetQuadratureVelocity(&aHandle, &output);
+    c_CANifier_GetQuadratureVelocity(ConvertToCanifierWrapper(aHandle), &output);
     return output;
 }
 
@@ -190,7 +201,7 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetQuadratureVeloc
 JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigVelocityMeasurementPeriod
   (JNIEnv *, jclass, jlong aHandle, jint period, jint timeoutMs)
 {
-    return (jint) c_CANifier_ConfigVelocityMeasurementPeriod(&aHandle, period, timeoutMs);
+    return (jint) c_CANifier_ConfigVelocityMeasurementPeriod(ConvertToCanifierWrapper(aHandle), period, timeoutMs);
 }
 
 /*
@@ -201,7 +212,40 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigVelocityMeas
 JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigVelocityMeasurementWindow
   (JNIEnv *, jclass, jlong aHandle, jint windowSize, jint timeoutMs)
 {
-    return (jint) c_CANifier_ConfigVelocityMeasurementWindow(&aHandle, windowSize, timeoutMs);
+    return (jint) c_CANifier_ConfigVelocityMeasurementWindow(ConvertToCanifierWrapper(aHandle), windowSize, timeoutMs);
+}
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_ConfigClearPositionOnLimitF
+ * Signature: (JZI)I
+ */
+JNIEXPORT jint JNICALL  Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigClearPositionOnLimitF
+  (JNIEnv *, jclass, jlong aHandle, jboolean clearPositionOnLimitF, jint timeoutMs)
+{
+    return c_CANifier_ConfigClearPositionOnLimitF(ConvertToCanifierWrapper(aHandle), clearPositionOnLimitF, timeoutMs);
+}
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_ConfigClearPositionOnLimitR
+ * Signature: (JZI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigClearPositionOnLimitR
+  (JNIEnv *, jclass, jlong aHandle, jboolean clearPositionOnLimitF, jint timeoutMs)
+{
+    return c_CANifier_ConfigClearPositionOnLimitR(ConvertToCanifierWrapper(aHandle), clearPositionOnLimitF, timeoutMs);
+}
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_ConfigClearPositionOnQuadIdx
+ * Signature: (JZI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigClearPositionOnQuadIdx
+  (JNIEnv *, jclass, jlong aHandle, jboolean clearPositionOnLimitF, jint timeoutMs)
+{
+    return c_CANifier_ConfigClearPositionOnQuadIdx(ConvertToCanifierWrapper(aHandle), clearPositionOnLimitF, timeoutMs);
 }
 
 
@@ -251,6 +295,17 @@ JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigGetParame
     double output = 0;
     c_CANifier_ConfigGetParameter(ConvertToCanifierWrapper(aHandle), aParam, &output, aOrdinal, aTimeout);
     return output;
+}
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_ConfigFactoryDefault
+ * Signature: (JI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigFactoryDefault
+  (JNIEnv *, jclass, jlong aHandle, jint timeoutMs)
+{
+    return c_CANifier_ConfigFactoryDefault(ConvertToCanifierWrapper(aHandle), timeoutMs);
 }
 
 /*

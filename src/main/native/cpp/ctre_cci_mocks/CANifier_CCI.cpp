@@ -1,4 +1,4 @@
-#include "ctre/phoenix/CCI/CANifier_CCI.h"
+#include "ctre/phoenix/cci/CANifier_CCI.h"
 
 #include <cstring>
 #include <iostream>
@@ -28,7 +28,18 @@ void *c_CANifier_Create1(int deviceNumber)
     return output;
 }
 
-ctre::phoenix::ErrorCode c_CANifier_GetDescription(void *handle, char * toFill, int toFillByteSz, int * numBytesFilled)
+void c_CANifier_DestroyAll()
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+}
+
+ctre::phoenix::ErrorCode c_CANifier_Destroy(void *handle)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_CANifier_GetDescription(void *handle, char * toFill, int toFillByteSz, size_t * numBytesFilled)
 {
     LOG_UNSUPPORTED_CAN_FUNC("");
     return (ctre::phoenix::ErrorCode)0;
@@ -153,6 +164,26 @@ ctre::phoenix::ErrorCode c_CANifier_ConfigVelocityMeasurementWindow(void *handle
     return (ctre::phoenix::ErrorCode)0;
 }
 
+ctre::phoenix::ErrorCode c_CANifier_ConfigClearPositionOnLimitF(void *handle,
+        bool clearPositionOnLimitF, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_CANifier_ConfigClearPositionOnLimitR(void *handle,
+        bool clearPositionOnLimitR, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_CANifier_ConfigClearPositionOnQuadIdx(void *handle,
+        bool clearPositionOnQuadIdx, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
 
 void c_CANifier_SetLastError(void *handle, int error)
 {
@@ -160,7 +191,7 @@ void c_CANifier_SetLastError(void *handle, int error)
     wrapper->Send("SetLastError", error);
 }
 
-ctre::phoenix::ErrorCode c_CANifier_ConfigSetParameter(void *handle, int param, double value, int subValue, int ordinal, int timeoutMs)
+ctre::phoenix::ErrorCode c_CANifier_ConfigSetParameter(void *handle, int param, double value, uint8_t subValue, int ordinal, int timeoutMs)
 {
 	SnobotSim::CtreCanifierWrapper* wrapper = ConvertToCanifierWrapper(handle);
     wrapper->Send("ConfigSetParameter", param, value, subValue, ordinal);
@@ -176,6 +207,12 @@ ctre::phoenix::ErrorCode c_CANifier_ConfigGetParameter(void *handle, int param, 
     return (ctre::phoenix::ErrorCode)0;
 }
 
+ctre::phoenix::ErrorCode c_CANifier_ConfigGetParameter_6(void *handle, int32_t param, int32_t valueToSend, int32_t * valueRecieved, uint8_t * subValue, int32_t ordinal, int32_t timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
 ctre::phoenix::ErrorCode c_CANifier_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs)
 {
 	SnobotSim::CtreCanifierWrapper* wrapper = ConvertToCanifierWrapper(handle);
@@ -188,6 +225,12 @@ ctre::phoenix::ErrorCode c_CANifier_ConfigGetCustomParam(void *handle, int *read
     RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex));
     PoplateReceiveResults(buffer, readValue, buffer_pos);
     PoplateReceiveResults(buffer, &paramIndex, buffer_pos);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_CANifier_ConfigFactoryDefault(void *handle, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -226,7 +269,7 @@ ctre::phoenix::ErrorCode c_CANifier_HasResetOccurred(void *handle, bool * hasRes
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_CANifier_SetStatusFramePeriod(void *handle, int frame, int periodMs, int timeoutMs)
+ctre::phoenix::ErrorCode c_CANifier_SetStatusFramePeriod(void *handle, int frame, uint8_t periodMs, int timeoutMs)
 {
 	SnobotSim::CtreCanifierWrapper* wrapper = ConvertToCanifierWrapper(handle);
     wrapper->Send("SetStatusFramePeriod", frame, periodMs);

@@ -32,12 +32,17 @@ script:
   - cp -r $HOME/.m2/repository/com/snobot/simulator ../../pjreiniger/maven_repo/com/snobot
 
 
-# deploy:
-#   - provider: script
-#     script: pwd; cd ../../pjreiniger/maven_repo; pwd; ls; chmod +x commit_updates.sh; ./commit_updates.sh
-#     skip_cleanup: true
-#     on:
-#       branch: master
+deploy:
+  - provider: script
+    script: pwd; cd ../../pjreiniger/maven_repo; pwd; ls; chmod +x commit_updates.sh; ./commit_updates.sh
+    skip_cleanup: true
+    on:
+      branch: master
+  - provider: script
+    script: pwd; cd ../../pjreiniger/maven_repo; pwd; ls; chmod +x commit_updates.sh; ./commit_updates.sh
+    skip_cleanup: true
+    on:
+      branch: 2019-beta
 
 env:
   global:

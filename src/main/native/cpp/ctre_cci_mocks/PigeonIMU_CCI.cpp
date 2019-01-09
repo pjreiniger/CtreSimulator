@@ -1,5 +1,5 @@
 
-#include "ctre/phoenix/CCI/PigeonIMU_CCI.h"
+#include "ctre/phoenix/cci/PigeonIMU_CCI.h"
 
 #include <cstring>
 #include <vector>
@@ -36,14 +36,14 @@ void *c_PigeonIMU_Create1(int deviceNumber)
     return output;
 }
 
-ctre::phoenix::ErrorCode c_PigeonIMU_GetDescription(void *handle, char * toFill, int toFillByteSz, int * numBytesFilled)
+ctre::phoenix::ErrorCode c_PigeonIMU_GetDescription(void *handle, char * toFill, int toFillByteSz, size_t * numBytesFilled)
 {
     RECEIVE_HELPER("GetDescription", 1);
     offset += 1; // Removes compiler warning
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_PigeonIMU_ConfigSetParameter(void *handle, int param, double value, int subValue, int ordinal, int timeoutMs)
+ctre::phoenix::ErrorCode c_PigeonIMU_ConfigSetParameter(void *handle, int param, double value, uint8_t subValue, int ordinal, int timeoutMs)
 {
     PigeonImuSimulatorWrapper* wrapper = ConvertToPigeonWrapper(handle);
     wrapper->Send("ConfigSetParameter", param, value, subValue, ordinal);
@@ -54,6 +54,12 @@ ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetParameter(void *handle, int param,
 {
     RECEIVE_HELPER("ConfigGetParameter", sizeof(param) + sizeof(*value) + sizeof(ordinal));
     PoplateReceiveResults(buffer, value, offset);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetParameter_6(void *handle, int32_t param, int32_t valueToSend, int32_t * valueRecieved,uint8_t * subValue, int32_t ordinal, int32_t timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -68,6 +74,12 @@ ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetCustomParam(void *handle, int *rea
 {
     RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex));
     PoplateReceiveResults(buffer, readValue, offset);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_PigeonIMU_ConfigFactoryDefault(void *handle, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -120,10 +132,9 @@ ctre::phoenix::ErrorCode c_PigeonIMU_SetAccumZAngle(void *handle, double angleDe
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_PigeonIMU_ConfigTemperatureCompensationEnable(void *handle, int bTempCompEnable, int timeoutMs)
+ctre::phoenix::ErrorCode c_PigeonIMU_SetTemperatureCompensationDisable(void *handle, int bTempCompDisable, int timeoutMs)
 {
-    PigeonImuSimulatorWrapper* wrapper = ConvertToPigeonWrapper(handle);
-    wrapper->Send("ConfigTemperatureCompensationEnable", bTempCompEnable);
+    LOG_UNSUPPORTED_CAN_FUNC("");
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -363,7 +374,7 @@ ctre::phoenix::ErrorCode c_PigeonIMU_ClearStickyFaults(void *handle, int timeout
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_PigeonIMU_SetStatusFramePeriod(void *handle, int frame, int periodMs, int timeoutMs)
+ctre::phoenix::ErrorCode c_PigeonIMU_SetStatusFramePeriod(void *handle, int frame, uint8_t periodMs, int timeoutMs)
 {
     PigeonImuSimulatorWrapper* wrapper = ConvertToPigeonWrapper(handle);
     wrapper->Send("SetStatusFramePeriod", frame, periodMs, timeoutMs);

@@ -1,5 +1,5 @@
 
-#include "ctre/phoenix/CCI/Logger_CCI.h"
+#include "ctre/phoenix/cci/Logger_CCI.h"
 
 #include <cstring>
 #include <iostream>
