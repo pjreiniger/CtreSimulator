@@ -3,6 +3,9 @@ import os
 import re
 
 
+JAVA_PATH = r'C:\Program Files\Java\jdk1.8.0_191'
+LIB_VERSION = "5.12.0"
+LIB_HASH = "67bee152c70e47d981b1ecb1b7d6b59465aa506e"
 
 def create_tests(jar_path):
     output_dir = "build/tempCreateTests"
@@ -12,7 +15,7 @@ def create_tests(jar_path):
         
         
     unzip_args = []
-    unzip_args.append(r'C:\Program Files\Java\jdk1.8.0_191\bin\jar')
+    unzip_args.append(JAVA_PATH + r'\bin\jar')
     unzip_args.append("xf")
     unzip_args.append(jar_path)
     unzip_args.append("com/ctre/phoenix/motorcontrol/can/TalonSRX.class")
@@ -47,7 +50,7 @@ def run_javap(objName, class_file):
     print "File %s ---------------------" % class_file
 
     javap_args = []
-    javap_args.append(r'C:\Program Files\Java\jdk1.8.0_191\bin\javap')
+    javap_args.append(JAVA_PATH + r'\bin\javap')
     javap_args.append(class_file)
     p = subprocess.Popen(javap_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     
@@ -89,8 +92,5 @@ def run_javap(objName, class_file):
                 
             
     print tests
-    
-#     print stdout
 
-
-create_tests(r'C:\Users\PJ\.gradle\caches\modules-2\files-2.1\com.ctre.phoenix\api-java\5.9.2\64e79e598e81bcb62fd084bfb70c8abffad1524e/api-java-5.9.2.jar')
+create_tests(r'C:\Users\PJ\.gradle\caches\modules-2\files-2.1\com.ctre.phoenix\api-java\{lib_version}\{lib_hash}/api-java-{lib_version}.jar'.format(lib_hash=LIB_HASH, lib_version=LIB_VERSION))

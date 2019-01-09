@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import org.junit.jupiter.api.Test;
 
 import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.motion.BufferedTrajectoryPointStream;
 import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlFrame;
@@ -13,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.FollowerType;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -31,17 +33,30 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
 
 public class TestMotorControllerFunctions {
-	private CtreCallback mTestCallback = new CtreCallback() {
+    private CtreCallback mTestCallback = new CtreCallback()
+    {
 
-		@Override
-		public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount) {
-			System.out.println("Getting callback " + aName);
-		}
-	};
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
+        {
+            System.out.println("Getting callback " + aName);
+        }
+    };
+    private CtreCallback mTestBuffTrajPointStreamCallback = new CtreCallback()
+    {
+
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
+        {
+            System.out.println("Getting TrajPoint callback " + aName);
+        }
+    };
 
     @Test
     public void testAllFunctions()
     {
+        CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
+
         TalonSRX talon = new TalonSRX(0);
         TalonSRX followTalon = new TalonSRX(1);
         CtreJni.registerCanMotorCallback(mTestCallback);
@@ -76,6 +91,10 @@ public class TestMotorControllerFunctions {
         talon.selectDemandType(false);
         talon.setSensorPhase(false);
         talon.setInverted(false);
+        for (InvertType invertType : InvertType.values())
+        {
+            talon.setInverted(invertType);
+        }
         talon.getInverted();
         talon.configFactoryDefault(0);
         talon.configFactoryDefault();
@@ -289,8 +308,12 @@ public class TestMotorControllerFunctions {
         talon.getClosedLoopTarget(0);
         talon.getClosedLoopTarget();
         talon.getActiveTrajectoryPosition();
+        talon.getActiveTrajectoryPosition(0);
         talon.getActiveTrajectoryVelocity();
+        talon.getActiveTrajectoryVelocity(0);
         talon.getActiveTrajectoryHeading();
+        talon.getActiveTrajectoryArbFeedFwd();
+        talon.getActiveTrajectoryArbFeedFwd(0);
         talon.configMotionCruiseVelocity(0, 0);
         talon.configMotionCruiseVelocity(0);
         talon.configMotionAcceleration(0, 0);
@@ -298,6 +321,11 @@ public class TestMotorControllerFunctions {
         talon.clearMotionProfileTrajectories();
         talon.getMotionProfileTopLevelBufferCount();
         talon.pushMotionProfileTrajectory(trajectoryPoint);
+        for (ControlMode controlMode : ControlMode.values())
+        {
+            talon.startMotionProfile(new BufferedTrajectoryPointStream(), 0, controlMode);
+        }
+        talon.isMotionProfileFinished();
         talon.isMotionProfileTopLevelBufferFull();
         talon.processMotionProfileBuffer();
         talon.getMotionProfileStatus(new MotionProfileStatus());
@@ -306,6 +334,8 @@ public class TestMotorControllerFunctions {
         talon.changeMotionControlFramePeriod(0);
         talon.configMotionProfileTrajectoryPeriod(0, 0);
         talon.configMotionProfileTrajectoryPeriod(0);
+        talon.configMotionProfileTrajectoryInterpolationEnable(false, 0);
+        talon.configMotionProfileTrajectoryInterpolationEnable(false);
         talon.configFeedbackNotContinuous(false, 0);
         talon.configRemoteSensorClosedLoopDisableNeutralOnLOS(false, 0);
         talon.configClearPositionOnLimitF(false, 0);

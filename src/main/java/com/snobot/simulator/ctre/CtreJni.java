@@ -19,4 +19,8 @@ public final class CtreJni
     public static native void registerCanCanifierCallback(CtreCallback aCallback);
 
     public static native void cancelCanCanifierCallback();
+
+    public static native void registerCanBuffTrajPointStreamCallback(CtreCallback aCallback);
+
+    public static native void cancelCanCanBuffTrajPointStreamCallback();
 }

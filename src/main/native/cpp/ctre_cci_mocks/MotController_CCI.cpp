@@ -169,6 +169,13 @@ void c_MotController_EnableVoltageCompensation(void *handle, bool enable)
     wrapper->Send("EnableVoltageCompensation", enable);
 }
 
+ctre::phoenix::ErrorCode c_MotController_GetInverted(void *handle, bool *invert)
+{
+    RECEIVE_HELPER("GetInverted", sizeof(*invert));
+    PoplateReceiveResults(buffer, invert, buffer_pos);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
 ctre::phoenix::ErrorCode c_MotController_GetBusVoltage(void *handle, double *voltage)
 {
     RECEIVE_HELPER("GetBusVoltage", sizeof(*voltage));
@@ -451,6 +458,30 @@ ctre::phoenix::ErrorCode c_MotController_GetActiveTrajectoryHeading(void *handle
 {
     RECEIVE_HELPER("GetActiveTrajectoryHeading", sizeof(*param));
     PoplateReceiveResults(buffer, param, buffer_pos);
+    return (ctre::phoenix::ErrorCode) 0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_GetActiveTrajectoryPosition_3(void *handle, int *param, int pidIdx)
+{
+    RECEIVE_HELPER("GetActiveTrajectoryPosition_3", sizeof(*param) + sizeof(pidIdx));
+    PoplateReceiveResults(buffer, param, buffer_pos);
+    PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_GetActiveTrajectoryVelocity_3(void *handle, int *param, int pidIdx)
+{
+    RECEIVE_HELPER("GetActiveTrajectoryVelocity_3", sizeof(*param) + sizeof(pidIdx));
+    PoplateReceiveResults(buffer, param, buffer_pos);
+    PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_GetActiveTrajectoryArbFeedFwd_3(void *handle, double *param, int pidIdx)
+{
+    RECEIVE_HELPER("GetActiveTrajectoryArbFeedFwd_3", sizeof(*param) + sizeof(pidIdx));
+    PoplateReceiveResults(buffer, param, buffer_pos);
+    PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -518,6 +549,14 @@ ctre::phoenix::ErrorCode c_MotController_PushMotionProfileTrajectory_3(
     wrapper->Send("PushMotionProfileTrajectory_3", position, velocity,
             arbFeedFwd, auxiliaryPos, auxiliaryVel, auxiliaryArbFeedFwd,
             profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos0, timeDur, useAuxPID);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_StartMotionProfile(void *handle, void * streamHandle, uint32_t minBufferedPts, ctre::phoenix::motorcontrol::ControlMode controlMode)
+{
+    int castControlMode = (int) controlMode;
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("StartMotionProfile", minBufferedPts, castControlMode);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -597,6 +636,14 @@ ctre::phoenix::ErrorCode c_MotController_ConfigMotionProfileTrajectoryPeriod(
     wrapper->Send("ConfigMotionProfileTrajectoryPeriod", durationMs, timeoutMs);
     return (ctre::phoenix::ErrorCode)0;
 }
+
+ctre::phoenix::ErrorCode c_MotController_ConfigMotionProfileTrajectoryInterpolationEnable(void *handle, bool enable, int timeoutMs)
+{
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("ConfigMotionProfileTrajectoryInterpolationEnable", enable, timeoutMs);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
 ctre::phoenix::ErrorCode c_MotController_ConfigFeedbackNotContinuous(void *handle,
             bool feedbackNotContinuous, int timeoutMs)
 {

@@ -12,6 +12,7 @@ static jmethodID sCtreBufferCallbackCallback;
 static jobject sCtreMotorCallbackObject = NULL;
 static jobject sCtrePigeonCallbackObject = NULL;
 static jobject sCtreCanifierCallbackObject = NULL;
+static jobject sCtrTrajBufferPointStreamCallbackObject = NULL;
 }  // namespace SnobotSimJava
 
 extern "C" {
@@ -213,6 +214,52 @@ JNIEXPORT void JNICALL Java_com_snobot_simulator_ctre_CtreJni_cancelCanCanifierC
         env->DeleteGlobalRef(SnobotSimJava::sCtreCanifierCallbackObject);
     }
     SnobotSimJava::sCtreCanifierCallbackObject = NULL;
+}
+
+/*
+ * Class:     com_snobot_simulator_ctre_CtreJni
+ * Method:    registerCanBuffTrajPointStreamCallback
+ * Signature: (Lcom/snobot/simulator/ctre/CtreCallback;)V
+ */
+JNIEXPORT void JNICALL Java_com_snobot_simulator_ctre_CtreJni_registerCanBuffTrajPointStreamCallback
+  (JNIEnv * aEnv, jclass, jobject callback)
+{
+    SnobotSimJava::sCtrTrajBufferPointStreamCallbackObject = aEnv->NewGlobalRef(callback);
+
+    auto callbackFunc = [](const char* name,
+                                uint32_t messageId,
+                                uint8_t* buffer,
+                                int length) {
+        JavaVMAttachArgs args = { JNI_VERSION_1_6, 0, 0 };
+        JNIEnv* env;
+        SnobotSimJava::sJvm->AttachCurrentThread(reinterpret_cast<void**>(&env), &args);
+
+        jobject dataBuffer = env->NewDirectByteBuffer(const_cast<uint8_t*>(buffer), static_cast<uint32_t>(length));
+        jstring nameString = env->NewStringUTF(name);
+
+        if (SnobotSimJava::sCtrTrajBufferPointStreamCallbackObject)
+        {
+            env->CallVoidMethod(SnobotSimJava::sCtrTrajBufferPointStreamCallbackObject, SnobotSimJava::sCtreBufferCallbackCallback, nameString,
+                    messageId, dataBuffer, length);
+        }
+    };
+
+    SnobotSim::SetBuffTrajPiontStreamCallback(callbackFunc);
+}
+
+/*
+ * Class:     com_snobot_simulator_ctre_CtreJni
+ * Method:    cancelCanCanBuffTrajPointStreamCallback
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_snobot_simulator_ctre_CtreJni_cancelCanCanBuffTrajPointStreamCallback
+  (JNIEnv * env, jclass)
+{
+    if (SnobotSimJava::sCtrTrajBufferPointStreamCallbackObject)
+    {
+        env->DeleteGlobalRef(SnobotSimJava::sCtrTrajBufferPointStreamCallbackObject);
+    }
+    SnobotSimJava::sCtrTrajBufferPointStreamCallbackObject = NULL;
 }
 
 }  // extern "C"
