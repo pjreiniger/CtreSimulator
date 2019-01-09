@@ -111,6 +111,9 @@ dependencies {
     testCompile "com.ctre.phoenix:wpiapi-java:" + ctre_library_version
 }
 
+System.out.println("Home: " + System.getProperty("user.home"))
+System.out.println("M2 : " + System.getenv("M2_HOME"))
+
 test {
     useJUnitPlatform()
     testLogging {

@@ -47,6 +47,11 @@ jobs:
         tasks: 'build publishToMavenLocal'
         options: '-PciBuild -Dhttp.socketTimeout=60000 -Dhttp.connectionTimeout=60000'
 
+    - powershell: |
+        pwd
+        dir
+        dir %USERPROFILE%
+      displayName: 'Testtttt'
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: maven repo'
       inputs:
@@ -79,6 +84,11 @@ jobs:
         tasks: 'build publishToMavenLocal'
         options: '-PciBuild -Dhttp.socketTimeout=60000 -Dhttp.connectionTimeout=60000'
 
+    - powershell: |
+        pwd
+        dir
+        dir %USERPROFILE%
+      displayName: 'Testtttt'
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: maven repo'
       inputs:
@@ -107,6 +117,10 @@ jobs:
         tasks: 'build publishToMavenLocal'
         options: '-PciBuild -Dhttp.socketTimeout=60000 -Dhttp.connectionTimeout=60000'
 
+    - script: |
+        pwd
+        ls -al
+        ls ~
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: maven repo'
       inputs:
