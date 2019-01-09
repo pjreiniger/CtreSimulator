@@ -44,18 +44,13 @@ jobs:
         gradleOptions: '-Xmx3072m'
         publishJUnitResults: true
         testResultsFiles: '**/TEST-*.xml'
-        tasks: 'build publishToMavenLocal'
+        tasks: 'build publish'
         options: '-PciBuild -Dhttp.socketTimeout=60000 -Dhttp.connectionTimeout=60000'
 
-    - powershell: |
-        pwd
-        dir
-        dir %USERPROFILE%
-      displayName: 'Testtttt'
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: maven repo'
       inputs:
-        PathtoPublish: '$(Agent.HomeDirectory)/.m2/repository/com/snobot/simulator'
+        PathtoPublish: 'build/maven_repo'
         ArtifactName: 'Win64Maven'
 
 
@@ -81,18 +76,13 @@ jobs:
         gradleOptions: '-Xmx1024m'
         publishJUnitResults: true
         testResultsFiles: '**/TEST-*.xml'
-        tasks: 'build publishToMavenLocal'
+        tasks: 'build publish'
         options: '-PciBuild -Dhttp.socketTimeout=60000 -Dhttp.connectionTimeout=60000'
 
-    - powershell: |
-        pwd
-        dir
-        dir %USERPROFILE%
-      displayName: 'Testtttt'
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: maven repo'
       inputs:
-        PathtoPublish: '$(Agent.HomeDirectory)/.m2/repository/com/snobot/simulator'
+        PathtoPublish: 'build/maven_repo'
         ArtifactName: 'Win32Maven'
 
  - job: Mac
@@ -114,17 +104,13 @@ jobs:
         jdkDirectory: '/Library/Java/JavaVirtualMachines/jdk-11.jdk/Contents/Home/'
         publishJUnitResults: true
         testResultsFiles: '**/TEST-*.xml'
-        tasks: 'build publishToMavenLocal'
+        tasks: 'build publish'
         options: '-PciBuild -Dhttp.socketTimeout=60000 -Dhttp.connectionTimeout=60000'
 
-    - script: |
-        pwd
-        ls -al
-        ls ~
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: maven repo'
       inputs:
-        PathtoPublish: '$(Agent.HomeDirectory)/.m2/repository/com/snobot/simulator'
+        PathtoPublish: 'build/maven_repo'
         ArtifactName: 'OSXMaven'
 
  - job: PrepareMaven

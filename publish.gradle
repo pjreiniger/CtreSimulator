@@ -42,6 +42,11 @@ ext.maven_publishing_path = "$rootDir/build/maven_repo/"
 
 model {
     publishing {
+        repositories {
+           maven {
+               url "build/maven_repo"
+           }
+        }
 
         def jniLibraryTaskList = createComponentZipTasks($.components, [libraryName], zipBaseName, Zip, project, includeStandardZipFormat)
     
