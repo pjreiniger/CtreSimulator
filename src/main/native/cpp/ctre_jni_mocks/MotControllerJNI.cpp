@@ -33,10 +33,9 @@ JNIEXPORT jlong JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_
  * Signature: (J)I
  */
 JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_JNI_1destroy_1MotController
-  (JNIEnv *, jclass, jlong)
+  (JNIEnv *, jclass, jlong handle)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
-    return 0;
+    return (jint) c_MotController_Destroy(ConvertToMotorControllerWrapper(handle));
 }
 
 /*
@@ -106,6 +105,17 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_S
   (JNIEnv *, jclass, jlong handle, jboolean inverted)
 {
     c_MotController_SetInverted(ConvertToMotorControllerWrapper(handle), inverted);
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    SetInverted_2
+ * Signature: (JI)V
+ */
+JNIEXPORT void JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetInverted_12
+  (JNIEnv *, jclass, jlong handle, jint inverted)
+{
+    c_MotController_SetInverted_2(ConvertToMotorControllerWrapper(handle), inverted);
 }
 
 /*
@@ -227,6 +237,19 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_E
   (JNIEnv *, jclass, jlong handle, jboolean value)
 {
     c_MotController_EnableVoltageCompensation(ConvertToMotorControllerWrapper(handle), value);
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    GetInverted
+ * Signature: (J)B
+ */
+JNIEXPORT jboolean JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetInverted
+  (JNIEnv *, jclass, jlong handle)
+{
+    bool inverted = false;
+    c_MotController_GetInverted(ConvertToMotorControllerWrapper(handle), &inverted);
+    return inverted;
 }
 
 /*
@@ -634,6 +657,48 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_S
     c_MotController_SelectProfileSlot(ConvertToMotorControllerWrapper(handle), slotIdx, pidIdx);
 }
 
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    GetActiveTrajectoryPosition3
+ * Signature: (JI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetActiveTrajectoryPosition3
+  (JNIEnv *, jclass, jlong handle, jint pidIdx)
+{
+    int output = 0;
+    c_MotController_GetActiveTrajectoryPosition_3(ConvertToMotorControllerWrapper(handle), &output, pidIdx);
+    return output;
+}
+
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    GetActiveTrajectoryVelocity3
+ * Signature: (JI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetActiveTrajectoryVelocity3
+  (JNIEnv *, jclass, jlong handle, jint pidIdx)
+{
+    int output = 0;
+    c_MotController_GetActiveTrajectoryVelocity_3(ConvertToMotorControllerWrapper(handle), &output, pidIdx);
+    return output;
+}
+
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    GetActiveTrajectoryArbFeedFwd3
+ * Signature: (JI)D
+ */
+JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetActiveTrajectoryArbFeedFwd3
+  (JNIEnv *, jclass, jlong handle, jint pidIdx)
+{
+    double output = 0;
+    c_MotController_GetActiveTrajectoryArbFeedFwd_3(ConvertToMotorControllerWrapper(handle), &output, pidIdx);
+    return output;
+}
+
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
  * Method:    GetActiveTrajectoryPosition
@@ -744,6 +809,34 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_P
             profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos, durationMs);
 }
 
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    PushMotionProfileTrajectory3
+ * Signature: (JDDDDDDIIZZIZ)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_PushMotionProfileTrajectory3
+  (JNIEnv *, jclass, jlong handle, jdouble position, jdouble velocity,
+          jdouble arbFeedFwd, jdouble auxiliaryPos, jdouble auxiliaryVel, jdouble auxiliaryArbFeedFwd,
+          jint profileSlotSelect0, jint profileSlotSelect1, jboolean isLastPoint, jboolean zeroPos0, jint timeDur, jboolean useAuxPID)
+{
+    return (jint) c_MotController_PushMotionProfileTrajectory_3(
+            ConvertToMotorControllerWrapper(handle), position, velocity,
+            arbFeedFwd, auxiliaryPos, auxiliaryVel, auxiliaryArbFeedFwd,
+            profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos0, timeDur, useAuxPID);
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    StartMotionProfile
+ * Signature: (JJII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_StartMotionProfile
+  (JNIEnv *, jclass, jlong handle, jlong streamHandle, jint minBufferedPts, jint controlMode)
+{
+    c_MotController_StartMotionProfile(ConvertToMotorControllerWrapper(handle), NULL, minBufferedPts, (ctre::phoenix::motorcontrol::ControlMode) controlMode);
+    return 0;
+}
+
 
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
@@ -754,6 +847,19 @@ JNIEXPORT jboolean JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJ
   (JNIEnv *, jclass, jlong handle)
 {
     bool output = 0;
+    c_MotController_IsMotionProfileTopLevelBufferFull(ConvertToMotorControllerWrapper(handle), &output);
+    return output;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    IsMotionProfileFinished
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_IsMotionProfileFinished
+  (JNIEnv *, jclass, jlong handle)
+{
+    bool output = false;
     c_MotController_IsMotionProfileTopLevelBufferFull(ConvertToMotorControllerWrapper(handle), &output);
     return output;
 }
@@ -883,6 +989,18 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_C
   (JNIEnv*, jclass, jlong handle, jint durationMs, jint timeoutMs)
 {
     return (jint) c_MotController_ConfigMotionProfileTrajectoryPeriod(ConvertToMotorControllerWrapper(handle), durationMs, timeoutMs);
+}
+
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigMotionProfileTrajectoryInterpolationEnable
+ * Signature: (JZI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigMotionProfileTrajectoryInterpolationEnable
+  (JNIEnv *, jclass, jlong handle, jboolean enable, jint timeoutMs)
+{
+    return c_MotController_ConfigMotionProfileTrajectoryInterpolationEnable(ConvertToMotorControllerWrapper(handle), enable, timeoutMs);
 }
 
 /*

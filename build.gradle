@@ -9,8 +9,8 @@ plugins {
     id "eclipse"
 }
 
-ext.ctre_library_version = "5.9.2"
-ext.release_version = "V0_" + ctre_library_version + "_RC"
+ext.ctre_library_version = "5.12.0"
+ext.release_version = ctre_library_version + "_V0_RC"
 
 repositories {
     mavenCentral()
@@ -110,6 +110,9 @@ dependencies {
     testCompile "com.ctre.phoenix:api-java:" + ctre_library_version
     testCompile "com.ctre.phoenix:wpiapi-java:" + ctre_library_version
 }
+
+System.out.println("Home: " + System.getProperty("user.home"))
+System.out.println("M2 : " + System.getenv("M2_HOME"))
 
 test {
     useJUnitPlatform()
