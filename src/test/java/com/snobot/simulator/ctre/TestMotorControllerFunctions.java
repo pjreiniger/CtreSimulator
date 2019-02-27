@@ -318,6 +318,8 @@ public class TestMotorControllerFunctions {
         talon.configMotionCruiseVelocity(0);
         talon.configMotionAcceleration(0, 0);
         talon.configMotionAcceleration(0);
+        talon.configMotionSCurveStrength(0, 0);
+        talon.configMotionSCurveStrength(0);
         talon.clearMotionProfileTrajectories();
         talon.getMotionProfileTopLevelBufferCount();
         talon.pushMotionProfileTrajectory(trajectoryPoint);

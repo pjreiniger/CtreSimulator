@@ -508,6 +508,13 @@ ctre::phoenix::ErrorCode c_MotController_ConfigMotionAcceleration(void *handle, 
     return (ctre::phoenix::ErrorCode)0;
 }
 
+ctre::phoenix::ErrorCode c_MotController_ConfigMotionSCurveStrength(void *handle, int curveStrength, int timeoutMs)
+{
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("ConfigMotionSCurveStrength", curveStrength);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
 ctre::phoenix::ErrorCode c_MotController_ClearMotionProfileTrajectories(void *handle)
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);

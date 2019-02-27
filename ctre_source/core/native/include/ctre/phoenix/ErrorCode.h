@@ -67,6 +67,7 @@ enum ErrorCode
     MotorControllerFeatureRequiresHigherFirm = -701,
     TalonFeatureRequiresHigherFirm = MotorControllerFeatureRequiresHigherFirm,
     ConfigFactoryDefaultRequiresHigherFirm = -702,
+	ConfigMotionSCurveRequiresHigherFirm = -703,
 
 	//Operating system centric
 	LibraryCouldNotBeLoaded = -800,

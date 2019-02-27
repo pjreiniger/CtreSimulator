@@ -9,7 +9,7 @@ plugins {
     id "eclipse"
 }
 
-ext.ctre_library_version = "5.13.0"
+ext.ctre_library_version = "5.14.0"
 ext.release_version = ctre_library_version + "_V0_RC"
 
 repositories {
