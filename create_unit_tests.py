@@ -1,11 +1,15 @@
 import subprocess
 import os
 import re
+import collections
 
 
 JAVA_PATH = r'C:\Program Files\Java\jdk1.8.0_191'
-LIB_VERSION = "5.12.0"
-LIB_HASH = "67bee152c70e47d981b1ecb1b7d6b59465aa506e"
+LIB_VERSION = "5.13.0"
+LIB_HASH = "f9b2c1e7b6f2cabc3204e791386c47a856654fc5"
+ARTIFACT_PACKAGE = "com.ctre.phoenix"
+ARTIFACT_NAME = "api-java"
+M2_DIRECTORY = r'C:\Users\PJ\.gradle\caches\modules-2\files-2.1'
 
 def create_tests(jar_path):
     output_dir = "build/tempCreateTests"
@@ -13,24 +17,28 @@ def create_tests(jar_path):
         os.makedirs(output_dir)
     os.chdir(output_dir)
         
+    classes = collections.defaultdict(list)
+    classes["talon"].append("com/ctre/phoenix/motorcontrol/can/TalonSRX.class")
+    classes["talon"].append("com/ctre/phoenix/motorcontrol/can/BaseMotorController.class")
+    classes["imu"].append("com/ctre/phoenix/sensors/PigeonIMU.class")
+    classes["canifier"].append("com/ctre/phoenix/CANifier.class")
+     
         
     unzip_args = []
     unzip_args.append(JAVA_PATH + r'\bin\jar')
     unzip_args.append("xf")
     unzip_args.append(jar_path)
-    unzip_args.append("com/ctre/phoenix/motorcontrol/can/TalonSRX.class")
-    unzip_args.append("com/ctre/phoenix/motorcontrol/can/BaseMotorController.class")
-    unzip_args.append("com/ctre/phoenix/sensors/PigeonIMU.class")
-    unzip_args.append("com/ctre/phoenix/CANifier.class")
-     
+
+    for class_list in classes.values():
+        for clazz in class_list:
+            unzip_args.append(clazz)
+    
     print " ".join(unzip_args)
     print subprocess.call(unzip_args)
 
-    
-    run_javap("talon", r'com/ctre/phoenix/motorcontrol/can/TalonSRX.class')
-    run_javap("talon", r'com/ctre/phoenix/motorcontrol/can/BaseMotorController.class')
-    run_javap("imu", r'com/ctre/phoenix/sensors/PigeonIMU.class')
-    run_javap("canifier", r'com/ctre/phoenix/CANifier.class')
+    for key in classes:
+        for clazz in classes[key]:
+            run_javap(key, clazz)
     
     
 def prepare_variable_name(in_name):
@@ -93,4 +101,9 @@ def run_javap(objName, class_file):
             
     print tests
 
-create_tests(r'C:\Users\PJ\.gradle\caches\modules-2\files-2.1\com.ctre.phoenix\api-java\{lib_version}\{lib_hash}/api-java-{lib_version}.jar'.format(lib_hash=LIB_HASH, lib_version=LIB_VERSION))
+create_tests(r'C:\Users\PJ\.gradle\caches\modules-2\files-2.1\{artifact_package}\{artifact_name}\{lib_version}\{lib_hash}/{artifact_name}-{lib_version}.jar'.format(
+        lib_hash=LIB_HASH,
+        lib_version=LIB_VERSION,
+        m2_dir=M2_DIRECTORY,
+        artifact_package=ARTIFACT_PACKAGE,
+        artifact_name=ARTIFACT_NAME))

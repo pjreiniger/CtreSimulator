@@ -13,6 +13,9 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Returns the Device ID
 	 *
+	 * @param handle
+	 *            handle of device.
+	 * 
 	 * @return Device number.
 	 */
 	public static native int GetDeviceNumber(long handle);
@@ -20,6 +23,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the demand (output) of the motor controller.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param mode
 	 *            Control Mode of the Motor Controller
 	 * @param demand0
@@ -37,6 +42,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the mode of operation during neutral throttle output.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param neutralMode
 	 *            The desired mode of operation when the Controller output
 	 *            throttle is neutral (ie brake/coast)
@@ -47,6 +54,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	 * Sets the phase of the sensor. Use when controller forward/reverse output
 	 * doesn't correlate to appropriate forward/reverse reading of sensor.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param PhaseSensor
 	 *            Indicates whether to invert the phase of the sensor.
 	 **/
@@ -57,6 +66,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	 * switches will also be inverted to match the new forward/reverse
 	 * directions.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param invert
 	 *            Invert state to set.
 	 **/
@@ -67,14 +78,21 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	 * switches will also be inverted to match the new forward/reverse
 	 * directions.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param invert
 	 *            Invert state to set.
 	 **/
 	public static native void SetInverted_2(long handle, int invert);
 	
 	/**
-	 * Configure all configurations to factory default values
+	 * Revert all configurations to factory default values.
+	 * Use this before your individual config* calls to avoid having to config every single param.
+	 *
+	 * Alternatively you can use the configAllSettings routine.
 	 * 
+	 * @param handle
+	 *            handle of device.
 	 * @param timeoutMs
 	 *            Timeout value in ms. Function will generate error if config is
 	 *            not successful within timeout.
@@ -85,6 +103,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Configures the open-loop ramp rate of throttle output.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param secondsFromNeutralToFull
 	 *            Minimum desired time to go from neutral to full throttle. A
 	 *            value of '0' will disable the ramp.
@@ -98,6 +118,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Configures the closed-loop ramp rate of throttle output.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param secondsFromNeutralToFull
 	 *            Minimum desired time to go from neutral to full throttle. A
 	 *            value of '0' will disable the ramp.
@@ -110,6 +132,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Configures the forward peak output percentage.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param percentOut
 	 *            Desired peak output percentage.
 	 * @param timeoutMs
@@ -121,6 +145,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Configures the reverse peak output percentage.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param percentOut
 	 *            Desired peak output percentage.
 	 * @param timeoutMs
@@ -132,6 +158,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Configures the forward nominal output percentage.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param percentOut
 	 *            Nominal (minimum) percent output.
 	 * @param timeoutMs
@@ -143,6 +171,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Configures the reverse nominal output percentage.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param percentOut
 	 *            Nominal (minimum) percent output.
 	 * @param timeoutMs
@@ -154,6 +184,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Configures the output deadband percentage.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param percentDeadband
 	 *            Desired deadband percentage. Minimum is 0.1%, Maximum is 25%.
 	 * @param timeoutMs
@@ -165,6 +197,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Configures the Voltage Compensation saturation voltage.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param voltage
 	 *            TO-DO: Comment me!
 	 * @param timeoutMs
@@ -176,6 +210,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Configures the voltage measurement filter.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param filterWindowSamples
 	 *            Number of samples in the rolling average of voltage
 	 *            measurement.
@@ -188,7 +224,11 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Enables voltage compensation. If enabled, voltage compensation works in
 	 * all control modes.
+	 * 
+	 * Be sure to configure the saturation voltage before enabling this.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param enable
 	 *            Enable state of voltage compensation.
 	 **/
@@ -197,6 +237,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Gets the invert state of the motor controller.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @return The invert state.
 	 */
 	public static native boolean GetInverted(long handle);
@@ -204,6 +246,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Gets the bus voltage seen by the motor controller.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @return The bus voltage value (in volts).
 	 */
 	public static native double GetBusVoltage(long handle);
@@ -211,6 +255,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Gets the output percentage of the motor controller.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @return Output of the motor controller (in percent).
 	 */
 	public static native double GetMotorOutputPercent(long handle);
@@ -218,6 +264,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Gets the output current of the motor controller.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @return Output current (in amps).
 	 */
 	public static native double GetOutputCurrent(long handle);
@@ -225,6 +273,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Gets the temperature of the motor controller.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @return The temperature of the motor controller (in 'C)
 	 */
 	public static native double GetTemperature(long handle);
@@ -250,8 +300,12 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Select the feedback device for the motor controller.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param feedbackDevice
 	 *            Feedback Device to select.
+	 * @param pidIdx
+	 *            Which closed loop to manipulate. 0 for primary, 1 for auxiliary
 	 * @param timeoutMs
 	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
 	 * @return Error Code generated by function. 0 indicates no error.
@@ -263,6 +317,10 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Get the selected sensor position.
 	 *
+	 * @param handle
+	 *            handle of device.
+	 * @param pidIdx
+	 *            Which closed loop to manipulate. 0 for primary, 1 for auxiliary
 	 * @return Position of selected sensor (in Raw Sensor Units).
 	 */
 	public static native int GetSelectedSensorPosition(long handle, int pidIdx);
@@ -270,6 +328,10 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Get the selected sensor velocity.
 	 *
+	 * @param handle
+	 *            handle of device.
+	 * @param pidIdx
+	 *            Which closed loop to manipulate. 0 for primary, 1 for auxiliary
 	 * @return Velocity of selected sensor (in Raw Sensor Units per 100 ms).
 	 */
 	public static native int GetSelectedSensorVelocity(long handle, int pidIdx);
@@ -277,8 +339,12 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the sensor position to the given value.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param sensorPos
 	 *            Position to set for the selected sensor (in Raw Sensor Units).
+	 * @param pidIdx
+	 *            Which closed loop to manipulate. 0 for primary, 1 for auxiliary
 	 * @param timeoutMs
 	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
 	 * @return Error Code generated by function. 0 indicates no error.
@@ -288,6 +354,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the period of the given control frame.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param frame
 	 *            Frame whose period is to be changed.
 	 * @param periodMs
@@ -299,6 +367,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the period of the given status frame.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param frame
 	 *            Frame whose period is to be changed.
 	 * @param periodMs
@@ -312,6 +382,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Gets the period of the given status frame.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param frame
 	 *            Frame to get the period of.
 	 * @param timeoutMs
@@ -323,9 +395,11 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the period over which velocity measurements are taken.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param period
 	 *            Desired period for the velocity measurement. @see
-	 *            #VelocityMeasPeriod
+	 *            com.ctre.phoenix.motorcontrol.VelocityMeasPeriod
 	 * @param timeoutMs
 	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
 	 * @return Error Code generated by function. 0 indicates no error.
@@ -336,6 +410,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	 * Sets the number of velocity samples used in the rolling average velocity
 	 * measurement.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param windowSize
 	 *            Number of samples in the rolling average of velocity
 	 *            measurement.
@@ -348,8 +424,10 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Configures the forward limit switch for a remote source.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param type
-	 *            Remote limit switch source. @see #LimitSwitchSource
+	 *            Remote limit switch source. @see com.ctre.phoenix.motorcontrol.LimitSwitchSource
 	 * @param normalOpenOrClose
 	 *            Setting for normally open or normally closed.
 	 * @param deviceID
@@ -364,8 +442,10 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Configures the reverse limit switch for a remote source.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param type
-	 *            Remote limit switch source. @see #LimitSwitchSource
+	 *            Remote limit switch source. @see com.ctre.phoenix.motorcontrol.LimitSwitchSource
 	 * @param normalOpenOrClose
 	 *            Setting for normally open or normally closed.
 	 * @param deviceID
@@ -380,6 +460,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the enable state for limit switches.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param enable
 	 *            Enable state for limit switches.
 	 **/
@@ -388,6 +470,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Configures the forward soft limit.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param forwardSensorLimit
 	 *            Forward Sensor Position Limit (in Raw Sensor Units).
 	 * @param timeoutMs
@@ -399,6 +483,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Configures the reverse soft limit.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param reverseSensorLimit
 	 *            Reverse Sensor Position Limit (in Raw Sensor Units).
 	 * @param timeoutMs
@@ -414,6 +500,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the enable state for soft limit switches.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param enable
 	 *            Enable state for soft limit switches.
 	 **/
@@ -421,7 +509,12 @@ public class MotControllerJNI extends CTREJNIWrapper {
 
 	/**
 	 * Sets the 'P' constant in the given parameter slot.
+	 * This is multiplied by closed loop error in sensor units.  
+	 * Note the closed loop output interprets a final value of 1023 as full output.  
+	 * So use a gain of '0.25' to get full output if err is 4096u (Mag Encoder 1 rotation)
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param slotIdx
 	 *            Parameter slot for the constant.
 	 * @param value
@@ -434,7 +527,13 @@ public class MotControllerJNI extends CTREJNIWrapper {
 
 	/**
 	 * Sets the 'I' constant in the given parameter slot.
+	 * This is multiplied by accumulated closed loop error in sensor units every PID Loop.  
+	 * Note the closed loop output interprets a final value of 1023 as full output.  
+	 * So use a gain of '0.00025' to get full output if err is 4096u for 1000 loops (accumulater holds 4,096,000),
+	 * [which is equivalent to one CTRE mag encoder rotation for 1000 milliseconds].
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param slotIdx
 	 *            Parameter slot for the constant.
 	 * @param value
@@ -448,6 +547,12 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the 'D' constant in the given parameter slot.
 	 *
+	 * This is multiplied by derivative error (sensor units per PID loop, typically 1ms).  
+	 * Note the closed loop output interprets a final value of 1023 as full output.  
+	 * So use a gain of '250' to get full output if derr is 4096u (Mag Encoder 1 rotation) per 1000 loops (typ 1 sec)
+	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param slotIdx
 	 *            Parameter slot for the constant.
 	 * @param value
@@ -461,6 +566,12 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the 'F' constant in the given parameter slot.
 	 *
+	 * See documentation for calculation details.  
+	 * If using velocity, motion magic, or motion profile, 
+	 * use (1023 * duty-cycle / sensor-velocity-sensor-units-per-100ms).
+	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param slotIdx
 	 *            Parameter slot for the constant.
 	 * @param value
@@ -474,6 +585,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the Integral Zone constant in the given parameter slot.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param slotIdx
 	 *            Parameter slot for the constant.
 	 * @param izone
@@ -487,10 +600,12 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the allowable closed-loop error in the given parameter slot.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param slotIdx
 	 *            Parameter slot for the constant.
 	 * @param allowableClosedLoopError
-	 *            Value of the allowable closed-loop error.
+	 *            Value of the allowable closed-loop error in sensor units (or sensor units per 100ms for velocity).
 	 * @param timeoutMs
 	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
 	 * @return Error Code generated by function. 0 indicates no error.
@@ -501,6 +616,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the maximum integral accumulator in the given parameter slot.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param slotIdx
 	 *            Parameter slot for the constant.
 	 * @param iaccum
@@ -514,6 +631,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the integral accumulator.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param iaccum
 	 *            Value to set for the integral accumulator.
 	 * @param timeoutMs
@@ -526,8 +645,22 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	public static native int SetIntegralAccumulator(long handle, double iaccum, int pidIdx, int timeoutMs);
 
 	/**
-	 * Gets the closed-loop error.
+	 * Gets the closed-loop error. The units depend on which control mode is in
+	 * use. 
 	 *
+	 * If closed-loop is seeking a target sensor position, closed-loop error is the difference between target 
+	 * and current sensor value (in sensor units.  Example 4096 units per rotation for CTRE Mag Encoder).
+	 *
+	 * If closed-loop is seeking a target sensor velocity, closed-loop error is the difference between target 
+	 * and current sensor value (in sensor units per 100ms).
+	 *
+	 * If using motion profiling or Motion Magic, closed loop error is calculated against the current target,
+	 * and not the "final" target at the end of the profile/movement.
+	 *
+	 * See Phoenix-Documentation information on units.
+	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param pidIdx
 	 *            Which closed loop to manipulate. 0 for primary, 1 for auxiliary
 	 *            secondary loop.
@@ -538,6 +671,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Gets the iaccum value.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param pidIdx
 	 *            Which closed loop to manipulate. 0 for primary, 1 for auxiliary
 	 *            secondary loop.
@@ -548,6 +683,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Gets the derivative of the closed-loop error.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param pidIdx
 	 *            Which closed loop to manipulate. 0 for primary, 1 for auxiliary
 	 *            secondary loop.
@@ -558,6 +695,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Selects which profile slot to use for closed-loop control.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param slotIdx
 	 *            Profile slot to select.
 	 * @param pidIdx
@@ -574,11 +713,14 @@ public class MotControllerJNI extends CTREJNIWrapper {
 
 	public static native int GetActiveTrajectoryPosition3(long handle, int pidIdx);
 	public static native int GetActiveTrajectoryVelocity3(long handle, int pidIdx);
+
 	public static native double GetActiveTrajectoryArbFeedFwd3(long handle, int pidIdx);
 
 	/**
 	 * Sets the Motion Magic Cruise Velocity.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param sensorUnitsPer100ms
 	 *            Motion Magic Cruise Velocity (in Raw Sensor Units per 100 ms).
 	 * @param timeoutMs
@@ -590,6 +732,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the Motion Magic Acceleration.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param sensorUnitsPer100msPerSec
 	 *            Motion Magic Acceleration (in Raw Sensor Units per 100 ms per
 	 *            second).
@@ -652,6 +796,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Gets the last error generated by this object.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @return Last Error Code generated by a function.
 	 */
 	public static native int GetLastError(long handle);
@@ -659,6 +805,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Gets the firmware version of the device.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @return Firmware version of device.
 	 */
 	public static native int GetFirmwareVersion(long handle);
@@ -666,6 +814,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Returns true if the device has reset.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @return Has a Device Reset Occurred?
 	 */
 	public static native boolean HasResetOccurred(long handle);
@@ -673,6 +823,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets the value of a custom parameter.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param newValue
 	 *            Value for custom parameter.
 	 * @param paramIndex
@@ -686,6 +838,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Gets the value of a custom parameter.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param paramIndex
 	 *            Index of custom parameter.
 	 * @param timoutMs
@@ -697,6 +851,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Sets a parameter.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param param
 	 *            Parameter enumeration.
 	 * @param value
@@ -715,6 +871,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Gets a parameter.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param param
 	 *            Parameter enumeration.
 	 * @param ordinal
@@ -728,6 +886,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Configures the peak current limit of the motor controller.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param amps
 	 *            Peak current limit (in amps).
 	 * @param timeoutMs
@@ -740,6 +900,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	 * Configures the maximum time allowed at peak current limit of the motor
 	 * controller.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param milliseconds
 	 *            Maximum time allowed at peak current limit (in milliseconds).
 	 * @param timeoutMs
@@ -751,6 +913,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Configures the continuous current limit.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param amps
 	 *            Continuous Current Limit.
 	 * @param timeoutMs
@@ -762,6 +926,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	/**
 	 * Enables the current limit feature.
 	 *
+	 * @param handle
+	 *            handle of device.
 	 * @param enable
 	 *            Enable state of current limit.
 	 **/

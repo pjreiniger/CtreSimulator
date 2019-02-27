@@ -31,6 +31,14 @@ JNIEXPORT jboolean JNICALL Java_com_ctre_phoenix_unmanaged_UnmanagedJNI_JNI_1Get
 JNIEXPORT jint JNICALL Java_com_ctre_phoenix_unmanaged_UnmanagedJNI_JNI_1GetPhoenixVersion
   (JNIEnv *, jclass);
 
+/*
+ * Class:     com_ctre_phoenix_unmanaged_UnmanagedJNI
+ * Method:    JNI_LoadPhoenix
+ * Signature: ()Z
+ */
+JNIEXPORT void JNICALL Java_com_ctre_phoenix_unmanaged_UnmanagedJNI_JNI_1LoadPhoenix
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif
