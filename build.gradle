@@ -9,7 +9,7 @@ plugins {
     id "eclipse"
 }
 
-ext.ctre_library_version = "5.12.0"
+ext.ctre_library_version = "5.13.0"
 ext.release_version = ctre_library_version + "_V0_RC"
 
 repositories {
@@ -24,7 +24,7 @@ repositories {
 }
 
 ext.allwpilibVersion = {
-    return '2019.1.1'
+    return '2019.4.1'
 }
 
 ext.getWpiUtilVersion = {
@@ -73,7 +73,7 @@ task packageNativeFilesInJar(type: Jar) {
     classifier = org.gradle.internal.os.OperatingSystem.current().getFamilyName() + getCurrentArch();
     if (org.gradle.internal.os.OperatingSystem.current().isMacOsX())
     {
-        classifier = "osx"
+        classifier = "osx" + getCurrentArch();
     }
 
     project.model {
