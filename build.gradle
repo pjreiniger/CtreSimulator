@@ -73,7 +73,7 @@ task packageNativeFilesInJar(type: Jar) {
     classifier = org.gradle.internal.os.OperatingSystem.current().getFamilyName() + getCurrentArch();
     if (org.gradle.internal.os.OperatingSystem.current().isMacOsX())
     {
-        classifier = "osx"
+        classifier = "osx" + getCurrentArch();
     }
 
     project.model {
