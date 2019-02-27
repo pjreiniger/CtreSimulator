@@ -743,6 +743,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	 */
 	public static native int ConfigMotionAcceleration(long handle, int sensorUnitsPer100msPerSec, int timeoutMs);
 
+	public static native int ConfigMotionSCurveStrength(long m_handle, int curveStrength, int timeoutMs);
+
 	public static native int ClearMotionProfileTrajectories(long handle);
 
 	public static native int GetMotionProfileTopLevelBufferCount(long handle);

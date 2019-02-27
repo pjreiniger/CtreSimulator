@@ -760,6 +760,18 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_C
     return (jint)c_MotController_ConfigMotionAcceleration(ConvertToMotorControllerWrapper(handle), sensorUnitsPer100msPerSec, timeoutMs);
 }
 
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigMotionSCurveStrength
+ * Signature: (JII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigMotionSCurveStrength
+  (JNIEnv *, jclass, jlong handle, jint curveStrength, jint timeoutMs)
+{
+    return (jint)c_MotController_ConfigMotionSCurveStrength(ConvertToMotorControllerWrapper(handle), curveStrength, timeoutMs);
+}
+
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
  * Method:    ClearMotionProfileTrajectories
