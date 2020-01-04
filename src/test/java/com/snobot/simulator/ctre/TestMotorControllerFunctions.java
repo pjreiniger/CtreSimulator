@@ -55,10 +55,10 @@ public class TestMotorControllerFunctions {
     @Test
     public void testAllFunctions()
     {
-        CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
 
         TalonSRX talon = new TalonSRX(0);
         TalonSRX followTalon = new TalonSRX(1);
+        CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
         CtreJni.registerCanMotorCallback(mTestCallback);
         
         TrajectoryPoint trajectoryPoint = new TrajectoryPoint();
@@ -461,8 +461,6 @@ public class TestMotorControllerFunctions {
         talon.configContinuousCurrentLimit(0, 0);
         talon.configContinuousCurrentLimit(0);
         talon.enableCurrentLimit(false);
-        talon.configurePID(new TalonSRXPIDSetConfiguration(), 0, 0, false);
-        talon.configurePID(new TalonSRXPIDSetConfiguration());
         talon.getPIDConfigs(new TalonSRXPIDSetConfiguration(), 0, 0);
         talon.getPIDConfigs(new TalonSRXPIDSetConfiguration());
         talon.configAllSettings(new TalonSRXConfiguration(), 0);

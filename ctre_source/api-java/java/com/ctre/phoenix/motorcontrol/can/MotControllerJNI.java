@@ -5,6 +5,8 @@ import com.ctre.phoenix.CTREJNIWrapper;
 public class MotControllerJNI extends CTREJNIWrapper {
 
 	public static native long Create(int baseArbId);
+
+	public static native long Create2(int deviceID, String model);
 	
     public static native int JNI_destroy_MotController(long handle);
 
@@ -19,6 +21,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	 * @return Device number.
 	 */
 	public static native int GetDeviceNumber(long handle);
+
+	public static native int GetBaseID(long handle);
 
 	/**
 	 * Sets the demand (output) of the motor controller.
@@ -269,6 +273,10 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	 * @return Output current (in amps).
 	 */
 	public static native double GetOutputCurrent(long handle);
+
+	public static native double GetSupplyCurrent(long handle);
+
+	public static native double GetStatorCurrent(long handle);
 
 	/**
 	 * Gets the temperature of the motor controller.
@@ -988,4 +996,38 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	public static native int ConfigClosedLoopPeakOutput(long handle, int slotIdx, double percentOut, int timeoutMs);
 
 	public static native int ConfigClosedLoopPeriod(long handle, int slotIdx, int loopTimeMs, int timeoutMs);
+
+	public static native int ConfigMotorCommutation(long handle, int motorCommutation, int timeoutMs);
+
+	public static native int ConfigGetMotorCommutation(long handle, int timeoutMs);
+
+	public static native int ConfigSupplyCurrentLimit(long handle, double[] params, int timeoutMs);
+
+	public static native int ConfigStatorCurrentLimit(long handle, double[] params, int timeoutMs);
+
+	public static native int ConfigSupplyCurrentLimitEnable(long handle, boolean enable, int timeoutMs);
+
+	public static native int ConfigStatorCurrentLimitEnable(long handle, boolean enable, int timeoutMs);
+
+	public static native int ConfigBrakeCurrentLimitEnable(long handle, boolean enable, int timeoutMs);
+
+	public static native int ConfigGetSupplyCurrentLimit(long handle, double[] toFill, int timeoutMs);
+
+	public static native int ConfigGetStatorCurrentLimit(long handle, double[] toFill, int timeoutMs);
+
+	public static native int SetIntegratedSensorPosition(long handle, double newPos, int timeoutMs);
+
+	public static native int SetIntegratedSensorPositionToAbsolute(long handle, int timeoutMs);
+
+	public static native double GetIntegratedSensorPosition(long handle);
+
+	public static native double GetIntegratedSensorAbsolutePosition(long handle);
+
+	public static native double GetIntegratedSensorVelocity(long handle);
+
+    public static native int ConfigIntegratedSensorAbsoluteRange(long handle, int absoluteSensorRange, int timeoutMs);
+
+    public static native int ConfigIntegratedSensorOffset(long handle, double offsetDegrees, int timeoutMs);
+
+    public static native int ConfigIntegratedSensorInitializationStrategy(long handle, int initStrategy, int timeoutMs);
 }

@@ -29,6 +29,17 @@ JNIEXPORT jlong JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_
 
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    Create2
+ * Signature: (Ijava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_Create2
+  (JNIEnv *, jclass, jint deviceID, jstring)
+{
+    return (jlong)c_MotController_Create2(deviceID, "");
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
  * Method:    JNI_destroy_MotController
  * Signature: (J)I
  */
@@ -49,6 +60,18 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_G
     int deviceNumber = 0;
     c_MotController_GetDeviceNumber(ConvertToMotorControllerWrapper(handle), &deviceNumber);
     return deviceNumber;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    GetBaseID
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetBaseID
+  (JNIEnv *, jclass, jlong)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
 }
 
 /*
@@ -289,6 +312,31 @@ JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJN
     double output = 0;
     c_MotController_GetOutputCurrent(ConvertToMotorControllerWrapper(handle), &output);
     return output;
+}
+
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    GetSupplyCurrent
+ * Signature: (J)D
+ */
+JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetSupplyCurrent
+  (JNIEnv *, jclass, jlong)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    GetStatorCurrent
+ * Signature: (J)D
+ */
+JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetStatorCurrent
+  (JNIEnv *, jclass, jlong)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
 }
 
 /*
@@ -1580,6 +1628,222 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_C
   (JNIEnv *, jclass, jlong handle, jint slotIdx, jint loopTimeMs, jint timeoutMs)
 {
     return (jint)c_MotController_ConfigClosedLoopPeriod(ConvertToMotorControllerWrapper(handle), slotIdx, loopTimeMs, timeoutMs);
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigMotorCommutation
+ * Signature: (JII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigMotorCommutation
+  (JNIEnv *, jclass, jlong, jint, jint)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigGetMotorCommutation
+ * Signature: (JI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigGetMotorCommutation
+  (JNIEnv *, jclass, jlong, jint)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigSupplyCurrentLimit
+ * Signature: (J[DII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigSupplyCurrentLimit
+  (JNIEnv *, jclass, jlong, jdoubleArray, jint)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigStatorCurrentLimit
+ * Signature: (J[DII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigStatorCurrentLimit
+  (JNIEnv *, jclass, jlong, jdoubleArray, jint)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigBrakeCurrentLimit
+ * Signature: (J[DII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigBrakeCurrentLimit
+  (JNIEnv *, jclass, jlong, jdoubleArray, jint)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigSupplyCurrentLimitEnable
+ * Signature: (JZI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigSupplyCurrentLimitEnable
+  (JNIEnv *, jclass, jlong, jboolean, jint)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigStatorCurrentLimitEnable
+ * Signature: (JZI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigStatorCurrentLimitEnable
+  (JNIEnv *, jclass, jlong, jboolean, jint)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigBrakeCurrentLimitEnable
+ * Signature: (JZI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigBrakeCurrentLimitEnable
+  (JNIEnv *, jclass, jlong, jboolean, jint)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigGetSupplyCurrentLimit
+ * Signature: (J[DII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigGetSupplyCurrentLimit
+  (JNIEnv *, jclass, jlong, jdoubleArray, jint)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigGetStatorCurrentLimit
+ * Signature: (J[DII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigGetStatorCurrentLimit
+  (JNIEnv *, jclass, jlong, jdoubleArray, jint)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    SetIntegratedSensorPosition
+ * Signature: (JDI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetIntegratedSensorPosition
+  (JNIEnv *, jclass, jlong, jdouble, jint)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    SetIntegratedSensorPositionToAbsolute
+ * Signature: (JI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetIntegratedSensorPositionToAbsolute
+  (JNIEnv *, jclass, jlong, jint)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    GetIntegratedSensorPosition
+ * Signature: (J)D
+ */
+JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetIntegratedSensorPosition
+  (JNIEnv *, jclass, jlong)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    GetIntegratedSensorAbsolutePosition
+ * Signature: (J)D
+ */
+JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetIntegratedSensorAbsolutePosition
+  (JNIEnv *, jclass, jlong)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    GetIntegratedSensorVelocity
+ * Signature: (J)D
+ */
+JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetIntegratedSensorVelocity
+  (JNIEnv *, jclass, jlong)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigAbsoluteSensorRange
+ * Signature: (JII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigAbsoluteSensorRange
+  (JNIEnv *, jclass, jlong, jint, jint)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigMagnetOffset
+ * Signature: (JDI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigMagnetOffset
+  (JNIEnv *, jclass, jlong, jdouble, jint)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
+}
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigSensorInitializationStrategy
+ * Signature: (JII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigSensorInitializationStrategy
+  (JNIEnv *, jclass, jlong, jint, jint)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
 }
 
 }  // extern "C"
