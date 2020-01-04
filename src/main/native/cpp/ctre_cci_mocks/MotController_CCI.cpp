@@ -30,6 +30,13 @@ void* c_MotController_Create1(int baseArbId)
 	SnobotSim::CtreMotorControllerWrapper* output = new SnobotSim::CtreMotorControllerWrapper(baseArbId);
     return output;
 }
+
+void* c_MotController_Create2(int deviceID, const char * model)
+{
+	SnobotSim::CtreMotorControllerWrapper* output = new SnobotSim::CtreMotorControllerWrapper(deviceID);
+    return output;
+}
+
 void c_MotController_DestroyAll()
 {
 
@@ -54,6 +61,13 @@ ctre::phoenix::ErrorCode c_MotController_GetDescription(void *handle, char * toF
     LOG_UNSUPPORTED_CAN_FUNC("");
     return (ctre::phoenix::ErrorCode)0;
 }
+
+ctre::phoenix::ErrorCode c_MotController_GetBaseID(void* handle, int* baseArbId)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
 
 ctre::phoenix::ErrorCode c_MotController_SetDemand(void *handle, int mode, int demand0, int demand1)
 {
@@ -190,12 +204,25 @@ ctre::phoenix::ErrorCode c_MotController_GetMotorOutputPercent(void *handle, dou
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_MotController_GetOutputCurrent(void *handle, double *current)
+ctre::phoenix::ErrorCode c_MotController_GetOutputCurrent(void* handle, double* current)
 {
     RECEIVE_HELPER("GetOutputCurrent", sizeof(*current));
     PoplateReceiveResults(buffer, current, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
+
+ctre::phoenix::ErrorCode c_MotController_GetSupplyCurrent(void* handle, double* current)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_GetStatorCurrent(void* handle, double* current)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
 
 ctre::phoenix::ErrorCode c_MotController_GetTemperature(void *handle, double *temperature)
 {
@@ -1026,5 +1053,89 @@ ctre::phoenix::ErrorCode c_MotController_GetClosedLoopTarget(void *handle, int *
     PoplateReceiveResults(buffer, value, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
+ctre::phoenix::ErrorCode c_MotController_ConfigMotorCommutation(void* handle, ctre::phoenix::motorcontrol::MotorCommutation motorCommutation, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_ConfigGetMotorCommutation(void* handle, ctre::phoenix::motorcontrol::MotorCommutation *motorCommutation, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_ConfigSupplyCurrentLimit(void* handle, const double* params, int paramCnt, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_ConfigStatorCurrentLimit(void* handle, const double* params, int paramCnt, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_ConfigSupplyCurrentLimitEnable(void* handle, bool enable, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_ConfigStatorCurrentLimitEnable(void* handle, bool enable, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_ConfigGetSupplyCurrentLimit(void* handle, double* toFill, int * fillCnt, int fillCapacity, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_ConfigGetStatorCurrentLimit(void* handle, double* toFill, int* fillCnt, int fillCapacity, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_SetIntegratedSensorPosition(void* handle, double newpos, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_SetIntegratedSensorPositionToAbsolute(void* handle, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_GetIntegratedSensor(void* handle, double* pos, double * absPos, double * vel)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_ConfigIntegratedSensorAbsoluteRange(void* handle, ctre::phoenix::sensors::AbsoluteSensorRange absoluteSensorRange, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_ConfigIntegratedSensorOffset(void* handle, double offsetDegrees, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_ConfigIntegratedSensorInitializationStrategy(void* handle, ctre::phoenix::sensors::SensorInitializationStrategy initializationStrategy, int timeoutMs)
+{
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return (ctre::phoenix::ErrorCode)0;
+}
+
 
 }  // extern "C"
