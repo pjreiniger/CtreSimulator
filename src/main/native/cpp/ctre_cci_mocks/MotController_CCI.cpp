@@ -64,7 +64,8 @@ ctre::phoenix::ErrorCode c_MotController_GetDescription(void *handle, char * toF
 
 ctre::phoenix::ErrorCode c_MotController_GetBaseID(void* handle, int* baseArbId)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    *baseArbId = wrapper->mDeviceId;
     return (ctre::phoenix::ErrorCode)0;
 }
 
