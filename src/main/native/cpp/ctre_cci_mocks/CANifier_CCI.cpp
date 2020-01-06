@@ -101,7 +101,7 @@ ctre::phoenix::ErrorCode c_CANifier_GetGeneralInput(void *handle, uint32_t input
 
 ctre::phoenix::ErrorCode c_CANifier_GetPWMInput(void *handle, uint32_t  pwmChannel, double dutyCycleAndPeriod [2])
 {
-    RECEIVE_HELPER("GetPWMInput", sizeof(pwmChannel) + sizeof(double) * 2);
+    RECEIVE_HELPER("GetPWMInput", sizeof(pwmChannel) + sizeof(dutyCycleAndPeriod[0]) + sizeof(dutyCycleAndPeriod[1]));
     PoplateReceiveResults(buffer, &pwmChannel, buffer_pos);
     PoplateReceiveResults(buffer, &dutyCycleAndPeriod[0], buffer_pos);
     PoplateReceiveResults(buffer, &dutyCycleAndPeriod[1], buffer_pos);
@@ -206,6 +206,7 @@ ctre::phoenix::ErrorCode c_CANifier_ConfigGetParameter(void *handle, int param, 
     PoplateReceiveResults(buffer, &param, buffer_pos);
     PoplateReceiveResults(buffer, value, buffer_pos);
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
+    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -217,6 +218,7 @@ ctre::phoenix::ErrorCode c_CANifier_ConfigGetParameter_6(void *handle, int32_t p
     PoplateReceiveResults(buffer, valueRecieved, buffer_pos);
     PoplateReceiveResults(buffer, subValue, buffer_pos);
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
+    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -229,9 +231,10 @@ ctre::phoenix::ErrorCode c_CANifier_ConfigSetCustomParam(void *handle, int newVa
 
 ctre::phoenix::ErrorCode c_CANifier_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs)
 {
-    RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex));
+    RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex) + sizeof(timoutMs));
     PoplateReceiveResults(buffer, readValue, buffer_pos);
     PoplateReceiveResults(buffer, &paramIndex, buffer_pos);
+    PoplateReceiveResults(buffer, &timoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -289,6 +292,7 @@ ctre::phoenix::ErrorCode c_CANifier_GetStatusFramePeriod(void *handle, int frame
     RECEIVE_HELPER("GetStatusFramePeriod", sizeof(frame) + sizeof(*periodMs));
     PoplateReceiveResults(buffer, &frame, buffer_pos);
     PoplateReceiveResults(buffer, periodMs, buffer_pos);
+    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
