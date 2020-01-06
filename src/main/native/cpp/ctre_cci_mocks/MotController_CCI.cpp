@@ -58,17 +58,19 @@ ctre::phoenix::ErrorCode c_MotController_GetDeviceNumber(void *handle, int *devi
 
 ctre::phoenix::ErrorCode c_MotController_GetDescription(void *handle, char * toFill, int toFillByteSz, size_t * numBytesFilled)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    RECEIVE_HELPER("GetDescription", sizeof(*toFill) + sizeof(toFillByteSz) + sizeof(*numBytesFilled));
+    PoplateReceiveResults(buffer, toFill, buffer_pos);
+    PoplateReceiveResults(buffer, &toFillByteSz, buffer_pos);
+    PoplateReceiveResults(buffer, numBytesFilled, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_GetBaseID(void* handle, int* baseArbId)
 {
-    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
-    *baseArbId = wrapper->mDeviceId;
+    RECEIVE_HELPER("GetBaseID", sizeof(*baseArbId));
+    PoplateReceiveResults(buffer, baseArbId, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
-
 
 ctre::phoenix::ErrorCode c_MotController_SetDemand(void *handle, int mode, int demand0, int demand1)
 {
@@ -214,13 +216,15 @@ ctre::phoenix::ErrorCode c_MotController_GetOutputCurrent(void* handle, double* 
 
 ctre::phoenix::ErrorCode c_MotController_GetSupplyCurrent(void* handle, double* current)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    RECEIVE_HELPER("GetSupplyCurrent", sizeof(*current));
+    PoplateReceiveResults(buffer, current, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_GetStatorCurrent(void* handle, double* current)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    RECEIVE_HELPER("GetStatorCurrent", sizeof(*current));
+    PoplateReceiveResults(buffer, current, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -261,29 +265,31 @@ ctre::phoenix::ErrorCode c_MotController_ConfigSensorTerm(void *handle, int sens
 
 ctre::phoenix::ErrorCode c_MotController_GetSelectedSensorPosition(void *handle, int *param, int pidIdx)
 {
-    RECEIVE_HELPER("GetSelectedSensorPosition", sizeof(*param));
+    RECEIVE_HELPER("GetSelectedSensorPosition", sizeof(*param) + sizeof(pidIdx));
     PoplateReceiveResults(buffer, param, buffer_pos);
+    PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_GetSelectedSensorVelocity(void *handle, int *param, int pidIdx)
 {
-    RECEIVE_HELPER("GetSelectedSensorVelocity", sizeof(*param));
+    RECEIVE_HELPER("GetSelectedSensorVelocity", sizeof(*param) + sizeof(pidIdx));
     PoplateReceiveResults(buffer, param, buffer_pos);
+    PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_MotController_SetSelectedSensorPosition(void *handle, int sensorPos, int pidIdx,int timeoutMs)
+ctre::phoenix::ErrorCode c_MotController_SetSelectedSensorPosition(void *handle, int sensorPos, int pidIdx, int timeoutMs)
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
-    wrapper->Send("SetSelectedSensorPosition", sensorPos);
+    wrapper->Send("SetSelectedSensorPosition", sensorPos, pidIdx);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_SetControlFramePeriod(void *handle, int frame, int periodMs)
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
-    wrapper->Send("SetControlFramePeriod", frame);
+    wrapper->Send("SetControlFramePeriod", frame, periodMs);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -296,8 +302,10 @@ ctre::phoenix::ErrorCode c_MotController_SetStatusFramePeriod(void *handle, int 
 
 ctre::phoenix::ErrorCode c_MotController_GetStatusFramePeriod(void *handle, int frame, int *periodMs, int timeoutMs)
 {
-    RECEIVE_HELPER("GetStatusFramePeriod", sizeof(*periodMs));
+    RECEIVE_HELPER("GetStatusFramePeriod", sizeof(frame) + sizeof(*periodMs) + sizeof(timeoutMs));
+    PoplateReceiveResults(buffer, &frame, buffer_pos);
     PoplateReceiveResults(buffer, periodMs, buffer_pos);
+    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -435,35 +443,38 @@ ctre::phoenix::ErrorCode c_MotController_ConfigClosedLoopPeriod(void *handle, in
 ctre::phoenix::ErrorCode c_MotController_SetIntegralAccumulator(void *handle, double iaccum, int pidIdx, int timeoutMs)
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
-    wrapper->Send("SetIntegralAccumulator", iaccum);
+    wrapper->Send("SetIntegralAccumulator", iaccum, pidIdx);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_GetClosedLoopError(void *handle, int *closedLoopError, int pidIdx)
 {
-    RECEIVE_HELPER("GetClosedLoopError", sizeof(*closedLoopError));
+    RECEIVE_HELPER("GetClosedLoopError", sizeof(*closedLoopError) + sizeof(pidIdx));
     PoplateReceiveResults(buffer, closedLoopError, buffer_pos);
+    PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_GetIntegralAccumulator(void *handle, double *iaccum, int pidIdx)
 {
-    RECEIVE_HELPER("GetIntegralAccumulator", sizeof(*iaccum));
+    RECEIVE_HELPER("GetIntegralAccumulator", sizeof(*iaccum) + sizeof(pidIdx));
     PoplateReceiveResults(buffer, iaccum, buffer_pos);
+    PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_GetErrorDerivative(void *handle, double *derror, int pidIdx)
 {
-    RECEIVE_HELPER("GetErrorDerivative", sizeof(*derror));
+    RECEIVE_HELPER("GetErrorDerivative", sizeof(*derror) + sizeof(pidIdx));
     PoplateReceiveResults(buffer, derror, buffer_pos);
+    PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_SelectProfileSlot(void *handle, int slotIdx, int pidIdx)
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
-    wrapper->Send("SelectProfileSlot", slotIdx);
+    wrapper->Send("SelectProfileSlot", slotIdx, pidIdx);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -485,7 +496,7 @@ ctre::phoenix::ErrorCode c_MotController_GetActiveTrajectoryHeading(void *handle
 {
     RECEIVE_HELPER("GetActiveTrajectoryHeading", sizeof(*param));
     PoplateReceiveResults(buffer, param, buffer_pos);
-    return (ctre::phoenix::ErrorCode) 0;
+    return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_GetActiveTrajectoryPosition_3(void *handle, int *param, int pidIdx)
@@ -518,6 +529,16 @@ ctre::phoenix::ErrorCode c_MotController_GetActiveTrajectoryAll(void *handle, in
     PoplateReceiveResults(buffer, vel, buffer_pos);
     PoplateReceiveResults(buffer, pos, buffer_pos);
     PoplateReceiveResults(buffer, heading, buffer_pos);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_GetActiveTrajectoryAll_5(void *handle, int * vel, int * pos, double *arbFeedFwd, int pidIdx)
+{
+    RECEIVE_HELPER("GetActiveTrajectoryAll_5", sizeof(*vel) + sizeof(*pos) + sizeof(*arbFeedFwd) + sizeof(pidIdx));
+    PoplateReceiveResults(buffer, vel, buffer_pos);
+    PoplateReceiveResults(buffer, pos, buffer_pos);
+    PoplateReceiveResults(buffer, arbFeedFwd, buffer_pos);
+    PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -565,25 +586,33 @@ ctre::phoenix::ErrorCode c_MotController_PushMotionProfileTrajectory(void *handl
 
 ctre::phoenix::ErrorCode c_MotController_PushMotionProfileTrajectory_2(void *handle, double position, double velocity, double headingDeg, int profileSlotSelect0, int profileSlotSelect1, bool isLastPoint, bool zeroPos, int durationMs)
 {
-    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
-    wrapper->Send("PushMotionProfileTrajectory_2", position, velocity, headingDeg, profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos);
+	LOG_UNSUPPORTED_CAN_FUNC("")
+//    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+//    wrapper->Send("PushMotionProfileTrajectory_2", position, velocity, headingDeg, profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos, durationMs);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_PushMotionProfileTrajectory_3(void *handle, double position, double velocity, double arbFeedFwd, double auxiliaryPos, double auxiliaryVel, double auxiliaryArbFeedFwd, uint32_t profileSlotSelect0, uint32_t profileSlotSelect1, bool isLastPoint, bool zeroPos0, uint32_t timeDur, bool useAuxPID)
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
-    wrapper->Send("PushMotionProfileTrajectory_3", position, velocity,
-            arbFeedFwd, auxiliaryPos, auxiliaryVel, auxiliaryArbFeedFwd,
-            profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos0, timeDur, useAuxPID);
+    wrapper->Send("PushMotionProfileTrajectory_3", position, velocity, arbFeedFwd, auxiliaryPos, auxiliaryVel, auxiliaryArbFeedFwd, profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos0, timeDur, useAuxPID);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_StartMotionProfile(void *handle, void * streamHandle, uint32_t minBufferedPts, ctre::phoenix::motorcontrol::ControlMode controlMode)
 {
-    int castControlMode = (int) controlMode;
-    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
-    wrapper->Send("StartMotionProfile", minBufferedPts, castControlMode);
+	LOG_UNSUPPORTED_CAN_FUNC("")
+//    RECEIVE_HELPER("StartMotionProfile", sizeof(*streamHandle) + sizeof(minBufferedPts) + sizeof(controlMode));
+//    PoplateReceiveResults(buffer, streamHandle, buffer_pos);
+//    PoplateReceiveResults(buffer, &minBufferedPts, buffer_pos);
+//    PoplateReceiveResults(buffer, &controlMode, buffer_pos);
+    return (ctre::phoenix::ErrorCode)0;
+}
+
+ctre::phoenix::ErrorCode c_MotController_IsMotionProfileFinished(void *handle, bool * value)
+{
+    RECEIVE_HELPER("IsMotionProfileFinished", sizeof(*value));
+    PoplateReceiveResults(buffer, value, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -603,7 +632,7 @@ ctre::phoenix::ErrorCode c_MotController_ProcessMotionProfileBuffer(void *handle
 
 ctre::phoenix::ErrorCode c_MotController_GetMotionProfileStatus(void *handle, size_t *topBufferRem, size_t *topBufferCnt, int *btmBufferCnt, bool *hasUnderrun, bool *isUnderrun, bool *activePointValid, bool *isLast, int *profileSlotSelect, int *outputEnable)
 {
-    RECEIVE_HELPER("GetMotionProfileStatus", sizeof(int) * 5 + sizeof(bool) * 4);
+    RECEIVE_HELPER("GetMotionProfileStatus", sizeof(*topBufferRem) + sizeof(*topBufferCnt) + sizeof(*btmBufferCnt) + sizeof(*hasUnderrun) + sizeof(*isUnderrun) + sizeof(*activePointValid) + sizeof(*isLast) + sizeof(*profileSlotSelect) + sizeof(*outputEnable));
     PoplateReceiveResults(buffer, topBufferRem, buffer_pos);
     PoplateReceiveResults(buffer, topBufferCnt, buffer_pos);
     PoplateReceiveResults(buffer, btmBufferCnt, buffer_pos);
@@ -618,7 +647,7 @@ ctre::phoenix::ErrorCode c_MotController_GetMotionProfileStatus(void *handle, si
 
 ctre::phoenix::ErrorCode c_MotController_GetMotionProfileStatus_2(void *handle, size_t *topBufferRem, size_t *topBufferCnt, int *btmBufferCnt, bool *hasUnderrun, bool *isUnderrun, bool *activePointValid, bool *isLast, int *profileSlotSelect, int *outputEnable, int *timeDurMs, int *profileSlotSelect1)
 {
-    RECEIVE_HELPER("GetMotionProfileStatus2", sizeof(int) * 7 + sizeof(bool) * 4);
+    RECEIVE_HELPER("GetMotionProfileStatus_2", sizeof(*topBufferRem) + sizeof(*topBufferCnt) + sizeof(*btmBufferCnt) + sizeof(*hasUnderrun) + sizeof(*isUnderrun) + sizeof(*activePointValid) + sizeof(*isLast) + sizeof(*profileSlotSelect) + sizeof(*outputEnable) + sizeof(*timeDurMs) + sizeof(*profileSlotSelect1));
     PoplateReceiveResults(buffer, topBufferRem, buffer_pos);
     PoplateReceiveResults(buffer, topBufferCnt, buffer_pos);
     PoplateReceiveResults(buffer, btmBufferCnt, buffer_pos);
@@ -636,7 +665,7 @@ ctre::phoenix::ErrorCode c_MotController_GetMotionProfileStatus_2(void *handle, 
 ctre::phoenix::ErrorCode c_MotController_ClearMotionProfileHasUnderrun(void *handle, int timeoutMs)
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
-    wrapper->Send("ClearMotionProfileHasUnderrun", timeoutMs);
+    wrapper->Send("ClearMotionProfileHasUnderrun");
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -650,14 +679,14 @@ ctre::phoenix::ErrorCode c_MotController_ChangeMotionControlFramePeriod(void *ha
 ctre::phoenix::ErrorCode c_MotController_ConfigMotionProfileTrajectoryPeriod(void *handle, int durationMs, int timeoutMs)
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
-    wrapper->Send("ConfigMotionProfileTrajectoryPeriod", durationMs, timeoutMs);
+    wrapper->Send("ConfigMotionProfileTrajectoryPeriod", durationMs);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_ConfigMotionProfileTrajectoryInterpolationEnable(void *handle, bool enable, int timeoutMs)
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
-    wrapper->Send("ConfigMotionProfileTrajectoryInterpolationEnable", enable, timeoutMs);
+    wrapper->Send("ConfigMotionProfileTrajectoryInterpolationEnable", enable);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -726,7 +755,7 @@ ctre::phoenix::ErrorCode c_MotController_ConfigPulseWidthPeriod_FilterWindowSz(v
 
 ctre::phoenix::ErrorCode c_MotController_GetLastError(void *handle)
 {
-	int lastError = 0;
+    int lastError = 0;
     RECEIVE_HELPER("GetLastError", sizeof(lastError));
     PoplateReceiveResults(buffer, &lastError, buffer_pos);
     return (ctre::phoenix::ErrorCode) lastError;
@@ -739,7 +768,7 @@ ctre::phoenix::ErrorCode c_MotController_GetFirmwareVersion(void *handle, int * 
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_MotController_HasResetOccurred(void *handle,bool * output)
+ctre::phoenix::ErrorCode c_MotController_HasResetOccurred(void *handle, bool * output)
 {
     RECEIVE_HELPER("HasResetOccurred", sizeof(*output));
     PoplateReceiveResults(buffer, output, buffer_pos);
@@ -755,8 +784,10 @@ ctre::phoenix::ErrorCode c_MotController_ConfigSetCustomParam(void *handle, int 
 
 ctre::phoenix::ErrorCode c_MotController_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs)
 {
-    RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue));
+    RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex) + sizeof(timoutMs));
     PoplateReceiveResults(buffer, readValue, buffer_pos);
+    PoplateReceiveResults(buffer, &paramIndex, buffer_pos);
+    PoplateReceiveResults(buffer, &timoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -769,14 +800,23 @@ ctre::phoenix::ErrorCode c_MotController_ConfigSetParameter(void *handle, int pa
 
 ctre::phoenix::ErrorCode c_MotController_ConfigGetParameter(void *handle, int param, double *value, int ordinal, int timeoutMs)
 {
-    RECEIVE_HELPER("ConfigGetParameter", sizeof(*value));
+    RECEIVE_HELPER("ConfigGetParameter", sizeof(param) + sizeof(*value) + sizeof(ordinal) + sizeof(timeoutMs));
+    PoplateReceiveResults(buffer, &param, buffer_pos);
     PoplateReceiveResults(buffer, value, buffer_pos);
+    PoplateReceiveResults(buffer, &ordinal, buffer_pos);
+    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_ConfigGetParameter_6(void *handle, int32_t param, int32_t valueToSend, int32_t * valueRecieved, uint8_t * subValue, int32_t ordinal, int32_t timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    RECEIVE_HELPER("ConfigGetParameter_6", sizeof(param) + sizeof(valueToSend) + sizeof(*valueRecieved) + sizeof(*subValue) + sizeof(ordinal) + sizeof(timeoutMs));
+    PoplateReceiveResults(buffer, &param, buffer_pos);
+    PoplateReceiveResults(buffer, &valueToSend, buffer_pos);
+    PoplateReceiveResults(buffer, valueRecieved, buffer_pos);
+    PoplateReceiveResults(buffer, subValue, buffer_pos);
+    PoplateReceiveResults(buffer, &ordinal, buffer_pos);
+    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -822,7 +862,7 @@ ctre::phoenix::ErrorCode c_MotController_GetAnalogIn(void *handle, int * param)
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_MotController_SetAnalogPosition(void *handle,int newPosition, int timeoutMs)
+ctre::phoenix::ErrorCode c_MotController_SetAnalogPosition(void *handle, int newPosition, int timeoutMs)
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
     wrapper->Send("SetAnalogPosition", newPosition);
@@ -850,10 +890,10 @@ ctre::phoenix::ErrorCode c_MotController_GetQuadraturePosition(void *handle, int
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_MotController_SetQuadraturePosition(void *handle,int newPosition, int timeoutMs)
+ctre::phoenix::ErrorCode c_MotController_SetQuadraturePosition(void *handle, int newPosition, int timeoutMs)
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
-    wrapper->Send("SetQuadraturePosition", newPosition, timeoutMs);
+    wrapper->Send("SetQuadraturePosition", newPosition);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -871,7 +911,7 @@ ctre::phoenix::ErrorCode c_MotController_GetPulseWidthPosition(void *handle, int
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_MotController_SetPulseWidthPosition(void *handle,int newPosition, int timeoutMs)
+ctre::phoenix::ErrorCode c_MotController_SetPulseWidthPosition(void *handle, int newPosition, int timeoutMs)
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
     wrapper->Send("SetPulseWidthPosition", newPosition);
@@ -951,7 +991,7 @@ ctre::phoenix::ErrorCode c_MotController_GetStickyFaults(void *handle, int * par
 ctre::phoenix::ErrorCode c_MotController_ClearStickyFaults(void *handle, int timeoutMs)
 {
     MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
-    wrapper->Send("ClearStickyFaults", timeoutMs);
+    wrapper->Send("ClearStickyFaults");
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -1023,93 +1063,127 @@ ctre::phoenix::ErrorCode c_MotController_GetLimitSwitchState(void *handle, int *
 ctre::phoenix::ErrorCode c_MotController_GetClosedLoopTarget(void *handle, int * value, int pidIdx)
 {
     RECEIVE_HELPER("GetClosedLoopTarget", sizeof(*value) + sizeof(pidIdx));
-    PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
     PoplateReceiveResults(buffer, value, buffer_pos);
+    PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
+
 ctre::phoenix::ErrorCode c_MotController_ConfigMotorCommutation(void* handle, ctre::phoenix::motorcontrol::MotorCommutation motorCommutation, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("ConfigMotorCommutation", motorCommutation);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_ConfigGetMotorCommutation(void* handle, ctre::phoenix::motorcontrol::MotorCommutation *motorCommutation, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    RECEIVE_HELPER("ConfigGetMotorCommutation", sizeof(*motorCommutation) + sizeof(timeoutMs));
+    PoplateReceiveResults(buffer, motorCommutation, buffer_pos);
+    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_ConfigSupplyCurrentLimit(void* handle, const double* params, int paramCnt, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+	LOG_UNSUPPORTED_CAN_FUNC("")
+//    RECEIVE_HELPER("ConfigSupplyCurrentLimit", sizeof(*params) + sizeof(paramCnt) + sizeof(timeoutMs));
+//    PoplateReceiveResults(buffer, params, buffer_pos);
+//    PoplateReceiveResults(buffer, &paramCnt, buffer_pos);
+//    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_ConfigStatorCurrentLimit(void* handle, const double* params, int paramCnt, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+	LOG_UNSUPPORTED_CAN_FUNC("")
+//    RECEIVE_HELPER("ConfigStatorCurrentLimit", sizeof(*params) + sizeof(paramCnt) + sizeof(timeoutMs));
+//    PoplateReceiveResults(buffer, params, buffer_pos);
+//    PoplateReceiveResults(buffer, &paramCnt, buffer_pos);
+//    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_ConfigSupplyCurrentLimitEnable(void* handle, bool enable, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("ConfigSupplyCurrentLimitEnable", enable);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_ConfigStatorCurrentLimitEnable(void* handle, bool enable, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("ConfigStatorCurrentLimitEnable", enable);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_ConfigGetSupplyCurrentLimit(void* handle, double* toFill, int * fillCnt, int fillCapacity, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+	LOG_UNSUPPORTED_CAN_FUNC("")
+//    RECEIVE_HELPER("ConfigGetSupplyCurrentLimit", sizeof(*toFill) + sizeof(*fillCnt) + sizeof(fillCapacity) + sizeof(timeoutMs));
+//    PoplateReceiveResults(buffer, toFill, buffer_pos);
+//    PoplateReceiveResults(buffer, fillCnt, buffer_pos);
+//    PoplateReceiveResults(buffer, &fillCapacity, buffer_pos);
+//    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_ConfigGetStatorCurrentLimit(void* handle, double* toFill, int* fillCnt, int fillCapacity, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+	LOG_UNSUPPORTED_CAN_FUNC("")
+//    RECEIVE_HELPER("ConfigGetStatorCurrentLimit", sizeof(*toFill) + sizeof(*fillCnt) + sizeof(fillCapacity) + sizeof(timeoutMs));
+//    PoplateReceiveResults(buffer, toFill, buffer_pos);
+//    PoplateReceiveResults(buffer, fillCnt, buffer_pos);
+//    PoplateReceiveResults(buffer, &fillCapacity, buffer_pos);
+//    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_SetIntegratedSensorPosition(void* handle, double newpos, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("SetIntegratedSensorPosition", newpos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_SetIntegratedSensorPositionToAbsolute(void* handle, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("SetIntegratedSensorPositionToAbsolute");
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_GetIntegratedSensor(void* handle, double* pos, double * absPos, double * vel)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+	LOG_UNSUPPORTED_CAN_FUNC("")
+//    RECEIVE_HELPER("GetIntegratedSensor", sizeof(*pos) + sizeof(*absPos) + sizeof(*vel));
+//    PoplateReceiveResults(buffer, pos, buffer_pos);
+//    PoplateReceiveResults(buffer, absPos, buffer_pos);
+//    PoplateReceiveResults(buffer, vel, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_ConfigIntegratedSensorAbsoluteRange(void* handle, ctre::phoenix::sensors::AbsoluteSensorRange absoluteSensorRange, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("ConfigIntegratedSensorAbsoluteRange", absoluteSensorRange);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_ConfigIntegratedSensorOffset(void* handle, double offsetDegrees, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("ConfigIntegratedSensorOffset", offsetDegrees);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_ConfigIntegratedSensorInitializationStrategy(void* handle, ctre::phoenix::sensors::SensorInitializationStrategy initializationStrategy, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    MotorControllerWrapper* wrapper = ConvertToMotorControllerWrapper(handle);
+    wrapper->Send("ConfigIntegratedSensorInitializationStrategy", initializationStrategy);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 
 }  // extern "C"
+
