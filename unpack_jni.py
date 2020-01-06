@@ -17,7 +17,20 @@ class CciFunctionDef:
             if "*" in n:
                 t += "*"
                 n = n[1:]
-            output.append((t, n))
+                
+#             if self.func_name == 'c_PigeonIMU_Get6dQuaternion':
+#                 print(t)
+            if "[" in n:
+                find_stuff = re.findall(r'(.*)\[([0-9]+)\]', n)
+                if find_stuff:
+                    arry_name, arr_length = re.findall(r'(.*)\[([0-9]+)\]', n)[0]
+                    print("Got an array", n, arr_length)
+                    for i in range(int(arr_length)):
+                        output.append((t + "*", arry_name + "[%s]" % i))
+                else:
+                    output.append((t, n))
+            else:
+                output.append((t, n))
         return output
 
 class JniFunctionDef:
@@ -333,7 +346,7 @@ def dump_updated_cci(cci_output_file, cci_header, func_prefix_name, class_type, 
                 f.write("\n{\n")
                 rcv_helper = ""
                 for arg_type, arg_name in cci_def.sanitized_args():
-                    if arg_name != "handle":
+                    if arg_name != "handle" and arg_name != "timeoutMs":
                         if "*" in arg_type:
                             rcv_helper += ("sizeof(*%s) + " % arg_name)
                         else:
@@ -395,11 +408,11 @@ extern "C"{
 
 typedef SnobotSim::CtrePigeonImuWrapper PigeonImuSimulatorWrapper;
 
-#define RECEIVE_HELPER(paramName, size)                                  \
-    PigeonImuSimulatorWrapper* wrapper = ConvertToPigeonWrapper(handle); \
-    uint8_t buffer[size]; /* NOLINT */                                   \
-    std::memset(&buffer[0], 0, size);                                    \
-    wrapper->Receive(paramName, buffer, size);                           \
+#define RECEIVE_HELPER(paramName, size)                                  \\
+    PigeonImuSimulatorWrapper* wrapper = ConvertToPigeonWrapper(handle); \\
+    uint8_t buffer[size]; /* NOLINT */                                   \\
+    std::memset(&buffer[0], 0, size);                                    \\
+    wrapper->Receive(paramName, buffer, size);                           \\
     uint32_t offset = 0;
 
 
@@ -407,20 +420,43 @@ PigeonImuSimulatorWrapper* ConvertToPigeonWrapper(void* param)
 {
     return reinterpret_cast<PigeonImuSimulatorWrapper*>(param);
 }
+
+extern "C"{
+"""
+    canifier_cci_header = """#include "ctre/phoenix/cci/CANifier_CCI.h"
+
+#include <cstring>
+#include <iostream>
+#include <string>
+#include <vector>
+
+#include "CtreSimMocks/CtreCanifierWrapper.h"
+#include "CtreSimMocks/MockHooks.h"
+
+#define RECEIVE_HELPER(paramName, size)                                         \\
+    SnobotSim::CtreCanifierWrapper* wrapper = ConvertToCanifierWrapper(handle); \\
+    uint8_t buffer[size]; /* NOLINT */                                          \\
+    std::memset(&buffer[0], 0, size);                                           \\
+    wrapper->Receive(paramName, buffer, size);                                  \\
+    uint32_t buffer_pos = 0;
+
+SnobotSim::CtreCanifierWrapper* ConvertToCanifierWrapper(void* param)
+{
+    return reinterpret_cast<SnobotSim::CtreCanifierWrapper*>(param);
+}
+
+extern "C"{
+
 """
     
     print("Hello")
 #     cci_functions = parse_cci_file(os.path.join(base_dir, 'ctre_source/cci/native/include/ctre/phoenix/cci/MotController_CCI.h'))
 #     jni_functions = parse_jni_file(os.path.join(base_dir, 'ctre_source/cci/native/include/ctre/phoenix/jni/com_ctre_phoenix_motorcontrol_can_MotControllerJNI.h'))
 
-    run_conversion("MotController_CCI.h", "com_ctre_phoenix_motorcontrol_can_MotControllerJNI.h", motorcontrl_cci_header, "c_MotController_", "MotorControllerWrapper", "ConvertToMotorControllerWrapper")
+#     run_conversion("MotController_CCI.h", "com_ctre_phoenix_motorcontrol_can_MotControllerJNI.h", motorcontrl_cci_header, "c_MotController_", "MotorControllerWrapper", "ConvertToMotorControllerWrapper")
 #     run_conversion("PigeonIMU_CCI.h", "com_ctre_phoenix_sensors_PigeonImuJNI.h", pheonix_cci_header, "c_PigeonIMU_", "PigeonImuSimulatorWrapper", "ConvertToPigeonWrapper")
+    run_conversion("CANifier_CCI.h", "com_ctre_phoenix_CANifierJNI.h", canifier_cci_header, "c_CANifier_", "SnobotSim::CtreCanifierWrapper", "ConvertToCanifierWrapper")
     
-#     cci_functions = parse_cci_file(os.path.join(base_dir, 'ctre_source/cci/native/include/ctre/phoenix/cci/PigeonIMU_CCI.h'))
-#     jni_functions = parse_jni_file(os.path.join(base_dir, 'ctre_source/cci/native/include/ctre/phoenix/jni/com_ctre_phoenix_sensors_PigeonImuJNI.h'))    
-# #     dump_updated_jni(os.path.join(base_dir, 'com_revrobotics_jni_CANSparkMaxJNI.h'), "com_revrobotics_jni_CANSparkMaxJNI", cci_functions, jni_functions)
-#     dump_updated_cci(os.path.join(base_dir, 'com_revrobotics_jni_CANSparkMaxJNI.h'), pheonix_cci_header, "c_PigeonIMU_", "PigeonImuSimulatorWrapper", "ConvertToPigeonWrapper", cci_functions)
-
 def run_conversion(cci_header, jni_header, cci_initial_dump, cci_prefix, cci_wrapper_type, cci_conversion_func):
     
     base_dir = r'C:\Users\PJ\Documents\GitHub\SnobotSim\CtreSimulator'
