@@ -14,7 +14,7 @@ typedef SnobotSim::CtrePigeonImuWrapper PigeonImuSimulatorWrapper;
     uint8_t buffer[size]; /* NOLINT */                                   \
     std::memset(&buffer[0], 0, size);                                    \
     wrapper->Receive(paramName, buffer, size);                           \
-    uint32_t offset = 0;
+    uint32_t buffer_pos = 0;
 
 
 PigeonImuSimulatorWrapper* ConvertToPigeonWrapper(void* param)
@@ -51,7 +51,7 @@ void c_PigeonIMU_DestroyAll()
 ctre::phoenix::ErrorCode c_PigeonIMU_GetDescription(void *handle, char * toFill, int toFillByteSz, size_t * numBytesFilled)
 {
     RECEIVE_HELPER("GetDescription", 1);
-    offset += 1; // Removes compiler warning
+    buffer_pos += 1; // Removes compiler warning
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -65,7 +65,7 @@ ctre::phoenix::ErrorCode c_PigeonIMU_ConfigSetParameter(void *handle, int param,
 ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetParameter(void *handle, int param, double *value, int ordinal, int timeoutMs)
 {
     RECEIVE_HELPER("ConfigGetParameter", sizeof(param) + sizeof(*value) + sizeof(ordinal));
-    PoplateReceiveResults(buffer, value, offset);
+    PoplateReceiveResults(buffer, value, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -85,7 +85,7 @@ ctre::phoenix::ErrorCode c_PigeonIMU_ConfigSetCustomParam(void *handle, int newV
 ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs)
 {
     RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex));
-    PoplateReceiveResults(buffer, readValue, offset);
+    PoplateReceiveResults(buffer, readValue, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -176,15 +176,15 @@ ctre::phoenix::ErrorCode c_PigeonIMU_EnterCalibrationMode(void *handle, int calM
 ctre::phoenix::ErrorCode c_PigeonIMU_GetGeneralStatus(void *handle, int *state, int *currentMode, int *calibrationError, int *bCalIsBooting, double *tempC, int *upTimeSec, int *noMotionBiasCount, int *tempCompensationCount, int *lastError)
 {
     RECEIVE_HELPER("GetGeneralStatus", sizeof(int) * 8 + sizeof(double));
-    PoplateReceiveResults(buffer, state, offset);
-    PoplateReceiveResults(buffer, currentMode, offset);
-    PoplateReceiveResults(buffer, calibrationError, offset);
-    PoplateReceiveResults(buffer, bCalIsBooting, offset);
-    PoplateReceiveResults(buffer, tempC, offset);
-    PoplateReceiveResults(buffer, upTimeSec, offset);
-    PoplateReceiveResults(buffer, noMotionBiasCount, offset);
-    PoplateReceiveResults(buffer, tempCompensationCount, offset);
-    PoplateReceiveResults(buffer, lastError, offset);
+    PoplateReceiveResults(buffer, state, buffer_pos);
+    PoplateReceiveResults(buffer, currentMode, buffer_pos);
+    PoplateReceiveResults(buffer, calibrationError, buffer_pos);
+    PoplateReceiveResults(buffer, bCalIsBooting, buffer_pos);
+    PoplateReceiveResults(buffer, tempC, buffer_pos);
+    PoplateReceiveResults(buffer, upTimeSec, buffer_pos);
+    PoplateReceiveResults(buffer, noMotionBiasCount, buffer_pos);
+    PoplateReceiveResults(buffer, tempCompensationCount, buffer_pos);
+    PoplateReceiveResults(buffer, lastError, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -192,129 +192,129 @@ ctre::phoenix::ErrorCode c_PigeonIMU_GetLastError(void *handle)
 {
 	int lastError = 0;
     RECEIVE_HELPER("GetLastError", sizeof(lastError));
-    PoplateReceiveResults(buffer, &lastError, offset);
+    PoplateReceiveResults(buffer, &lastError, buffer_pos);
     return (ctre::phoenix::ErrorCode) lastError;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_Get6dQuaternion(void *handle, double wxyz[4])
 {
     RECEIVE_HELPER("Get6dQuaternion", sizeof(double) * 4);
-    PoplateReceiveResults(buffer, &wxyz[0], offset);
-    PoplateReceiveResults(buffer, &wxyz[1], offset);
-    PoplateReceiveResults(buffer, &wxyz[2], offset);
-    PoplateReceiveResults(buffer, &wxyz[3], offset);
+    PoplateReceiveResults(buffer, &wxyz[0], buffer_pos);
+    PoplateReceiveResults(buffer, &wxyz[1], buffer_pos);
+    PoplateReceiveResults(buffer, &wxyz[2], buffer_pos);
+    PoplateReceiveResults(buffer, &wxyz[3], buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetYawPitchRoll(void *handle, double ypr[3])
 {
     RECEIVE_HELPER("GetYawPitchRoll", sizeof(double) * 3);
-    PoplateReceiveResults(buffer, &ypr[0], offset);
-    PoplateReceiveResults(buffer, &ypr[1], offset);
-    PoplateReceiveResults(buffer, &ypr[2], offset);
+    PoplateReceiveResults(buffer, &ypr[0], buffer_pos);
+    PoplateReceiveResults(buffer, &ypr[1], buffer_pos);
+    PoplateReceiveResults(buffer, &ypr[2], buffer_pos);
     return ctre::phoenix::NotImplemented;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetAccumGyro(void *handle, double xyz_deg[3])
 {
     RECEIVE_HELPER("GetAccumGyro", sizeof(double) * 3);
-    PoplateReceiveResults(buffer, &xyz_deg[0], offset);
-    PoplateReceiveResults(buffer, &xyz_deg[1], offset);
-    PoplateReceiveResults(buffer, &xyz_deg[2], offset);
+    PoplateReceiveResults(buffer, &xyz_deg[0], buffer_pos);
+    PoplateReceiveResults(buffer, &xyz_deg[1], buffer_pos);
+    PoplateReceiveResults(buffer, &xyz_deg[2], buffer_pos);
     return ctre::phoenix::NotImplemented;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetAbsoluteCompassHeading(void *handle, double *value)
 {
     RECEIVE_HELPER("GetAbsoluteCompassHeading", sizeof(double));
-    PoplateReceiveResults(buffer, value, offset);
+    PoplateReceiveResults(buffer, value, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetCompassHeading(void *handle, double *value)
 {
     RECEIVE_HELPER("GetCompassHeading", sizeof(double));
-    PoplateReceiveResults(buffer, value, offset);
+    PoplateReceiveResults(buffer, value, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetCompassFieldStrength(void *handle, double *value)
 {
     RECEIVE_HELPER("GetCompassFieldStrength", sizeof(double));
-    PoplateReceiveResults(buffer, value, offset);
+    PoplateReceiveResults(buffer, value, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetTemp(void *handle, double *value)
 {
     RECEIVE_HELPER("GetTemp", sizeof(double));
-    PoplateReceiveResults(buffer, value, offset);
+    PoplateReceiveResults(buffer, value, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetState(void *handle, int *state)
 {
     RECEIVE_HELPER("GetState", sizeof(int));
-    PoplateReceiveResults(buffer, state, offset);
+    PoplateReceiveResults(buffer, state, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetUpTime(void *handle, int *value)
 {
     RECEIVE_HELPER("GetUpTime", sizeof(int));
-    PoplateReceiveResults(buffer, value, offset);
+    PoplateReceiveResults(buffer, value, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetRawMagnetometer(void *handle, short rm_xyz[3])
 {
     RECEIVE_HELPER("GetRawMagnetometer", sizeof(short) * 3); // NOLINT
-    PoplateReceiveResults(buffer, &rm_xyz[0], offset);
-    PoplateReceiveResults(buffer, &rm_xyz[1], offset);
-    PoplateReceiveResults(buffer, &rm_xyz[2], offset);
+    PoplateReceiveResults(buffer, &rm_xyz[0], buffer_pos);
+    PoplateReceiveResults(buffer, &rm_xyz[1], buffer_pos);
+    PoplateReceiveResults(buffer, &rm_xyz[2], buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetBiasedMagnetometer(void *handle, short bm_xyz[3])
 {
     RECEIVE_HELPER("GetBiasedMagnetometer", sizeof(short) * 3); // NOLINT
-    PoplateReceiveResults(buffer, &bm_xyz[0], offset);
-    PoplateReceiveResults(buffer, &bm_xyz[1], offset);
-    PoplateReceiveResults(buffer, &bm_xyz[2], offset);
+    PoplateReceiveResults(buffer, &bm_xyz[0], buffer_pos);
+    PoplateReceiveResults(buffer, &bm_xyz[1], buffer_pos);
+    PoplateReceiveResults(buffer, &bm_xyz[2], buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetBiasedAccelerometer(void *handle, short ba_xyz[3])
 {
     RECEIVE_HELPER("GetBiasedAccelerometer", sizeof(short) * 3); // NOLINT
-    PoplateReceiveResults(buffer, &ba_xyz[0], offset);
-    PoplateReceiveResults(buffer, &ba_xyz[1], offset);
-    PoplateReceiveResults(buffer, &ba_xyz[2], offset);
+    PoplateReceiveResults(buffer, &ba_xyz[0], buffer_pos);
+    PoplateReceiveResults(buffer, &ba_xyz[1], buffer_pos);
+    PoplateReceiveResults(buffer, &ba_xyz[2], buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetRawGyro(void *handle, double xyz_dps[3])
 {
     RECEIVE_HELPER("GetRawGyro", sizeof(double) * 3);
-    PoplateReceiveResults(buffer, &xyz_dps[0], offset);
-    PoplateReceiveResults(buffer, &xyz_dps[1], offset);
-    PoplateReceiveResults(buffer, &xyz_dps[2], offset);
+    PoplateReceiveResults(buffer, &xyz_dps[0], buffer_pos);
+    PoplateReceiveResults(buffer, &xyz_dps[1], buffer_pos);
+    PoplateReceiveResults(buffer, &xyz_dps[2], buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetAccelerometerAngles(void *handle, double tiltAngles[3])
 {
     RECEIVE_HELPER("GetAccelerometerAngles", sizeof(double) * 3);
-    PoplateReceiveResults(buffer, &tiltAngles[0], offset);
-    PoplateReceiveResults(buffer, &tiltAngles[1], offset);
-    PoplateReceiveResults(buffer, &tiltAngles[2], offset);
+    PoplateReceiveResults(buffer, &tiltAngles[0], buffer_pos);
+    PoplateReceiveResults(buffer, &tiltAngles[1], buffer_pos);
+    PoplateReceiveResults(buffer, &tiltAngles[2], buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetFusedHeading2(void *handle, int *bIsFusing, int *bIsValid, double *value, int *lastError)
 {
     RECEIVE_HELPER("GetFusedHeading2", sizeof(double));
-    PoplateReceiveResults(buffer, value, offset);
+    PoplateReceiveResults(buffer, value, buffer_pos);
 
     *bIsFusing = 5;
     *bIsValid = 5;
@@ -326,37 +326,37 @@ ctre::phoenix::ErrorCode c_PigeonIMU_GetFusedHeading2(void *handle, int *bIsFusi
 ctre::phoenix::ErrorCode c_PigeonIMU_GetFusedHeading1(void *handle, double *value)
 {
     RECEIVE_HELPER("GetFusedHeading1", sizeof(double) * 3);
-    PoplateReceiveResults(buffer, &value[0], offset);
-    PoplateReceiveResults(buffer, &value[1], offset);
-    PoplateReceiveResults(buffer, &value[2], offset);
+    PoplateReceiveResults(buffer, &value[0], buffer_pos);
+    PoplateReceiveResults(buffer, &value[1], buffer_pos);
+    PoplateReceiveResults(buffer, &value[2], buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetResetCount(void *handle, int *value)
 {
     RECEIVE_HELPER("GetResetCount", sizeof(int));
-    PoplateReceiveResults(buffer, value, offset);
+    PoplateReceiveResults(buffer, value, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetResetFlags(void *handle, int *value)
 {
     RECEIVE_HELPER("GetResetFlags", sizeof(int));
-    PoplateReceiveResults(buffer, value, offset);
+    PoplateReceiveResults(buffer, value, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetFirmwareVersion(void *handle, int * firmwareVers)
 {
     RECEIVE_HELPER("GetFirmwareVersion", sizeof(int));
-    PoplateReceiveResults(buffer, firmwareVers, offset);
+    PoplateReceiveResults(buffer, firmwareVers, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_HasResetOccurred(void *handle, bool * hasReset)
 {
     RECEIVE_HELPER("HasResetOccurred", sizeof(bool));
-    PoplateReceiveResults(buffer, hasReset, offset);
+    PoplateReceiveResults(buffer, hasReset, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -370,14 +370,14 @@ ctre::phoenix::ErrorCode c_PigeonIMU_SetLastError(void *handle, int value)
 ctre::phoenix::ErrorCode c_PigeonIMU_GetFaults(void *handle, int * param)
 {
     RECEIVE_HELPER("GetFaults", sizeof(int));
-    PoplateReceiveResults(buffer, param, offset);
+    PoplateReceiveResults(buffer, param, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetStickyFaults(void *handle, int * param)
 {
     RECEIVE_HELPER("GetStickyFaults", sizeof(int));
-    PoplateReceiveResults(buffer, param, offset);
+    PoplateReceiveResults(buffer, param, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -398,7 +398,7 @@ ctre::phoenix::ErrorCode c_PigeonIMU_SetStatusFramePeriod(void *handle, int fram
 ctre::phoenix::ErrorCode c_PigeonIMU_GetStatusFramePeriod(void *handle, int frame, int *periodMs, int timeoutMs)
 {
     RECEIVE_HELPER("GetStatusFramePeriod", sizeof(int));
-    PoplateReceiveResults(buffer, periodMs, offset);
+    PoplateReceiveResults(buffer, periodMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
