@@ -224,7 +224,6 @@ ctre::phoenix::ErrorCode c_MotController_GetStatorCurrent(void* handle, double* 
     return (ctre::phoenix::ErrorCode)0;
 }
 
-
 ctre::phoenix::ErrorCode c_MotController_GetTemperature(void *handle, double *temperature)
 {
     RECEIVE_HELPER("GetTemperature", sizeof(*temperature));
