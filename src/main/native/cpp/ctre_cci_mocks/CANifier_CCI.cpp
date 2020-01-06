@@ -46,28 +46,28 @@ ctre::phoenix::ErrorCode c_CANifier_GetDescription(void *handle, char * toFill, 
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_CANifier_SetLEDOutput(void *handle,  uint32_t  dutyCycle,  uint32_t  ledChannel)
+ctre::phoenix::ErrorCode c_CANifier_SetLEDOutput(void *handle, uint32_t  dutyCycle, uint32_t  ledChannel)
 {
     SnobotSim::CtreCanifierWrapper* wrapper = ConvertToCanifierWrapper(handle);
     wrapper->Send("SetLEDOutput", dutyCycle, ledChannel);
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_CANifier_SetGeneralOutputs(void *handle,  uint32_t  outputsBits,  uint32_t  isOutputBits)
+ctre::phoenix::ErrorCode c_CANifier_SetGeneralOutputs(void *handle, uint32_t  outputsBits, uint32_t  isOutputBits)
 {
     SnobotSim::CtreCanifierWrapper* wrapper = ConvertToCanifierWrapper(handle);
     wrapper->Send("SetGeneralOutputs", outputsBits, isOutputBits);
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_CANifier_SetGeneralOutput(void *handle,  uint32_t  outputPin,  bool  outputValue,  bool  outputEnable)
+ctre::phoenix::ErrorCode c_CANifier_SetGeneralOutput(void *handle, uint32_t  outputPin, bool  outputValue, bool  outputEnable)
 {
     SnobotSim::CtreCanifierWrapper* wrapper = ConvertToCanifierWrapper(handle);
     wrapper->Send("SetGeneralOutput", outputPin, outputValue, outputEnable);
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_CANifier_SetPWMOutput(void *handle,  uint32_t  pwmChannel,  uint32_t  dutyCycle)
+ctre::phoenix::ErrorCode c_CANifier_SetPWMOutput(void *handle, uint32_t  pwmChannel, uint32_t  dutyCycle)
 {
     SnobotSim::CtreCanifierWrapper* wrapper = ConvertToCanifierWrapper(handle);
     wrapper->Send("SetPWMOutput", pwmChannel, dutyCycle);
@@ -99,7 +99,7 @@ ctre::phoenix::ErrorCode c_CANifier_GetGeneralInput(void *handle, uint32_t input
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_CANifier_GetPWMInput(void *handle,  uint32_t  pwmChannel,  double dutyCycleAndPeriod [2])
+ctre::phoenix::ErrorCode c_CANifier_GetPWMInput(void *handle, uint32_t  pwmChannel, double dutyCycleAndPeriod [2])
 {
     RECEIVE_HELPER("GetPWMInput", sizeof(pwmChannel) + sizeof(double) * 2);
     PoplateReceiveResults(buffer, &pwmChannel, buffer_pos);
@@ -122,6 +122,7 @@ ctre::phoenix::ErrorCode c_CANifier_GetBusVoltage(void *handle, double * battery
     PoplateReceiveResults(buffer, batteryVoltage, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
+
 ctre::phoenix::ErrorCode c_CANifier_GetQuadraturePosition(void *handle, int * pos)
 {
     RECEIVE_HELPER("GetQuadraturePosition", sizeof(*pos));
@@ -165,27 +166,24 @@ ctre::phoenix::ErrorCode c_CANifier_ConfigVelocityMeasurementWindow(void *handle
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_CANifier_ConfigClearPositionOnLimitF(void *handle,
-        bool clearPositionOnLimitF, int timeoutMs)
+ctre::phoenix::ErrorCode c_CANifier_ConfigClearPositionOnLimitF(void *handle, bool clearPositionOnLimitF, int timeoutMs)
 {
     SnobotSim::CtreCanifierWrapper* wrapper = ConvertToCanifierWrapper(handle);
-    wrapper->Send("ConfigClearPositionOnLimitF", clearPositionOnLimitF, timeoutMs);
+    wrapper->Send("ConfigClearPositionOnLimitF", clearPositionOnLimitF);
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_CANifier_ConfigClearPositionOnLimitR(void *handle,
-        bool clearPositionOnLimitR, int timeoutMs)
+ctre::phoenix::ErrorCode c_CANifier_ConfigClearPositionOnLimitR(void *handle, bool clearPositionOnLimitR, int timeoutMs)
 {
     SnobotSim::CtreCanifierWrapper* wrapper = ConvertToCanifierWrapper(handle);
-    wrapper->Send("c_CANifier_ConfigClearPositionOnLimitR", clearPositionOnLimitR, timeoutMs);
+    wrapper->Send("ConfigClearPositionOnLimitR", clearPositionOnLimitR);
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_CANifier_ConfigClearPositionOnQuadIdx(void *handle,
-        bool clearPositionOnQuadIdx, int timeoutMs)
+ctre::phoenix::ErrorCode c_CANifier_ConfigClearPositionOnQuadIdx(void *handle, bool clearPositionOnQuadIdx, int timeoutMs)
 {
     SnobotSim::CtreCanifierWrapper* wrapper = ConvertToCanifierWrapper(handle);
-    wrapper->Send("ConfigClearPositionOnQuadIdx", clearPositionOnQuadIdx, timeoutMs);
+    wrapper->Send("ConfigClearPositionOnQuadIdx", clearPositionOnQuadIdx);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -288,13 +286,13 @@ ctre::phoenix::ErrorCode c_CANifier_SetStatusFramePeriod(void *handle, int frame
 
 ctre::phoenix::ErrorCode c_CANifier_GetStatusFramePeriod(void *handle, int frame, int *periodMs, int timeoutMs)
 {
-    RECEIVE_HELPER("GetStatusFramePeriod", sizeof(frame) +  sizeof(*periodMs));
+    RECEIVE_HELPER("GetStatusFramePeriod", sizeof(frame) + sizeof(*periodMs));
     PoplateReceiveResults(buffer, &frame, buffer_pos);
     PoplateReceiveResults(buffer, periodMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
-ctre::phoenix::ErrorCode c_CANifier_SetControlFramePeriod(void *handle, int frame,    int periodMs)
+ctre::phoenix::ErrorCode c_CANifier_SetControlFramePeriod(void *handle, int frame, int periodMs)
 {
     SnobotSim::CtreCanifierWrapper* wrapper = ConvertToCanifierWrapper(handle);
     wrapper->Send("SetControlFramePeriod", frame, periodMs);

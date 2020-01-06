@@ -55,12 +55,12 @@ extern "C"{
 	CCIEXPORT ctre::phoenix::ErrorCode c_CANifier_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs);
 	CCIEXPORT ctre::phoenix::ErrorCode c_CANifier_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs);
 	CCIEXPORT ctre::phoenix::ErrorCode c_CANifier_ConfigFactoryDefault(void *handle, int timeoutMs);
-	CCIEXPORT ctre::phoenix::ErrorCode c_CANifier_GetFaults(void *handle, int * param) ;
-	CCIEXPORT ctre::phoenix::ErrorCode c_CANifier_GetStickyFaults(void *handle, int * param) ;
-	CCIEXPORT ctre::phoenix::ErrorCode c_CANifier_ClearStickyFaults(void *handle, int timeoutMs) ;
+	CCIEXPORT ctre::phoenix::ErrorCode c_CANifier_GetFaults(void *handle, int * param);
+	CCIEXPORT ctre::phoenix::ErrorCode c_CANifier_GetStickyFaults(void *handle, int * param);
+	CCIEXPORT ctre::phoenix::ErrorCode c_CANifier_ClearStickyFaults(void *handle, int timeoutMs);
 	CCIEXPORT ctre::phoenix::ErrorCode c_CANifier_GetFirmwareVersion(void *handle, int *firmwareVers);
 	CCIEXPORT ctre::phoenix::ErrorCode c_CANifier_HasResetOccurred(void *handle, bool * hasReset);
 	CCIEXPORT ctre::phoenix::ErrorCode c_CANifier_SetStatusFramePeriod(void *handle, int frame, uint8_t periodMs, int timeoutMs);
 	CCIEXPORT ctre::phoenix::ErrorCode c_CANifier_GetStatusFramePeriod(void *handle, int frame, int *periodMs, int timeoutMs);
-	CCIEXPORT ctre::phoenix::ErrorCode c_CANifier_SetControlFramePeriod(void *handle, int frame,	int periodMs) ;
+	CCIEXPORT ctre::phoenix::ErrorCode c_CANifier_SetControlFramePeriod(void *handle, int frame,	int periodMs);
 }
