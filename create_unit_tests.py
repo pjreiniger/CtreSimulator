@@ -5,12 +5,9 @@ import collections
 import shutil
 
 
-JAVA_PATH = r'C:\Program Files\Java\jdk1.8.0_191'
-LIB_VERSION = "5.14.0"
-LIB_HASH = "ed148ed31f0d0475c7037afd308dc2e0b3dd70fa"
-ARTIFACT_PACKAGE = "com.ctre.phoenix"
-ARTIFACT_NAME = "api-java"
-M2_DIRECTORY = r'C:\Users\PJ\.gradle\caches\modules-2\files-2.1'
+JAVA_PATH = r'C:\Users\Public\wpilib\2020\jdk'
+LIB_VERSION = "5.17.2"
+LIB_HASH = "ed192c71cffd6eb083149d27e3386acd4f1225b0"
 
 def create_tests(jar_path):
     output_dir = "build/tempCreateTests"
@@ -101,8 +98,9 @@ def run_javap(objName, class_file):
                 tests += "        %s.%s(%s);\n" % (objName, func, ", ".join(arg_replacement))
                 tests += "    }\n"
                 
-            
+    
     print tests
+    
 
 create_tests(r'C:\Users\PJ\.gradle\caches\modules-2\files-2.1\{artifact_package}\{artifact_name}\{lib_version}\{lib_hash}/{artifact_name}-{lib_version}.jar'.format(
         lib_hash=LIB_HASH,

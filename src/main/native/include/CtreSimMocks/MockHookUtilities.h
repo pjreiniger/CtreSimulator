@@ -13,8 +13,8 @@
 #endif
 
 #define LOG_UNSUPPORTED_CAN_FUNC(x)                                           \
-    std::cerr << __FUNCTION_NAME__ << "(" << __FILE__ ":" << __LINE__ << ") " \
-              << " Unsupported" << x << std::endl;
+    std::cerr << "(" << __FILE__ ":" << __LINE__ << ") " \
+              << " Unsupported Function '" << __FUNCTION_NAME__ << "'" << x << std::endl;
 
 #ifdef _MSC_VER
 #define EXPORT_ __declspec(dllexport)
