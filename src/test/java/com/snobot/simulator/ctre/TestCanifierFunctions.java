@@ -14,19 +14,15 @@ import com.ctre.phoenix.CANifierControlFrame;
 import com.ctre.phoenix.CANifierFaults;
 import com.ctre.phoenix.CANifierStatusFrame;
 import com.ctre.phoenix.CANifierStickyFaults;
-import com.ctre.phoenix.CTREJNIWrapper;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.VelocityPeriod;
 
-public class TestCanifierFunctions
-{
+public class TestCanifierFunctions {
 
-    private CtreCallback mTestCallback = new CtreCallback()
-        {
+    private CtreCallback mTestCallback = new CtreCallback() {
 
         @Override
-        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
-        {
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount) {
             System.out.println("Getting callback " + aName);
         }
     };
@@ -34,10 +30,10 @@ public class TestCanifierFunctions
     @Test
     public void testAllFunctions()
     {
-        System.out.println(CTREJNIWrapper.class);
         CANifier canifier = new CANifier(0);
         CtreJni.registerCanCanifierCallback(mTestCallback);
 
+        canifier.DestroyObject();
         for (LEDChannel ledChannel : LEDChannel.values())
         {
             canifier.setLEDOutput(0, ledChannel);
@@ -55,9 +51,9 @@ public class TestCanifierFunctions
         canifier.getLastError();
         canifier.setPWMOutput(0, 0);
         canifier.enablePWMOutput(0, false);
-        for (PWMChannel pwmChannel : PWMChannel.values())
+        for (double[] double[] : double[].values())
         {
-            canifier.getPWMInput(pwmChannel, new double[2]);
+            canifier.getPWMInput(new PWMChannel(), double[]);
         }
         canifier.getQuadraturePosition();
         canifier.setQuadraturePosition(0, 0);
@@ -134,7 +130,4 @@ public class TestCanifierFunctions
         canifier.configFactoryDefault(0);
         canifier.configFactoryDefault();
 
-        canifier.DestroyObject();
-        }
-
-    }
+}

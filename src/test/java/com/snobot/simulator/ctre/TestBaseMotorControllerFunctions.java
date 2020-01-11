@@ -4,7 +4,6 @@ import java.nio.ByteBuffer;
 
 import org.junit.jupiter.api.Test;
 
-import com.ctre.phoenix.CTREJNIWrapper;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motion.BufferedTrajectoryPointStream;
 import com.ctre.phoenix.motion.MotionProfileStatus;
@@ -55,10 +54,10 @@ public class TestBaseMotorControllerFunctions
     @Test
     public void testAllFunctions()
     {
+        CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
 
         TalonSRX talon = new TalonSRX(0);
         TalonSRX followTalon = new TalonSRX(1);
-        CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
         CtreJni.registerCanMotorCallback(mTestCallback);
 
         TrajectoryPoint trajectoryPoint = new TrajectoryPoint();
@@ -150,28 +149,28 @@ public class TestBaseMotorControllerFunctions
         {
             for (FeedbackDevice feedbackDevice : FeedbackDevice.values())
             {
-                talon.configSensorTerm(sensorTerm, feedbackDevice);
+                talon.configSensorTerm(sensorTerm, feedbackDevice, 0);
             }
         }
         for (SensorTerm sensorTerm : SensorTerm.values())
         {
             for (FeedbackDevice feedbackDevice : FeedbackDevice.values())
             {
-                talon.configSensorTerm(sensorTerm, feedbackDevice, 0);
-            }
-        }
-        for (SensorTerm sensorTerm : SensorTerm.values())
-        {
-            for (RemoteFeedbackDevice feedbackDevice : RemoteFeedbackDevice.values())
-            {
-                talon.configSensorTerm(sensorTerm, feedbackDevice, 0);
-            }
-        }
-        for (SensorTerm sensorTerm : SensorTerm.values())
-        {
-            for (RemoteFeedbackDevice feedbackDevice : RemoteFeedbackDevice.values())
-            {
                 talon.configSensorTerm(sensorTerm, feedbackDevice);
+            }
+        }
+        for (SensorTerm sensorTerm : SensorTerm.values())
+        {
+            for (RemoteFeedbackDevice remoteFeedbackDevice : RemoteFeedbackDevice.values())
+            {
+                talon.configSensorTerm(sensorTerm, remoteFeedbackDevice, 0);
+            }
+        }
+        for (SensorTerm sensorTerm : SensorTerm.values())
+        {
+            for (RemoteFeedbackDevice remoteFeedbackDevice : RemoteFeedbackDevice.values())
+            {
+                talon.configSensorTerm(sensorTerm, remoteFeedbackDevice);
             }
         }
         talon.getSelectedSensorPosition(0);
