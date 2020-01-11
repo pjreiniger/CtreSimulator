@@ -54,15 +54,14 @@ public class TestBaseMotorControllerFunctions
     @Test
     public void testAllFunctions()
     {
-        CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
 
         TalonSRX talon = new TalonSRX(0);
         TalonSRX followTalon = new TalonSRX(1);
+        CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
         CtreJni.registerCanMotorCallback(mTestCallback);
 
         TrajectoryPoint trajectoryPoint = new TrajectoryPoint();
         trajectoryPoint.timeDur = 10;
-        talon.DestroyObject();
         talon.getHandle();
         talon.getDeviceID();
         for (ControlMode controlMode : ControlMode.values())
@@ -393,5 +392,7 @@ public class TestBaseMotorControllerFunctions
         talon.configureFilter(new FilterConfiguration());
         talon.getFilterConfigs(new FilterConfiguration(), 0, 0);
         talon.getFilterConfigs(new FilterConfiguration());
+
+        talon.DestroyObject();
     }
 }

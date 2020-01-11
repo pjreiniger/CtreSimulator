@@ -5,11 +5,10 @@ import collections
 import shutil
 
 
-JAVA_PATH = r'C:\Users\Public\wpilib\2020\jdk'
-LIB_VERSION = "5.17.2"
-LIB_HASH = "ed192c71cffd6eb083149d27e3386acd4f1225b0"
 
 def create_tests(jar_path):
+    print(r'C:\Users\PJ\.gradle\caches\modules-2\files-2.1\com.ctre.phoenix\wpiapi-java\5.17.2')
+    print(jar_path)
     output_dir = "build/tempCreateTests"
     if os.path.exists(output_dir):
         shutil.rmtree(output_dir)
@@ -34,10 +33,16 @@ def create_tests(jar_path):
             unzip_args.append(clazz)
     
     print subprocess.call(unzip_args)
+    
+    known_classes = ["IMotorController", "SlotConfiguration", "FilterConfiguration", "TrajectoryPoint", "BufferedTrajectoryPointStream", "MotionProfileStatus", "Faults", "StickyFaults",
+                     "PinValues", "PWMChannel", "CANifierFaults", "CANifierStickyFaults", "CANifierConfiguration", 
+                     "PigeonIMU_Faults", "PigeonIMU_StickyFaults", "PigeonIMUConfiguration", "GeneralStatus"]
+    
+    
 
     for key in classes:
         for clazz, header_template in classes[key]:
-            run_javap(key, clazz, header_template)
+            run_javap(key, clazz, known_classes, header_template)
     
     
 def prepare_variable_name(in_name):
@@ -52,7 +57,7 @@ def prepare_variable_name(in_name):
     
     
 
-def run_javap(objName, class_file, header_template):
+def run_javap(objName, class_file, known_classes, header_template):
     
     print "File %s ---------------------" % class_file
     output_file = "Test%sFunctions" % class_file.split('/')[-1][:-6]
@@ -65,11 +70,14 @@ def run_javap(objName, class_file, header_template):
     javap_args.append(class_file)
     p = subprocess.Popen(javap_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     
-    stdout, _ = p.communicate()
+    stdout, stderr = p.communicate()
+    print(stderr)
+    print("Returned with %s" % p.returncode)
     
     tests = ""
     
     for line in stdout.split("\n"):
+#         print(line)
         matches = re.findall("  public .* (.*)\((.*)\)", line)
         if len(matches) != 0:
             matches = matches[0]
@@ -91,15 +99,17 @@ def run_javap(objName, class_file, header_template):
                         if "$" in stripped_name:
                             stripped_name = stripped_name[stripped_name.rfind("$") + 1:]
                         
-                        enumerations.append(stripped_name)
-                        arg_replacement.append(prepare_variable_name(stripped_name))
+                        if stripped_name in known_classes:
+                            arg_replacement.append("new %s()" % stripped_name)
+                        else:
+                            enumerations.append(stripped_name)
+                            arg_replacement.append(prepare_variable_name(stripped_name))
                         
             if len(enumerations) == 0:
                 tests += "        %s.%s(%s);\n" % (objName, func, ", ".join(arg_replacement))
             else:
-                tests += "        for ({0} {1} : {0}.values())".format(enumerations[0], prepare_variable_name(enumerations[0])) + "\n        {\n"
-                tests += "            %s.%s(%s);\n" % (objName, func, ", ".join(arg_replacement))
-                tests += "        }\n"
+                indent = "        "
+                tests += dump_enemerate(iter(enumerations), indent, ", ".join(arg_replacement), objName, func, arg_replacement)
                 
     with(open(output_file, 'w')) as f:
         f.write(header_template)
@@ -107,6 +117,41 @@ def run_javap(objName, class_file, header_template):
         f.write("\n}\n")
 #     print tests
 
+def dump_enemerate(enumeration_iter, indent, args, objName, func, arg_replacement):
+    
+    def safe_get_next(enumeration_iter):
+        try:
+            n = next(enumeration_iter)
+            return True, n
+        except StopIteration:
+            return False, None
+    
+    tests = ""
+    valid, enum = safe_get_next(enumeration_iter)
+    if valid:
+        print(indent, "DUMPING ENUM ", enum, args)
+        var_name = prepare_variable_name(enum)
+        tests += "{indent}for ({enum} {var_name} : {enum}.values())".format(**locals()) 
+        tests += "\n%s{\n" % indent
+        tests += dump_enemerate(enumeration_iter, indent + "    ", args, objName, func, arg_replacement)
+        tests += "{indent}}}\n".format(**locals())
+    else:
+        tests += "%s%s.%s(%s);\n" % (indent, objName, func, ", ".join(arg_replacement))
+        
+    return tests
+
+def dump_single_test(indent, objName, func, arg_replacement, enumerations):
+    tests = ""
+    args=", ".join(arg_replacement)
+    if len(enumerations) == 0:
+        tests += "        {objName}.{func}({args});\n".format(**locals())
+    else:
+        
+        enumeration_iter = iter(enumerations)
+        dump_enemerate(enumeration_iter, indent, args, objName, func, arg_replacement)
+        
+    return tests
+    
 
 BASE_MOTOR_CONTROLLER_TEMPLATE_HEADER = """package com.snobot.simulator.ctre;
 
@@ -305,9 +350,13 @@ public class TestCanifierFunctions {
 
 """
 
+JAVA_PATH = r'C:\Users\Public\wpilib\2020\jdk'
+LIB_VERSION = "5.17.2"
+LIB_HASH = "ed192c71cffd6eb083149d27e3386acd4f1225b0"
+ARTIFACT_PACKAGE = "com.ctre.phoenix"
+ARTIFACT_NAME = "api-java"
 create_tests(r'C:\Users\PJ\.gradle\caches\modules-2\files-2.1\{artifact_package}\{artifact_name}\{lib_version}\{lib_hash}/{artifact_name}-{lib_version}.jar'.format(
         lib_hash=LIB_HASH,
         lib_version=LIB_VERSION,
-        m2_dir=M2_DIRECTORY,
         artifact_package=ARTIFACT_PACKAGE,
         artifact_name=ARTIFACT_NAME))

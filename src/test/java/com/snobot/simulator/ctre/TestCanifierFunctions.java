@@ -33,7 +33,6 @@ public class TestCanifierFunctions {
         CANifier canifier = new CANifier(0);
         CtreJni.registerCanCanifierCallback(mTestCallback);
 
-        canifier.DestroyObject();
         for (LEDChannel ledChannel : LEDChannel.values())
         {
             canifier.setLEDOutput(0, ledChannel);
@@ -51,9 +50,9 @@ public class TestCanifierFunctions {
         canifier.getLastError();
         canifier.setPWMOutput(0, 0);
         canifier.enablePWMOutput(0, false);
-        for (double[] double[] : double[].values())
+        for (PWMChannel pwmChannel : PWMChannel.values())
         {
-            canifier.getPWMInput(new PWMChannel(), double[]);
+            canifier.getPWMInput(pwmChannel, new double[2]);
         }
         canifier.getQuadraturePosition();
         canifier.setQuadraturePosition(0, 0);
@@ -130,4 +129,6 @@ public class TestCanifierFunctions {
         canifier.configFactoryDefault(0);
         canifier.configFactoryDefault();
 
+        canifier.DestroyObject();
+    }
 }
