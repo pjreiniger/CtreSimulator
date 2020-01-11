@@ -17,15 +17,17 @@ import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 import com.ctre.phoenix.sensors.PigeonIMU_StickyFaults;
 
 @Tag("CTRE")
-public class TestPigeonFunctions
+public class TestPigeonIMUFunctions
 {
-	private CtreCallback mTestCallback = new CtreCallback() {
+    private CtreCallback mTestCallback = new CtreCallback()
+    {
 
-		@Override
-		public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount) {
-			System.out.println("Getting callback " + aName);
-		}
-	};
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
+        {
+            System.out.println("Getting callback " + aName);
+        }
+    };
 
     @Test
     public void testAllFunctions()
@@ -54,11 +56,11 @@ public class TestPigeonFunctions
         imu.setCompassDeclination(0);
         imu.setCompassAngle(0, 0);
         imu.setCompassAngle(0);
-        for(CalibrationMode calibrationMode : CalibrationMode.values())
+        for (CalibrationMode calibrationMode : CalibrationMode.values())
         {
             imu.enterCalibrationMode(calibrationMode, 0);
         }
-        for(CalibrationMode calibrationMode : CalibrationMode.values())
+        for (CalibrationMode calibrationMode : CalibrationMode.values())
         {
             imu.enterCalibrationMode(calibrationMode);
         }
@@ -86,45 +88,45 @@ public class TestPigeonFunctions
         imu.configSetCustomParam(0, 0);
         imu.configGetCustomParam(0, 0);
         imu.configGetCustomParam(0);
-        for(ParamEnum paramEnum : ParamEnum.values())
+        for (ParamEnum paramEnum : ParamEnum.values())
         {
             imu.configSetParameter(paramEnum, 0, 0, 0, 0);
         }
-        for(ParamEnum paramEnum : ParamEnum.values())
+        for (ParamEnum paramEnum : ParamEnum.values())
         {
             imu.configSetParameter(paramEnum, 0, 0, 0);
         }
         imu.configSetParameter(0, 0, 0, 0, 0);
         imu.configSetParameter(0, 0, 0, 0);
-        for(ParamEnum paramEnum : ParamEnum.values())
+        for (ParamEnum paramEnum : ParamEnum.values())
         {
             imu.configGetParameter(paramEnum, 0, 0);
         }
-        for(ParamEnum paramEnum : ParamEnum.values())
+        for (ParamEnum paramEnum : ParamEnum.values())
         {
             imu.configGetParameter(paramEnum, 0);
         }
         imu.configGetParameter(0, 0, 0);
         imu.configGetParameter(0, 0);
-        for(PigeonIMU_StatusFrame pigeonIMU_StatusFrame : PigeonIMU_StatusFrame.values())
+        for (PigeonIMU_StatusFrame pigeonIMU_StatusFrame : PigeonIMU_StatusFrame.values())
         {
             imu.setStatusFramePeriod(pigeonIMU_StatusFrame, 0, 0);
         }
-        for(PigeonIMU_StatusFrame pigeonIMU_StatusFrame : PigeonIMU_StatusFrame.values())
+        for (PigeonIMU_StatusFrame pigeonIMU_StatusFrame : PigeonIMU_StatusFrame.values())
         {
             imu.setStatusFramePeriod(pigeonIMU_StatusFrame, 0);
         }
         imu.setStatusFramePeriod(0, 0, 0);
         imu.setStatusFramePeriod(0, 0);
-        for(PigeonIMU_StatusFrame pigeonIMU_StatusFrame : PigeonIMU_StatusFrame.values())
+        for (PigeonIMU_StatusFrame pigeonIMU_StatusFrame : PigeonIMU_StatusFrame.values())
         {
             imu.getStatusFramePeriod(pigeonIMU_StatusFrame, 0);
         }
-        for(PigeonIMU_StatusFrame pigeonIMU_StatusFrame : PigeonIMU_StatusFrame.values())
+        for (PigeonIMU_StatusFrame pigeonIMU_StatusFrame : PigeonIMU_StatusFrame.values())
         {
             imu.getStatusFramePeriod(pigeonIMU_StatusFrame);
         }
-        for(PigeonIMU_ControlFrame pigeonIMU_ControlFrame : PigeonIMU_ControlFrame.values())
+        for (PigeonIMU_ControlFrame pigeonIMU_ControlFrame : PigeonIMU_ControlFrame.values())
         {
             imu.setControlFramePeriod(pigeonIMU_ControlFrame, 0);
         }
