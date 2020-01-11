@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 
 import org.junit.jupiter.api.Test;
 
+import com.ctre.phoenix.CTREJNIWrapper;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motion.BufferedTrajectoryPointStream;
 import com.ctre.phoenix.motion.MotionProfileStatus;
@@ -29,8 +30,6 @@ import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.FilterConfiguration;
 import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
 
 public class TestBaseMotorControllerFunctions
 {
@@ -56,6 +55,7 @@ public class TestBaseMotorControllerFunctions
     @Test
     public void testAllFunctions()
     {
+        System.out.println(CTREJNIWrapper.class);
         CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
 
         TalonSRX talon = new TalonSRX(0);
@@ -393,5 +393,5 @@ public class TestBaseMotorControllerFunctions
         talon.configureFilter(new FilterConfiguration());
         talon.getFilterConfigs(new FilterConfiguration(), 0, 0);
         talon.getFilterConfigs(new FilterConfiguration());
-
+    }
 }

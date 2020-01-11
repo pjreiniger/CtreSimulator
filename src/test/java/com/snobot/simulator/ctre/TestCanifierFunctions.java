@@ -14,6 +14,7 @@ import com.ctre.phoenix.CANifierControlFrame;
 import com.ctre.phoenix.CANifierFaults;
 import com.ctre.phoenix.CANifierStatusFrame;
 import com.ctre.phoenix.CANifierStickyFaults;
+import com.ctre.phoenix.CTREJNIWrapper;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.VelocityPeriod;
 
@@ -32,7 +33,8 @@ public class TestCanifierFunctions
 
     @Test
     public void testAllFunctions()
-        {
+    {
+        System.out.println(CTREJNIWrapper.class);
         CANifier canifier = new CANifier(0);
         CtreJni.registerCanCanifierCallback(mTestCallback);
 
