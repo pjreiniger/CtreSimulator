@@ -18,10 +18,10 @@ def create_tests(jar_path):
     os.chdir(output_dir)
         
     classes = collections.defaultdict(list)
-    classes["talon"].append("com/ctre/phoenix/motorcontrol/can/TalonSRX.class")
-    classes["talon"].append("com/ctre/phoenix/motorcontrol/can/BaseMotorController.class")
-    classes["imu"].append("com/ctre/phoenix/sensors/PigeonIMU.class")
-    classes["canifier"].append("com/ctre/phoenix/CANifier.class")
+    classes["talon"].append(("com/ctre/phoenix/motorcontrol/can/TalonSRX.class", TALON_TEMPLATE_HEADER))
+    classes["talon"].append(("com/ctre/phoenix/motorcontrol/can/BaseMotorController.class", BASE_MOTOR_CONTROLLER_TEMPLATE_HEADER))
+    classes["imu"].append(("com/ctre/phoenix/sensors/PigeonIMU.class", PIGEON_TEMPLATE_HEADER))
+    classes["canifier"].append(("com/ctre/phoenix/CANifier.class", CANNIFIER_TEMPLATE_HEADER))
      
         
     unzip_args = []
@@ -30,15 +30,14 @@ def create_tests(jar_path):
     unzip_args.append(jar_path)
 
     for class_list in classes.values():
-        for clazz in class_list:
+        for clazz, _ in class_list:
             unzip_args.append(clazz)
     
-    print " ".join(unzip_args)
     print subprocess.call(unzip_args)
 
     for key in classes:
-        for clazz in classes[key]:
-            run_javap(key, clazz)
+        for clazz, header_template in classes[key]:
+            run_javap(key, clazz, header_template)
     
     
 def prepare_variable_name(in_name):
@@ -53,9 +52,13 @@ def prepare_variable_name(in_name):
     
     
 
-def run_javap(objName, class_file):
+def run_javap(objName, class_file, header_template):
     
     print "File %s ---------------------" % class_file
+    output_file = "Test%sFunctions" % class_file.split('/')[-1][:-6]
+    output_file = os.path.join("%s/src/test/java/com/snobot/simulator/ctre/%s.java" % (os.path.dirname(os.path.realpath(__file__)), output_file))
+    print(class_file)
+    print(output_file)
 
     javap_args = []
     javap_args.append(JAVA_PATH + r'\bin\javap')
@@ -92,14 +95,215 @@ def run_javap(objName, class_file):
                         arg_replacement.append(prepare_variable_name(stripped_name))
                         
             if len(enumerations) == 0:
-                tests += "    %s.%s(%s);\n" % (objName, func, ", ".join(arg_replacement))
-            else:
-                tests += "    for({0} {1} : {0}.values())".format(enumerations[0], prepare_variable_name(enumerations[0])) + "\n    {\n"
                 tests += "        %s.%s(%s);\n" % (objName, func, ", ".join(arg_replacement))
-                tests += "    }\n"
+            else:
+                tests += "        for ({0} {1} : {0}.values())".format(enumerations[0], prepare_variable_name(enumerations[0])) + "\n        {\n"
+                tests += "            %s.%s(%s);\n" % (objName, func, ", ".join(arg_replacement))
+                tests += "        }\n"
                 
-            
-    print tests
+    with(open(output_file, 'w')) as f:
+        f.write(header_template)
+        f.write(tests) 
+        f.write("\n}\n")
+#     print tests
+
+
+BASE_MOTOR_CONTROLLER_TEMPLATE_HEADER = """package com.snobot.simulator.ctre;
+
+import java.nio.ByteBuffer;
+
+import org.junit.jupiter.api.Test;
+
+import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.motion.BufferedTrajectoryPointStream;
+import com.ctre.phoenix.motion.MotionProfileStatus;
+import com.ctre.phoenix.motion.TrajectoryPoint;
+import com.ctre.phoenix.motorcontrol.ControlFrame;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.Faults;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.FollowerType;
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.SensorTerm;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.StickyFaults;
+import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
+import com.ctre.phoenix.motorcontrol.can.FilterConfiguration;
+import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
+
+public class TestBaseMotorControllerFunctions
+{
+    private CtreCallback mTestCallback = new CtreCallback()
+    {
+
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
+        {
+            System.out.println("Getting callback " + aName);
+        }
+    };
+    private CtreCallback mTestBuffTrajPointStreamCallback = new CtreCallback()
+    {
+
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
+        {
+            System.out.println("Getting TrajPoint callback " + aName);
+        }
+    };
+
+    @Test
+    public void testAllFunctions()
+    {
+        CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
+
+        TalonSRX talon = new TalonSRX(0);
+        TalonSRX followTalon = new TalonSRX(1);
+        CtreJni.registerCanMotorCallback(mTestCallback);
+
+        TrajectoryPoint trajectoryPoint = new TrajectoryPoint();
+        trajectoryPoint.timeDur = 10;
+
+
+"""
+
+TALON_TEMPLATE_HEADER = """package com.snobot.simulator.ctre;
+
+import java.nio.ByteBuffer;
+
+import org.junit.jupiter.api.Test;
+
+import com.ctre.phoenix.motion.TrajectoryPoint;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
+
+public class TestTalonSRXFunctions
+{
+    private CtreCallback mTestCallback = new CtreCallback()
+    {
+
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
+        {
+            System.out.println("Getting callback " + aName);
+        }
+    };
+    private CtreCallback mTestBuffTrajPointStreamCallback = new CtreCallback()
+    {
+
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
+        {
+            System.out.println("Getting TrajPoint callback " + aName);
+        }
+    };
+
+    @Test
+    public void testAllFunctions()
+    {
+        CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
+
+        TalonSRX talon = new TalonSRX(0);
+        CtreJni.registerCanMotorCallback(mTestCallback);
+
+        TrajectoryPoint trajectoryPoint = new TrajectoryPoint();
+        trajectoryPoint.timeDur = 10;
+
+        //////////////////////////////////////////////
+
+"""
+
+PIGEON_TEMPLATE_HEADER = """package com.snobot.simulator.ctre;
+
+import java.nio.ByteBuffer;
+
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+
+import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.PigeonIMU.CalibrationMode;
+import com.ctre.phoenix.sensors.PigeonIMU.FusionStatus;
+import com.ctre.phoenix.sensors.PigeonIMU.GeneralStatus;
+import com.ctre.phoenix.sensors.PigeonIMUConfiguration;
+import com.ctre.phoenix.sensors.PigeonIMU_ControlFrame;
+import com.ctre.phoenix.sensors.PigeonIMU_Faults;
+import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
+import com.ctre.phoenix.sensors.PigeonIMU_StickyFaults;
+
+@Tag("CTRE")
+public class TestPigeonIMUFunctions
+{
+    private CtreCallback mTestCallback = new CtreCallback()
+    {
+
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
+        {
+            System.out.println("Getting callback " + aName);
+        }
+    };
+
+    @Test
+    public void testAllFunctions()
+    {
+        PigeonIMU imu = new PigeonIMU(0);
+        CtreJni.registerCanPigeonImuCallback(mTestCallback);
+
+"""
+
+CANNIFIER_TEMPLATE_HEADER = """package com.snobot.simulator.ctre;
+
+import java.nio.ByteBuffer;
+
+import org.junit.jupiter.api.Test;
+
+import com.ctre.phoenix.CANifier;
+import com.ctre.phoenix.CANifier.GeneralPin;
+import com.ctre.phoenix.CANifier.LEDChannel;
+import com.ctre.phoenix.CANifier.PWMChannel;
+import com.ctre.phoenix.CANifier.PinValues;
+import com.ctre.phoenix.CANifierConfiguration;
+import com.ctre.phoenix.CANifierControlFrame;
+import com.ctre.phoenix.CANifierFaults;
+import com.ctre.phoenix.CANifierStatusFrame;
+import com.ctre.phoenix.CANifierStickyFaults;
+import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.VelocityPeriod;
+
+public class TestCanifierFunctions {
+
+    private CtreCallback mTestCallback = new CtreCallback() {
+
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount) {
+            System.out.println("Getting callback " + aName);
+        }
+    };
+
+    @Test
+    public void testAllFunctions()
+    {
+        CANifier canifier = new CANifier(0);
+        CtreJni.registerCanCanifierCallback(mTestCallback);
+
+"""
 
 create_tests(r'C:\Users\PJ\.gradle\caches\modules-2\files-2.1\{artifact_package}\{artifact_name}\{lib_version}\{lib_hash}/{artifact_name}-{lib_version}.jar'.format(
         lib_hash=LIB_HASH,
