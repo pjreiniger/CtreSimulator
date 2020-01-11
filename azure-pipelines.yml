@@ -5,16 +5,16 @@
 
 resources:
   containers:
-  - container: wpilib2019
-    image: wpilib/roborio-cross-ubuntu:2019-18.04
-
+  - container: ubuntu
+    image:  wpilib/ubuntu-base:18.04
+ 
 jobs:
 
  - job: Linux
    pool:
      vmImage: 'Ubuntu 16.04'
 
-   container: wpilib2019
+   container: ubuntu
 
    steps:
    - task: Gradle@2
@@ -151,6 +151,12 @@ jobs:
       inputs:
         artifactName: 'OSXMaven'
         downloadPath: $(System.DefaultWorkingDirectory)/mac
+
+    - task: DownloadBuildArtifacts@0
+      displayName: 'Download Build Artifacts'
+      inputs:
+        artifactName: 'LinuxMaven'
+        downloadPath: $(System.DefaultWorkingDirectory)/linux
 
     - powershell: |
         Copy-Item $(System.DefaultWorkingDirectory)/win32/Win32Maven/com $(System.DefaultWorkingDirectory)/output/com -recurse -force -verbose

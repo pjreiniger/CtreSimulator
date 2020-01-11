@@ -55,11 +55,10 @@ public class TestBaseMotorControllerFunctions
     @Test
     public void testAllFunctions()
     {
-        System.out.println(CTREJNIWrapper.class);
-        CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
 
         TalonSRX talon = new TalonSRX(0);
         TalonSRX followTalon = new TalonSRX(1);
+        CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
         CtreJni.registerCanMotorCallback(mTestCallback);
 
         TrajectoryPoint trajectoryPoint = new TrajectoryPoint();
@@ -318,6 +317,8 @@ public class TestBaseMotorControllerFunctions
         talon.configMotionCruiseVelocity(0);
         talon.configMotionAcceleration(0, 0);
         talon.configMotionAcceleration(0);
+        talon.configMotionSCurveStrength(0, 0);
+        talon.configMotionSCurveStrength(0);
         talon.clearMotionProfileTrajectories();
         talon.getMotionProfileTopLevelBufferCount();
         talon.pushMotionProfileTrajectory(trajectoryPoint);

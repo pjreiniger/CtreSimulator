@@ -2,19 +2,19 @@ import subprocess
 import os
 import re
 import collections
+import shutil
 
 
-JAVA_PATH = r'C:\Program Files\Java\jdk1.8.0_191'
-LIB_VERSION = "5.13.0"
-LIB_HASH = "f9b2c1e7b6f2cabc3204e791386c47a856654fc5"
-ARTIFACT_PACKAGE = "com.ctre.phoenix"
-ARTIFACT_NAME = "api-java"
-M2_DIRECTORY = r'C:\Users\PJ\.gradle\caches\modules-2\files-2.1'
+JAVA_PATH = r'C:\Users\Public\wpilib\2020\jdk'
+LIB_VERSION = "5.17.2"
+LIB_HASH = "ed192c71cffd6eb083149d27e3386acd4f1225b0"
 
 def create_tests(jar_path):
     output_dir = "build/tempCreateTests"
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+    if os.path.exists(output_dir):
+        shutil.rmtree(output_dir)
+        
+    os.makedirs(output_dir)
     os.chdir(output_dir)
         
     classes = collections.defaultdict(list)
