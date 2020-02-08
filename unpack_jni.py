@@ -260,13 +260,18 @@ def dump_unknown_function(jni_def):
 
 
 def guess_jni_function(package_name, jni_def, cci_functions):
-    
-    stripped_func_name = prefix_name + jni_def.func_name[len(package_name + "JNI_c_1_1SparkMax_1"):]
-#     print("XXXXXXXXXXXXX", stripped_func_name)
+    prefix_name = "c_CANifier_"
+    suffix_name = "JNI_JNI_1_1"
+    stripped_func_name = prefix_name + jni_def.func_name[len(package_name + suffix_name):]
+    # print(cci_functions)
+    # print("XXXXXXXXXXXXX", stripped_func_name)
+    # print(package_name)
+    # print(jni_def.func_name)
     
     if stripped_func_name in cci_functions:
         output = dump_known_function(jni_def, cci_functions[stripped_func_name])
-    else:  
+    else:
+        print("UNKNOWN FUNCTION '%s'" % stripped_func_name)
         output = dump_unknown_function(jni_def)
     
     return output
@@ -459,14 +464,20 @@ extern "C"{
     
 def run_conversion(cci_header, jni_header, cci_initial_dump, cci_prefix, cci_wrapper_type, cci_conversion_func):
     
-    base_dir = r'C:\Users\PJ\Documents\GitHub\SnobotSim\CtreSimulator'
-    output_cci_file = os.path.join(base_dir, 'com_revrobotics_jni_CANSparkMaxJNI.h')
-    output_jni_file = os.path.join(base_dir, 'com_revrobotics_jni_CANSparkMaxJNI.h')
+    base_dir = r'F:\git\FIRST\SnobotSim\CtreSimulator'
 
-    base_dir = r'C:\Users\PJ\Documents\GitHub\SnobotSim\CtreSimulator'
+    sanitized_jni_filename = jni_header[jni_header.rfind("_")  + 1:-2]
+    output_cci_file = os.path.join(base_dir, r"src\main\native\cpp\ctre_cci_mocks", cci_header[:-2] + ".cpp")
+    output_jni_file = os.path.join(base_dir, r"src\main\native\cpp\ctre_jni_mocks", sanitized_jni_filename + ".cpp")
+
+    print(r"F:\git\FIRST\SnobotSim\CtreSimulator\src\main\native\cpp\ctre_jni_mocks\CANifierJNI.cpp")
+    print(output_jni_file)
+    # fds
+
+    print(output_jni_file)
     cci_functions = parse_cci_file(os.path.join(base_dir, 'ctre_source/cci/native/include/ctre/phoenix/cci/%s' % cci_header))
     jni_functions = parse_jni_file(os.path.join(base_dir, 'ctre_source/cci/native/include/ctre/phoenix/jni/%s' % jni_header))
-#     dump_updated_jni(output_jni_file, "com_revrobotics_jni_CANSparkMaxJNI", cci_functions, jni_functions)
+    dump_updated_jni(output_jni_file, jni_header[:-2], cci_functions, jni_functions)
     dump_updated_cci(output_cci_file, cci_initial_dump, cci_prefix, cci_wrapper_type, cci_conversion_func, cci_functions)
 
 
