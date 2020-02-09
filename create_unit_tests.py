@@ -34,6 +34,7 @@ def create_tests(jar_path):
     
     print(subprocess.call(unzip_args))
 
+    
     known_classes = ["IMotorController", "SlotConfiguration", "FilterConfiguration", "TrajectoryPoint", "BufferedTrajectoryPointStream", "MotionProfileStatus", "Faults", "StickyFaults",
                      "PinValues", "PWMChannel", "CANifierFaults", "CANifierStickyFaults", "CANifierConfiguration", 
                      "PigeonIMU_Faults", "PigeonIMU_StickyFaults", "PigeonIMUConfiguration", "GeneralStatus"]
@@ -352,8 +353,8 @@ public class TestCanifierFunctions {
 """
 
 JAVA_PATH = r'C:\Users\Public\wpilib\2020\jdk'
-LIB_VERSION = "5.17.2"
-LIB_HASH = "ed192c71cffd6eb083149d27e3386acd4f1225b0"
+LIB_VERSION = "5.17.3"
+LIB_HASH = "53b38914d133657ea058c86a97547dfd2035401d"
 ARTIFACT_PACKAGE = "com.ctre.phoenix"
 ARTIFACT_NAME = "api-java"
 create_tests(r'C:\Users\PJ\.gradle\caches\modules-2\files-2.1\{artifact_package}\{artifact_name}\{lib_version}\{lib_hash}/{artifact_name}-{lib_version}.jar'.format(

@@ -20,7 +20,7 @@ void c_Logger_Open(int language, bool logDriverStation)
 	LOG_UNSUPPORTED_CAN_FUNC("");
 }
 
-ctre::phoenix::ErrorCode c_Logger_Log(ctre::phoenix::ErrorCode code, const char* origin, int hierarchy, const char *stacktrace)
+ctre::phoenix::ErrorCode c_Logger_Log(ctre::phoenix::ErrorCode code, const char* device, const char * func, int hierarchy, const char *stacktrace)
 {
     LOG_UNSUPPORTED_CAN_FUNC("");
     return (ctre::phoenix::ErrorCode) 0;
