@@ -1185,26 +1185,26 @@ JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJN
 
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
- * Method:    ConfigAbsoluteSensorRange
+ * Method:    ConfigIntegratedSensorAbsoluteRange
  * Signature: (JII)I
  */
-JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigAbsoluteSensorRange
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigIntegratedSensorAbsoluteRange
   (JNIEnv *, jclass, jlong, jint, jint);
 
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
- * Method:    ConfigMagnetOffset
+ * Method:    ConfigIntegratedSensorOffset
  * Signature: (JDI)I
  */
-JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigMagnetOffset
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigIntegratedSensorOffset
   (JNIEnv *, jclass, jlong, jdouble, jint);
 
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
- * Method:    ConfigSensorInitializationStrategy
+ * Method:    ConfigIntegratedSensorInitializationStrategy
  * Signature: (JII)I
  */
-JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigSensorInitializationStrategy
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigIntegratedSensorInitializationStrategy
   (JNIEnv *, jclass, jlong, jint, jint);
 
 #ifdef __cplusplus

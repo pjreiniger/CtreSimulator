@@ -259,20 +259,24 @@ def dump_unknown_function(jni_def):
     return output
 
 
-def guess_jni_function(package_name, jni_def, cci_functions):
-    
-    stripped_func_name = prefix_name + jni_def.func_name[len(package_name + "JNI_c_1_1SparkMax_1"):]
-#     print("XXXXXXXXXXXXX", stripped_func_name)
-    
+def guess_jni_function(prefix_name, package_name, jni_def, cci_functions):
+    suffix_name = "JNI_JNI_1_1"
+    stripped_func_name = prefix_name + jni_def.func_name[len(package_name + suffix_name):]
+    # print(cci_functions)
+    # print("XXXXXXXXXXXXX", stripped_func_name)
+    # print(package_name)
+    # print(jni_def.func_name)
+
     if stripped_func_name in cci_functions:
         output = dump_known_function(jni_def, cci_functions[stripped_func_name])
-    else:  
+    else:
+        print("UNKNOWN FUNCTION '%s'" % stripped_func_name)
         output = dump_unknown_function(jni_def)
-    
+
     return output
 
 
-def dump_updated_jni(jni_output_file, package_name, cci_functions, jni_functions):
+def dump_updated_jni(jni_prefix, jni_output_file, package_name, cci_functions, jni_functions):
     with open(jni_output_file, 'w') as f:
         f.write("""
 #include <jni.h>
@@ -294,16 +298,16 @@ c_SparkMax_handle ConvertToMotorControllerWrapper(jlong aHandle)
 
 
 """)
-        
+
         for jni_def in jni_functions:
             f.write(jni_def.comment)
             f.write("JNIEXPORT %s JNICALL %s\n" % (jni_def.rettype, jni_def.func_name))
-            f.write(guess_jni_function(package_name, jni_def, cci_functions))
-            
+            f.write(guess_jni_function(jni_prefix, package_name, jni_def, cci_functions))
+
         f.write("\n}\n")
 
 def dump_updated_cci(cci_output_file, cci_header, func_prefix_name, class_type, conversion_func, cci_functions):
-    
+
     prefix_name = func_prefix_name
     with open(cci_output_file, 'w') as f:
         f.write(cci_header)
@@ -311,28 +315,28 @@ def dump_updated_cci(cci_output_file, cci_header, func_prefix_name, class_type, 
 #         tmemp_funcs.append("c_SparkMax_SetFollow")
 #         tmemp_funcs.append("c_SparkMax_SetpointCommand")
 #         tmemp_funcs.append("c_SparkMax_SetFollow")
-#         
+#
 #         other_temp = []
 #         other_temp.append("c_SparkMax_GetAppliedOutput")
-        
+
         for cci_def in cci_functions.values():
             f.write("%s %s(" % (cci_def.rettype, cci_def.func_name))
             f.write(", ".join("%s %s" % x for x in cci_def.args))
             f.write(")")
             call_name = cci_def.func_name[len(prefix_name):]
-            
+
             if cci_def.func_name == "c_MotController_GetInverted":
                 print("HEllo")
-            
+
             is_getter = True
             for arg_type, _ in cci_def.sanitized_args():
                 if "*" in arg_type and arg_type != "void*":
                     print("Not a getter because of ", arg_type)
                     is_getter = False
                     break
-            
+
             if is_getter:
-                
+
                 f.write("\n{\n")
                 f.write('    %s* wrapper = %s(handle);\n    wrapper->Send("%s"' % (class_type, conversion_func, call_name));
                 for _, arg_name in cci_def.sanitized_args():
@@ -352,7 +356,7 @@ def dump_updated_cci(cci_output_file, cci_header, func_prefix_name, class_type, 
                         else:
                             rcv_helper += ("sizeof(%s) + " % arg_name)
                 f.write('    RECEIVE_HELPER("%s", %s);\n' % (call_name, rcv_helper[:-3]))
-                
+
                 for arg_type, arg_name in cci_def.sanitized_args():
                     if arg_name != "handle":
                         if "*" in arg_type:
@@ -366,7 +370,7 @@ def dump_updated_cci(cci_output_file, cci_header, func_prefix_name, class_type, 
                 f.write(";\n")
 
 def main():
-    
+
     motorcontrl_cci_header = """
 #include "ctre/phoenix/cci/MotController_CCI.h"
 
@@ -396,7 +400,7 @@ MotorControllerWrapper* ConvertToMotorControllerWrapper(void* param)
 extern "C"{
 
 """
-    
+
     pheonix_cci_header = """
 #include "ctre/phoenix/cci/PigeonIMU_CCI.h"
 
@@ -448,25 +452,25 @@ SnobotSim::CtreCanifierWrapper* ConvertToCanifierWrapper(void* param)
 extern "C"{
 
 """
-    
+
     print("Hello")
-#     cci_functions = parse_cci_file(os.path.join(base_dir, 'ctre_source/cci/native/include/ctre/phoenix/cci/MotController_CCI.h'))
-#     jni_functions = parse_jni_file(os.path.join(base_dir, 'ctre_source/cci/native/include/ctre/phoenix/jni/com_ctre_phoenix_motorcontrol_can_MotControllerJNI.h'))
-
-#     run_conversion("MotController_CCI.h", "com_ctre_phoenix_motorcontrol_can_MotControllerJNI.h", motorcontrl_cci_header, "c_MotController_", "MotorControllerWrapper", "ConvertToMotorControllerWrapper")
-#     run_conversion("PigeonIMU_CCI.h", "com_ctre_phoenix_sensors_PigeonImuJNI.h", pheonix_cci_header, "c_PigeonIMU_", "PigeonImuSimulatorWrapper", "ConvertToPigeonWrapper")
+    run_conversion("MotController_CCI.h", "com_ctre_phoenix_motorcontrol_can_MotControllerJNI.h", motorcontrl_cci_header, "c_MotController_", "MotorControllerWrapper", "ConvertToMotorControllerWrapper")
+    run_conversion("PigeonIMU_CCI.h", "com_ctre_phoenix_sensors_PigeonImuJNI.h", pheonix_cci_header, "c_PigeonIMU_", "PigeonImuSimulatorWrapper", "ConvertToPigeonWrapper")
     run_conversion("CANifier_CCI.h", "com_ctre_phoenix_CANifierJNI.h", canifier_cci_header, "c_CANifier_", "SnobotSim::CtreCanifierWrapper", "ConvertToCanifierWrapper")
-    
-def run_conversion(cci_header, jni_header, cci_initial_dump, cci_prefix, cci_wrapper_type, cci_conversion_func):
-    
-    base_dir = r'C:\Users\PJ\Documents\GitHub\SnobotSim\CtreSimulator'
-    output_cci_file = os.path.join(base_dir, 'com_revrobotics_jni_CANSparkMaxJNI.h')
-    output_jni_file = os.path.join(base_dir, 'com_revrobotics_jni_CANSparkMaxJNI.h')
 
-    base_dir = r'C:\Users\PJ\Documents\GitHub\SnobotSim\CtreSimulator'
+def run_conversion(cci_header, jni_header, cci_initial_dump, cci_prefix, cci_wrapper_type, cci_conversion_func):
+
+    base_dir = r'F:\git\FIRST\SnobotSim\CtreSimulator'
+
+    sanitized_jni_filename = jni_header[jni_header.rfind("_")  + 1:-2]
+    output_cci_file = os.path.join(base_dir, r"src\main\native\cpp\ctre_cci_mocks", cci_header[:-2] + ".cpp")
+    output_jni_file = os.path.join(base_dir, r"src\main\native\cpp\ctre_jni_mocks", sanitized_jni_filename + ".cpp")
+
+    print(output_jni_file)
     cci_functions = parse_cci_file(os.path.join(base_dir, 'ctre_source/cci/native/include/ctre/phoenix/cci/%s' % cci_header))
     jni_functions = parse_jni_file(os.path.join(base_dir, 'ctre_source/cci/native/include/ctre/phoenix/jni/%s' % jni_header))
-#     dump_updated_jni(output_jni_file, "com_revrobotics_jni_CANSparkMaxJNI", cci_functions, jni_functions)
+    # prefix_name = "c_CANifier_"
+    dump_updated_jni(cci_prefix, output_jni_file, jni_header[:-2], cci_functions, jni_functions)
     dump_updated_cci(output_cci_file, cci_initial_dump, cci_prefix, cci_wrapper_type, cci_conversion_func, cci_functions)
 
 

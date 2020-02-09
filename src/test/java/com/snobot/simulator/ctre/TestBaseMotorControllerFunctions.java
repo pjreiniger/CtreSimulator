@@ -29,10 +29,9 @@ import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.FilterConfiguration;
 import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
 
-public class TestMotorControllerFunctions {
+public class TestBaseMotorControllerFunctions
+{
     private CtreCallback mTestCallback = new CtreCallback()
     {
 
@@ -60,30 +59,28 @@ public class TestMotorControllerFunctions {
         TalonSRX followTalon = new TalonSRX(1);
         CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
         CtreJni.registerCanMotorCallback(mTestCallback);
-        
+
         TrajectoryPoint trajectoryPoint = new TrajectoryPoint();
         trajectoryPoint.timeDur = 10;
-
-
         talon.getHandle();
         talon.getDeviceID();
-        for(ControlMode controlMode : ControlMode.values())
+        for (ControlMode controlMode : ControlMode.values())
         {
             talon.set(controlMode, 0);
         }
-        for(ControlMode controlMode : ControlMode.values())
+        for (ControlMode controlMode : ControlMode.values())
         {
             talon.set(controlMode, 0, 0);
         }
-        for(ControlMode controlMode : ControlMode.values())
+        for (ControlMode controlMode : ControlMode.values())
         {
-            for(DemandType demandType : DemandType.values())
+            for (DemandType demandType : DemandType.values())
             {
                 talon.set(controlMode, 0, demandType, 0);
             }
         }
         talon.neutralOutput();
-        for(NeutralMode neutralMode : NeutralMode.values())
+        for (NeutralMode neutralMode : NeutralMode.values())
         {
             talon.setNeutralMode(neutralMode);
         }
@@ -121,7 +118,7 @@ public class TestMotorControllerFunctions {
         talon.getMotorOutputPercent();
         talon.getMotorOutputVoltage();
         talon.getTemperature();
-        for(RemoteFeedbackDevice remoteFeedbackDevice : RemoteFeedbackDevice.values())
+        for (RemoteFeedbackDevice remoteFeedbackDevice : RemoteFeedbackDevice.values())
         {
             talon.configSelectedFeedbackSensor(remoteFeedbackDevice, 0, 0);
         }
@@ -129,7 +126,7 @@ public class TestMotorControllerFunctions {
         {
             talon.configSelectedFeedbackSensor(remoteFeedbackDevice);
         }
-        for(FeedbackDevice feedbackDevice : FeedbackDevice.values())
+        for (FeedbackDevice feedbackDevice : FeedbackDevice.values())
         {
             talon.configSelectedFeedbackSensor(feedbackDevice, 0, 0);
         }
@@ -139,20 +136,13 @@ public class TestMotorControllerFunctions {
         }
         talon.configSelectedFeedbackCoefficient(0, 0, 0);
         talon.configSelectedFeedbackCoefficient(0);
-        for(RemoteSensorSource remoteSensorSource : RemoteSensorSource.values())
+        for (RemoteSensorSource remoteSensorSource : RemoteSensorSource.values())
         {
             talon.configRemoteFeedbackFilter(0, remoteSensorSource, 0, 0);
         }
         for (RemoteSensorSource remoteSensorSource : RemoteSensorSource.values())
         {
             talon.configRemoteFeedbackFilter(0, remoteSensorSource, 0);
-        }
-        for (SensorTerm sensorTerm : SensorTerm.values())
-        {
-            for(FeedbackDevice feedbackDevice : FeedbackDevice.values())
-            {
-                talon.configSensorTerm(sensorTerm, feedbackDevice);
-            }
         }
         for (SensorTerm sensorTerm : SensorTerm.values())
         {
@@ -163,16 +153,23 @@ public class TestMotorControllerFunctions {
         }
         for (SensorTerm sensorTerm : SensorTerm.values())
         {
-            for (RemoteFeedbackDevice feedbackDevice : RemoteFeedbackDevice.values())
+            for (FeedbackDevice feedbackDevice : FeedbackDevice.values())
             {
-                talon.configSensorTerm(sensorTerm, feedbackDevice, 0);
+                talon.configSensorTerm(sensorTerm, feedbackDevice);
             }
         }
         for (SensorTerm sensorTerm : SensorTerm.values())
         {
-            for (RemoteFeedbackDevice feedbackDevice : RemoteFeedbackDevice.values())
+            for (RemoteFeedbackDevice remoteFeedbackDevice : RemoteFeedbackDevice.values())
             {
-                talon.configSensorTerm(sensorTerm, feedbackDevice);
+                talon.configSensorTerm(sensorTerm, remoteFeedbackDevice, 0);
+            }
+        }
+        for (SensorTerm sensorTerm : SensorTerm.values())
+        {
+            for (RemoteFeedbackDevice remoteFeedbackDevice : RemoteFeedbackDevice.values())
+            {
+                talon.configSensorTerm(sensorTerm, remoteFeedbackDevice);
             }
         }
         talon.getSelectedSensorPosition(0);
@@ -181,14 +178,14 @@ public class TestMotorControllerFunctions {
         talon.getSelectedSensorVelocity();
         talon.setSelectedSensorPosition(0, 0, 0);
         talon.setSelectedSensorPosition(0);
-        for(ControlFrame controlFrame : ControlFrame.values())
+        for (ControlFrame controlFrame : ControlFrame.values())
         {
             talon.setControlFramePeriod(controlFrame, 0);
         }
         talon.setControlFramePeriod(0, 0);
         talon.setStatusFramePeriod(0, 0, 0);
         talon.setStatusFramePeriod(0, 0);
-        for(StatusFrame statusFrame : StatusFrame.values())
+        for (StatusFrame statusFrame : StatusFrame.values())
         {
             talon.setStatusFramePeriod(statusFrame, 0, 0);
         }
@@ -198,7 +195,7 @@ public class TestMotorControllerFunctions {
         }
         talon.getStatusFramePeriod(0, 0);
         talon.getStatusFramePeriod(0);
-        for(StatusFrame statusFrame : StatusFrame.values())
+        for (StatusFrame statusFrame : StatusFrame.values())
         {
             talon.getStatusFramePeriod(statusFrame, 0);
         }
@@ -206,7 +203,7 @@ public class TestMotorControllerFunctions {
         {
             talon.getStatusFramePeriod(statusFrame);
         }
-        for(StatusFrameEnhanced statusFrameEnhanced : StatusFrameEnhanced.values())
+        for (StatusFrameEnhanced statusFrameEnhanced : StatusFrameEnhanced.values())
         {
             talon.getStatusFramePeriod(statusFrameEnhanced, 0);
         }
@@ -214,7 +211,7 @@ public class TestMotorControllerFunctions {
         {
             talon.getStatusFramePeriod(statusFrameEnhanced);
         }
-        for(VelocityMeasPeriod velocityMeasPeriod : VelocityMeasPeriod.values())
+        for (VelocityMeasPeriod velocityMeasPeriod : VelocityMeasPeriod.values())
         {
             talon.configVelocityMeasurementPeriod(velocityMeasPeriod, 0);
         }
@@ -224,9 +221,9 @@ public class TestMotorControllerFunctions {
         }
         talon.configVelocityMeasurementWindow(0, 0);
         talon.configVelocityMeasurementWindow(0);
-        for(RemoteLimitSwitchSource remoteLimitSwitchSource : RemoteLimitSwitchSource.values())
+        for (RemoteLimitSwitchSource remoteLimitSwitchSource : RemoteLimitSwitchSource.values())
         {
-            for(LimitSwitchNormal limitSwitchNormal : LimitSwitchNormal.values())
+            for (LimitSwitchNormal limitSwitchNormal : LimitSwitchNormal.values())
             {
                 talon.configForwardLimitSwitchSource(remoteLimitSwitchSource, limitSwitchNormal, 0, 0);
             }
@@ -245,7 +242,7 @@ public class TestMotorControllerFunctions {
                 talon.configReverseLimitSwitchSource(remoteLimitSwitchSource, limitSwitchNormal, 0, 0);
             }
         }
-        for(RemoteLimitSwitchSource remoteLimitSwitchSource : RemoteLimitSwitchSource.values())
+        for (RemoteLimitSwitchSource remoteLimitSwitchSource : RemoteLimitSwitchSource.values())
         {
             for (LimitSwitchNormal limitSwitchNormal : LimitSwitchNormal.values())
             {
@@ -259,7 +256,7 @@ public class TestMotorControllerFunctions {
                 talon.configForwardLimitSwitchSource(limitSwitchSource, limitSwitchNormal, 0);
             }
         }
-        for(LimitSwitchSource limitSwitchSource : LimitSwitchSource.values())
+        for (LimitSwitchSource limitSwitchSource : LimitSwitchSource.values())
         {
             for (LimitSwitchNormal limitSwitchNormal : LimitSwitchNormal.values())
             {
@@ -358,7 +355,7 @@ public class TestMotorControllerFunctions {
         talon.configSetCustomParam(0, 0);
         talon.configGetCustomParam(0, 0);
         talon.configGetCustomParam(0);
-        for(ParamEnum paramEnum : ParamEnum.values())
+        for (ParamEnum paramEnum : ParamEnum.values())
         {
             talon.configSetParameter(paramEnum, 0, 0, 0, 0);
         }
@@ -368,7 +365,7 @@ public class TestMotorControllerFunctions {
         }
         talon.configSetParameter(0, 0, 0, 0, 0);
         talon.configSetParameter(0, 0, 0, 0);
-        for(ParamEnum paramEnum : ParamEnum.values())
+        for (ParamEnum paramEnum : ParamEnum.values())
         {
             talon.configGetParameter(paramEnum, 0, 0);
         }
@@ -387,90 +384,15 @@ public class TestMotorControllerFunctions {
         talon.follow(followTalon);
         talon.valueUpdated();
         talon.configureSlot(new SlotConfiguration());
+        talon.configureSlot(new SlotConfiguration(), 0, 0);
         talon.getSlotConfigs(new SlotConfiguration(), 0, 0);
         talon.getSlotConfigs(new SlotConfiguration());
         talon.configureFilter(new FilterConfiguration(), 0, 0, false);
+        talon.configureFilter(new FilterConfiguration(), 0, 0);
         talon.configureFilter(new FilterConfiguration());
         talon.getFilterConfigs(new FilterConfiguration(), 0, 0);
         talon.getFilterConfigs(new FilterConfiguration());
-        
-        
-        
-        //////////////////////////////////////////////
-
-        talon.getSensorCollection();
-        for(StatusFrameEnhanced statusFrameEnhanced : StatusFrameEnhanced.values())
-        {
-            talon.setStatusFramePeriod(statusFrameEnhanced, 0, 0);
-        }
-        for(StatusFrameEnhanced statusFrameEnhanced : StatusFrameEnhanced.values())
-        {
-            talon.setStatusFramePeriod(statusFrameEnhanced, 0);
-        }
-        for (StatusFrameEnhanced statusFrameEnhanced : StatusFrameEnhanced.values())
-        {
-            talon.getStatusFramePeriod(statusFrameEnhanced, 0);
-        }
-        for (StatusFrameEnhanced statusFrameEnhanced : StatusFrameEnhanced.values())
-        {
-            talon.getStatusFramePeriod(statusFrameEnhanced);
-        }
-        talon.getOutputCurrent();
-        for(VelocityMeasPeriod velocityMeasPeriod : VelocityMeasPeriod.values())
-        {
-            talon.configVelocityMeasurementPeriod(velocityMeasPeriod, 0);
-        }
-        for (VelocityMeasPeriod velocityMeasPeriod : VelocityMeasPeriod.values())
-        {
-            talon.configVelocityMeasurementPeriod(velocityMeasPeriod);
-        }
-        talon.configVelocityMeasurementWindow(0, 0);
-        talon.configVelocityMeasurementWindow(0);
-        for(LimitSwitchSource limitSwitchSource : LimitSwitchSource.values())
-        {
-            for (LimitSwitchNormal limitSwitchNormal : LimitSwitchNormal.values())
-            {
-                talon.configForwardLimitSwitchSource(limitSwitchSource, limitSwitchNormal, 0);
-            }
-        }
-        for (LimitSwitchSource limitSwitchSource : LimitSwitchSource.values())
-        {
-            for (LimitSwitchNormal limitSwitchNormal : LimitSwitchNormal.values())
-            {
-                talon.configForwardLimitSwitchSource(limitSwitchSource, limitSwitchNormal);
-            }
-        }
-        for (LimitSwitchSource limitSwitchSource : LimitSwitchSource.values())
-        {
-            for (LimitSwitchNormal limitSwitchNormal : LimitSwitchNormal.values())
-            {
-                talon.configReverseLimitSwitchSource(limitSwitchSource, limitSwitchNormal, 0);
-            }
-        }
-        for(LimitSwitchSource limitSwitchSource : LimitSwitchSource.values())
-        {
-            for (LimitSwitchNormal limitSwitchNormal : LimitSwitchNormal.values())
-            {
-                talon.configReverseLimitSwitchSource(limitSwitchSource, limitSwitchNormal);
-            }
-        }
-        talon.configPeakCurrentLimit(0, 0);
-        talon.configPeakCurrentLimit(0);
-        talon.configPeakCurrentDuration(0, 0);
-        talon.configPeakCurrentDuration(0);
-        talon.configContinuousCurrentLimit(0, 0);
-        talon.configContinuousCurrentLimit(0);
-        talon.enableCurrentLimit(false);
-        talon.getPIDConfigs(new TalonSRXPIDSetConfiguration(), 0, 0);
-        talon.getPIDConfigs(new TalonSRXPIDSetConfiguration());
-        talon.configAllSettings(new TalonSRXConfiguration(), 0);
-        talon.configAllSettings(new TalonSRXConfiguration());
-        talon.getAllConfigs(new TalonSRXConfiguration(), 0);
-        talon.getAllConfigs(new TalonSRXConfiguration());
-
-        ///////////////////////////////////////
 
         talon.DestroyObject();
     }
-
 }
