@@ -35,9 +35,9 @@ public class TestTalonSRXFunctions
     @Test
     public void testAllFunctions()
     {
-        CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
 
         TalonSRX talon = new TalonSRX(0);
+        CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
         CtreJni.registerCanMotorCallback(mTestCallback);
 
         TrajectoryPoint trajectoryPoint = new TrajectoryPoint();
