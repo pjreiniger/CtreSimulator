@@ -1,6 +1,5 @@
 
-#ifndef CTRESIMULATOR_SRC_MAIN_NATIVE_INCLUDE_CTRESIMMOCKS_CTREMOTORCONTROLLERWRAPPER_H_
-#define CTRESIMULATOR_SRC_MAIN_NATIVE_INCLUDE_CTRESIMMOCKS_CTREMOTORCONTROLLERWRAPPER_H_
+#pragma once
 
 #include <string>
 
@@ -21,6 +20,4 @@ public:
     void Send(const std::string& aName, uint8_t* aBuffer, int aSize);
 };
 
-}  // namespace SnobotSim
-
-#endif  // CTRESIMULATOR_SRC_MAIN_NATIVE_INCLUDE_CTRESIMMOCKS_CTREMOTORCONTROLLERWRAPPER_H_
+} // namespace SnobotSim

@@ -39,7 +39,7 @@ public class TestMotorControllerFunctions {
         @Override
         public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
         {
-            System.out.println("Getting callback " + aName);
+            System.out.println("Getting callback '" + aName + "' with size of " + aBuffer.capacity() + ", " + aCount); // NOPMD
         }
     };
     private CtreCallback mTestBuffTrajPointStreamCallback = new CtreCallback()
@@ -60,7 +60,7 @@ public class TestMotorControllerFunctions {
         TalonSRX followTalon = new TalonSRX(1);
         CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
         CtreJni.registerCanMotorCallback(mTestCallback);
-        
+
         TrajectoryPoint trajectoryPoint = new TrajectoryPoint();
         trajectoryPoint.timeDur = 10;
 
@@ -393,9 +393,9 @@ public class TestMotorControllerFunctions {
         talon.configureFilter(new FilterConfiguration());
         talon.getFilterConfigs(new FilterConfiguration(), 0, 0);
         talon.getFilterConfigs(new FilterConfiguration());
-        
-        
-        
+
+
+
         //////////////////////////////////////////////
 
         talon.getSensorCollection();

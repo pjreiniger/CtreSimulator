@@ -23,7 +23,7 @@ public class TestPigeonFunctions
 
 		@Override
 		public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount) {
-			System.out.println("Getting callback " + aName);
+            System.out.println("Getting callback '" + aName + "' with size of " + aBuffer.capacity() + ", " + aCount); // NOPMD
 		}
 	};
 

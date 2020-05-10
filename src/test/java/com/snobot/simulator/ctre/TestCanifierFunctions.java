@@ -18,12 +18,11 @@ import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.VelocityPeriod;
 
 public class TestCanifierFunctions {
-
 	private CtreCallback mTestCallback = new CtreCallback() {
 
 		@Override
 		public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount) {
-			System.out.println("Getting callback " + aName);
+            System.out.println("Getting Canifier callback '" + aName + "' with size of " + aBuffer.capacity() + ", " + aCount); // NOPMD
 		}
 	};
 

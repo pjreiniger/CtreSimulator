@@ -20,7 +20,6 @@ void SnobotSim::SetBuffTrajPiontStreamCallback(
     gBuffTrajPointStreamCallbacks.push_back(callback);
 }
 
-
 SnobotSim::CtreBuffTrajPointStreamWrapper::CtreBuffTrajPointStreamWrapper()
 {
     Send("Create");
