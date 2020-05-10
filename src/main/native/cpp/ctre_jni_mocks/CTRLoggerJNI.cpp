@@ -30,11 +30,12 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CTRLoggerJNI_JNI_1Logger_1Log
   (JNIEnv*, jclass, jint errorCode, jstring originPtr, jstring stackTracePtr)
 {
-    const char* origin = NULL;
-    const char* stacktrace = NULL;
+    const char* device = NULL;
+    const char* func = NULL;
     int hierarchy = 0;
+    const char* stacktrace = NULL;
 
-    return static_cast<int>(c_Logger_Log((ctre::phoenix::ErrorCode)errorCode, origin, hierarchy, stacktrace));
+    return static_cast<int>(c_Logger_Log((ctre::phoenix::ErrorCode)errorCode, device, func, hierarchy, stacktrace));
 }
 
 /*

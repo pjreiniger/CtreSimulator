@@ -1,8 +1,6 @@
 #include "ctre/phoenix/cci/MotController_CCI.h"
 
 #include <cstring>
-#include <iostream>
-#include <string>
 #include <vector>
 
 #include "CtreSimMocks/CtreMotControllerWrapper.h"
@@ -301,10 +299,9 @@ ctre::phoenix::ErrorCode c_MotController_SetStatusFramePeriod(void* handle, int 
 
 ctre::phoenix::ErrorCode c_MotController_GetStatusFramePeriod(void* handle, int frame, int* periodMs, int timeoutMs)
 {
-    RECEIVE_HELPER("GetStatusFramePeriod", sizeof(frame) + sizeof(*periodMs) + sizeof(timeoutMs));
+    RECEIVE_HELPER("GetStatusFramePeriod", sizeof(frame) + sizeof(*periodMs));
     PoplateReceiveResults(buffer, &frame, buffer_pos);
     PoplateReceiveResults(buffer, periodMs, buffer_pos);
-    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -600,11 +597,8 @@ ctre::phoenix::ErrorCode c_MotController_PushMotionProfileTrajectory_3(void* han
 
 ctre::phoenix::ErrorCode c_MotController_StartMotionProfile(void* handle, void* streamHandle, uint32_t minBufferedPts, ctre::phoenix::motorcontrol::ControlMode controlMode)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("")
-    //    RECEIVE_HELPER("StartMotionProfile", sizeof(*streamHandle) + sizeof(minBufferedPts) + sizeof(controlMode));
-    //    PoplateReceiveResults(buffer, streamHandle, buffer_pos);
-    //    PoplateReceiveResults(buffer, &minBufferedPts, buffer_pos);
-    //    PoplateReceiveResults(buffer, &controlMode, buffer_pos);
+    auto* wrapper = ConvertToWrapper(handle);
+    wrapper->Send("StartMotionProfile", streamHandle, minBufferedPts, controlMode);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -799,23 +793,21 @@ ctre::phoenix::ErrorCode c_MotController_ConfigSetParameter(void* handle, int pa
 
 ctre::phoenix::ErrorCode c_MotController_ConfigGetParameter(void* handle, int param, double* value, int ordinal, int timeoutMs)
 {
-    RECEIVE_HELPER("ConfigGetParameter", sizeof(param) + sizeof(*value) + sizeof(ordinal) + sizeof(timeoutMs));
+    RECEIVE_HELPER("ConfigGetParameter", sizeof(param) + sizeof(*value) + sizeof(ordinal));
     PoplateReceiveResults(buffer, &param, buffer_pos);
     PoplateReceiveResults(buffer, value, buffer_pos);
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
-    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_ConfigGetParameter_6(void* handle, int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal, int32_t timeoutMs)
 {
-    RECEIVE_HELPER("ConfigGetParameter_6", sizeof(param) + sizeof(valueToSend) + sizeof(*valueRecieved) + sizeof(*subValue) + sizeof(ordinal) + sizeof(timeoutMs));
+    RECEIVE_HELPER("ConfigGetParameter_6", sizeof(param) + sizeof(valueToSend) + sizeof(*valueRecieved) + sizeof(*subValue) + sizeof(ordinal));
     PoplateReceiveResults(buffer, &param, buffer_pos);
     PoplateReceiveResults(buffer, &valueToSend, buffer_pos);
     PoplateReceiveResults(buffer, valueRecieved, buffer_pos);
     PoplateReceiveResults(buffer, subValue, buffer_pos);
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
-    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -1076,9 +1068,8 @@ ctre::phoenix::ErrorCode c_MotController_ConfigMotorCommutation(void* handle, ct
 
 ctre::phoenix::ErrorCode c_MotController_ConfigGetMotorCommutation(void* handle, ctre::phoenix::motorcontrol::MotorCommutation* motorCommutation, int timeoutMs)
 {
-    RECEIVE_HELPER("ConfigGetMotorCommutation", sizeof(*motorCommutation) + sizeof(timeoutMs));
+    RECEIVE_HELPER("ConfigGetMotorCommutation", sizeof(*motorCommutation));
     PoplateReceiveResults(buffer, motorCommutation, buffer_pos);
-    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -1118,23 +1109,19 @@ ctre::phoenix::ErrorCode c_MotController_ConfigStatorCurrentLimitEnable(void* ha
 
 ctre::phoenix::ErrorCode c_MotController_ConfigGetSupplyCurrentLimit(void* handle, double* toFill, int* fillCnt, int fillCapacity, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("")
-    //    RECEIVE_HELPER("ConfigGetSupplyCurrentLimit", sizeof(*toFill) + sizeof(*fillCnt) + sizeof(fillCapacity) + sizeof(timeoutMs));
-    //    PoplateReceiveResults(buffer, toFill, buffer_pos);
-    //    PoplateReceiveResults(buffer, fillCnt, buffer_pos);
-    //    PoplateReceiveResults(buffer, &fillCapacity, buffer_pos);
-    //    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
+    RECEIVE_HELPER("ConfigGetSupplyCurrentLimit", sizeof(*toFill) + sizeof(*fillCnt) + sizeof(fillCapacity));
+    PoplateReceiveResults(buffer, toFill, buffer_pos);
+    PoplateReceiveResults(buffer, fillCnt, buffer_pos);
+    PoplateReceiveResults(buffer, &fillCapacity, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_ConfigGetStatorCurrentLimit(void* handle, double* toFill, int* fillCnt, int fillCapacity, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("")
-    //    RECEIVE_HELPER("ConfigGetStatorCurrentLimit", sizeof(*toFill) + sizeof(*fillCnt) + sizeof(fillCapacity) + sizeof(timeoutMs));
-    //    PoplateReceiveResults(buffer, toFill, buffer_pos);
-    //    PoplateReceiveResults(buffer, fillCnt, buffer_pos);
-    //    PoplateReceiveResults(buffer, &fillCapacity, buffer_pos);
-    //    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
+    RECEIVE_HELPER("ConfigGetStatorCurrentLimit", sizeof(*toFill) + sizeof(*fillCnt) + sizeof(fillCapacity));
+    PoplateReceiveResults(buffer, toFill, buffer_pos);
+    PoplateReceiveResults(buffer, fillCnt, buffer_pos);
+    PoplateReceiveResults(buffer, &fillCapacity, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -1154,11 +1141,10 @@ ctre::phoenix::ErrorCode c_MotController_SetIntegratedSensorPositionToAbsolute(v
 
 ctre::phoenix::ErrorCode c_MotController_GetIntegratedSensor(void* handle, double* pos, double* absPos, double* vel)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("")
-    //    RECEIVE_HELPER("GetIntegratedSensor", sizeof(*pos) + sizeof(*absPos) + sizeof(*vel));
-    //    PoplateReceiveResults(buffer, pos, buffer_pos);
-    //    PoplateReceiveResults(buffer, absPos, buffer_pos);
-    //    PoplateReceiveResults(buffer, vel, buffer_pos);
+    RECEIVE_HELPER("GetIntegratedSensor", sizeof(*pos) + sizeof(*absPos) + sizeof(*vel));
+    PoplateReceiveResults(buffer, pos, buffer_pos);
+    PoplateReceiveResults(buffer, absPos, buffer_pos);
+    PoplateReceiveResults(buffer, vel, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
