@@ -1,7 +1,7 @@
 
 #include <jni.h>
 
-#include "CtreSimMocks/MockHooks.h"
+#include "CtreSimUtils/MockHooks.h"
 #include "com_snobot_simulator_ctre_CtreJni.h"
 
 namespace SnobotSimJava

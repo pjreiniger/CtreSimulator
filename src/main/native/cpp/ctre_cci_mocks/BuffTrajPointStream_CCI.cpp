@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "CtreSimMocks/CtreBuffTrajPointStreamWrapper.h"
-#include "CtreSimMocks/MockHooks.h"
+#include "CtreSimUtils/MockHooks.h"
 
 namespace
 {
@@ -13,7 +13,7 @@ SnobotSim::CtreBuffTrajPointStreamWrapper* ConvertToWrapper(void* param)
 {
     return reinterpret_cast<SnobotSim::CtreBuffTrajPointStreamWrapper*>(param);
 }
-}
+} // namespace
 
 extern "C" {
 

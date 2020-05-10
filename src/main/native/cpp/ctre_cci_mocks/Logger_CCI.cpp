@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "CtreSimMocks/MockHooks.h"
+#include "CtreSimUtils/MockHooks.h"
 
 extern "C" {
 

@@ -4,7 +4,7 @@
 #include <cassert>
 
 #include "CtreSimMocks/CtreBuffTrajPointStreamWrapper.h"
-#include "CtreSimMocks/MockHookUtilities.h"
+#include "CtreSimUtils/MockHookUtilities.h"
 #include "com_ctre_phoenix_motion_BuffTrajPointStreamJNI.h"
 #include "ctre/phoenix/cci/BuffTrajPointStream_CCI.h"
 
@@ -14,7 +14,7 @@ void* ConvertToWrapper(jlong aHandle)
 {
     return reinterpret_cast<SnobotSim::CtreBuffTrajPointStreamWrapper*>(aHandle);
 }
-}
+} // namespace
 
 extern "C" {
 /*

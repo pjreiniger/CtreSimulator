@@ -3,18 +3,18 @@
 
 #include <cassert>
 
-#include "CtreSimMocks/CtreMotorControllerWrapper.h"
-#include "CtreSimMocks/MockHookUtilities.h"
+#include "CtreSimMocks/CtreMotControllerWrapper.h"
+#include "CtreSimUtils/MockHookUtilities.h"
 #include "com_ctre_phoenix_motorcontrol_can_MotControllerJNI.h"
 #include "ctre/phoenix/cci/MotController_CCI.h"
 
 namespace
 {
-SnobotSim::CtreMotorControllerWrapper* ConvertToWrapper(jlong aHandle)
+SnobotSim::CtreMotControllerWrapper* ConvertToWrapper(jlong aHandle)
 {
-    return reinterpret_cast<SnobotSim::CtreMotorControllerWrapper*>(aHandle);
+    return reinterpret_cast<SnobotSim::CtreMotControllerWrapper*>(aHandle);
 }
-}
+} // namespace
 
 extern "C" {
 

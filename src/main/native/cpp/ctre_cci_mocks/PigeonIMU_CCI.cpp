@@ -4,37 +4,35 @@
 #include <cstring>
 #include <vector>
 
-#include "CtreSimMocks/CtrePigeonImuWrapper.h"
-#include "CtreSimMocks/MockHooks.h"
+#include "CtreSimMocks/CtrePigeonIMUWrapper.h"
+#include "CtreSimUtils/MockHooks.h"
 
-typedef SnobotSim::CtrePigeonImuWrapper PigeonImuSimulatorWrapper;
-
-#define RECEIVE_HELPER(paramName, size)                                  \
-    auto* wrapper = ConvertToWrapper(handle); \
-    uint8_t buffer[size]; /* NOLINT */                                   \
-    std::memset(&buffer[0], 0, size);                                    \
-    wrapper->Receive(paramName, buffer, size);                           \
+#define RECEIVE_HELPER(paramName, size)        \
+    auto* wrapper = ConvertToWrapper(handle);  \
+    uint8_t buffer[size]; /* NOLINT */         \
+    std::memset(&buffer[0], 0, size);          \
+    wrapper->Receive(paramName, buffer, size); \
     uint32_t buffer_pos = 0;
 
 namespace
 {
-PigeonImuSimulatorWrapper* ConvertToWrapper(void* param)
+SnobotSim::CtrePigeonIMUWrapper* ConvertToWrapper(void* param)
 {
-    return reinterpret_cast<PigeonImuSimulatorWrapper*>(param);
+    return reinterpret_cast<SnobotSim::CtrePigeonIMUWrapper*>(param);
 }
-}
+} // namespace
 
 extern "C" {
 
 void* c_PigeonIMU_Create2(int talonDeviceID)
 {
-    auto* output = new SnobotSim::CtrePigeonImuWrapper(talonDeviceID);
+    auto* output = new SnobotSim::CtrePigeonIMUWrapper(talonDeviceID);
     return output;
 }
 
 void* c_PigeonIMU_Create1(int deviceNumber)
 {
-    auto* output = new SnobotSim::CtrePigeonImuWrapper(deviceNumber);
+    auto* output = new SnobotSim::CtrePigeonIMUWrapper(deviceNumber);
     return output;
 }
 

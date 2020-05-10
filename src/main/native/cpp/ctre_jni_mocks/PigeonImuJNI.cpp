@@ -3,15 +3,15 @@
 
 #include <cassert>
 
-#include "CtreSimMocks/CtrePigeonImuWrapper.h"
-#include "CtreSimMocks/MockHookUtilities.h"
+#include "CtreSimMocks/CtrePigeonIMUWrapper.h"
+#include "CtreSimUtils/MockHookUtilities.h"
 #include "com_ctre_phoenix_sensors_PigeonImuJNI.h"
 #include "ctre/phoenix/cci/PigeonIMU_CCI.h"
 
 #define GET_THREE_AXIS(type, capType, funcName, size)      \
                                                            \
     type angles[size]; /* NOLINT */                        \
-    funcName(ConvertToWrapper(handle), angles);      \
+    funcName(ConvertToWrapper(handle), angles);            \
                                                            \
     j##type fill[size];                                    \
     for (int i = 0; i < size; ++i)                         \
@@ -24,11 +24,11 @@
 
 namespace
 {
-SnobotSim::CtrePigeonImuWrapper* ConvertToWrapper(jlong aHandle)
+SnobotSim::CtrePigeonIMUWrapper* ConvertToWrapper(jlong aHandle)
 {
-    return reinterpret_cast<SnobotSim::CtrePigeonImuWrapper*>(aHandle);
+    return reinterpret_cast<SnobotSim::CtrePigeonIMUWrapper*>(aHandle);
 }
-}
+} // namespace
 
 extern "C" {
 /*

@@ -3,18 +3,18 @@
 
 #include <cassert>
 
-#include "CtreSimMocks/CtreCanifierWrapper.h"
-#include "CtreSimMocks/MockHookUtilities.h"
+#include "CtreSimMocks/CtreCANifierWrapper.h"
+#include "CtreSimUtils/MockHookUtilities.h"
 #include "com_ctre_phoenix_CANifierJNI.h"
 #include "ctre/phoenix/cci/CANifier_CCI.h"
 
 namespace
 {
-SnobotSim::CtreCanifierWrapper* ConvertToWrapper(jlong handle)
+SnobotSim::CtreCANifierWrapper* ConvertToWrapper(jlong handle)
 {
-    return reinterpret_cast<SnobotSim::CtreCanifierWrapper*>(handle);
+    return reinterpret_cast<SnobotSim::CtreCANifierWrapper*>(handle);
 }
-}
+} // namespace
 
 extern "C" {
 

@@ -5,29 +5,29 @@
 #include <string>
 #include <vector>
 
-#include "CtreSimMocks/CtreCanifierWrapper.h"
-#include "CtreSimMocks/MockHooks.h"
+#include "CtreSimMocks/CtreCANifierWrapper.h"
+#include "CtreSimUtils/MockHooks.h"
 
-#define RECEIVE_HELPER(paramName, size)                                         \
-    auto* wrapper = ConvertToWrapper(handle); \
-    uint8_t buffer[size]; /* NOLINT */                                          \
-    std::memset(&buffer[0], 0, size);                                           \
-    wrapper->Receive(paramName, buffer, size);                                  \
+#define RECEIVE_HELPER(paramName, size)        \
+    auto* wrapper = ConvertToWrapper(handle);  \
+    uint8_t buffer[size]; /* NOLINT */         \
+    std::memset(&buffer[0], 0, size);          \
+    wrapper->Receive(paramName, buffer, size); \
     uint32_t buffer_pos = 0;
 
 namespace
 {
-SnobotSim::CtreCanifierWrapper* ConvertToWrapper(void* param)
+SnobotSim::CtreCANifierWrapper* ConvertToWrapper(void* param)
 {
-    return reinterpret_cast<SnobotSim::CtreCanifierWrapper*>(param);
+    return reinterpret_cast<SnobotSim::CtreCANifierWrapper*>(param);
 }
-}
+} // namespace
 
 extern "C" {
 
 void* c_CANifier_Create1(int deviceNumber)
 {
-    auto* output = new SnobotSim::CtreCanifierWrapper(deviceNumber);
+    auto* output = new SnobotSim::CtreCANifierWrapper(deviceNumber);
     return output;
 }
 

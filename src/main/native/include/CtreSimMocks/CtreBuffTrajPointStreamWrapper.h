@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "CtreSimMocks/BaseCtreWrapper.h"
+#include "CtreSimUtils/BaseCtreWrapper.h"
 
 namespace SnobotSim
 {

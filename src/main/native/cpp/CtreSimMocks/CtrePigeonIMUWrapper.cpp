@@ -1,10 +1,10 @@
 
 
-#include "CtreSimMocks/CtrePigeonImuWrapper.h"
+#include "CtreSimMocks/CtrePigeonIMUWrapper.h"
 
 #include <vector>
 
-#include "CtreSimMocks/MockHooks.h"
+#include "CtreSimUtils/MockHooks.h"
 
 std::vector<SnobotSim::CTRE_CallbackFunc> gPigeonCallbacks;
 
@@ -14,13 +14,13 @@ void SnobotSim::SetPigeonCallback(SnobotSim::CTRE_CallbackFunc callback)
     gPigeonCallbacks.push_back(callback);
 }
 
-SnobotSim::CtrePigeonImuWrapper::CtrePigeonImuWrapper(int aDeviceId) :
+SnobotSim::CtrePigeonIMUWrapper::CtrePigeonIMUWrapper(int aDeviceId) :
         mDeviceId(aDeviceId & 0x3F)
 {
     Send("Create");
 }
 
-void SnobotSim::CtrePigeonImuWrapper::Send(const std::string& aName,
+void SnobotSim::CtrePigeonIMUWrapper::Send(const std::string& aName,
         uint8_t* aBuffer, int aSize)
 {
     if (!gPigeonCallbacks.empty())
@@ -33,7 +33,7 @@ void SnobotSim::CtrePigeonImuWrapper::Send(const std::string& aName,
     }
 }
 
-void SnobotSim::CtrePigeonImuWrapper::Receive(const std::string& aName,
+void SnobotSim::CtrePigeonIMUWrapper::Receive(const std::string& aName,
         uint8_t* aBuffer, int aSize)
 {
     if (!gPigeonCallbacks.empty())

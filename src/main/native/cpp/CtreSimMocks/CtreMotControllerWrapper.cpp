@@ -1,9 +1,9 @@
 
-#include "CtreSimMocks/CtreMotorControllerWrapper.h"
+#include "CtreSimMocks/CtreMotControllerWrapper.h"
 
 #include <vector>
 
-#include "CtreSimMocks/MockHooks.h"
+#include "CtreSimUtils/MockHooks.h"
 
 std::vector<SnobotSim::CTRE_CallbackFunc> gMotorControllerCallbacks;
 
@@ -14,13 +14,13 @@ void SnobotSim::SetMotControllerCallback(
     gMotorControllerCallbacks.push_back(callback);
 }
 
-SnobotSim::CtreMotorControllerWrapper::CtreMotorControllerWrapper(int aDeviceId) :
+SnobotSim::CtreMotControllerWrapper::CtreMotControllerWrapper(int aDeviceId) :
         mDeviceId(aDeviceId & 0x3F)
 {
     Send("Create");
 }
 
-void SnobotSim::CtreMotorControllerWrapper::Send(const std::string& aName,
+void SnobotSim::CtreMotControllerWrapper::Send(const std::string& aName,
         uint8_t* aBuffer, int aSize)
 {
     if (!gMotorControllerCallbacks.empty())
@@ -33,7 +33,7 @@ void SnobotSim::CtreMotorControllerWrapper::Send(const std::string& aName,
     }
 }
 
-void SnobotSim::CtreMotorControllerWrapper::Receive(const std::string& aName,
+void SnobotSim::CtreMotControllerWrapper::Receive(const std::string& aName,
         uint8_t* aBuffer,
         int aSize)
 {

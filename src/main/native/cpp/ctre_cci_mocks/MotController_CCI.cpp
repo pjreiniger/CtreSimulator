@@ -5,37 +5,35 @@
 #include <string>
 #include <vector>
 
-#include "CtreSimMocks/CtreMotorControllerWrapper.h"
-#include "CtreSimMocks/MockHooks.h"
+#include "CtreSimMocks/CtreMotControllerWrapper.h"
+#include "CtreSimUtils/MockHooks.h"
 
-typedef SnobotSim::CtreMotorControllerWrapper MotorControllerWrapper;
-
-#define RECEIVE_HELPER(paramName, size)                                        \
-    auto* wrapper = ConvertToWrapper(handle); \
-    uint8_t buffer[size]; /* NOLINT */                                         \
-    std::memset(&buffer[0], 0, size);                                          \
-    wrapper->Receive(paramName, buffer, size);                                 \
+#define RECEIVE_HELPER(paramName, size)        \
+    auto* wrapper = ConvertToWrapper(handle);  \
+    uint8_t buffer[size]; /* NOLINT */         \
+    std::memset(&buffer[0], 0, size);          \
+    wrapper->Receive(paramName, buffer, size); \
     uint32_t buffer_pos = 0;
 
 namespace
 {
-MotorControllerWrapper* ConvertToWrapper(void* param)
+SnobotSim::CtreMotControllerWrapper* ConvertToWrapper(void* param)
 {
-    return reinterpret_cast<MotorControllerWrapper*>(param);
+    return reinterpret_cast<SnobotSim::CtreMotControllerWrapper*>(param);
 }
-}
+} // namespace
 
 extern "C" {
 
 void* c_MotController_Create1(int baseArbId)
 {
-    auto* output = new SnobotSim::CtreMotorControllerWrapper(baseArbId);
+    auto* output = new SnobotSim::CtreMotControllerWrapper(baseArbId);
     return output;
 }
 
 void* c_MotController_Create2(int deviceID, const char* model)
 {
-    auto* output = new SnobotSim::CtreMotorControllerWrapper(deviceID);
+    auto* output = new SnobotSim::CtreMotControllerWrapper(deviceID);
     return output;
 }
 
