@@ -319,7 +319,7 @@ public class TestBaseMotorControllerFunctions
         talon.configMotionSCurveStrength(0);
         talon.clearMotionProfileTrajectories();
         talon.getMotionProfileTopLevelBufferCount();
-        talon.pushMotionProfileTrajectory(FIXME);
+        talon.pushMotionProfileTrajectory(trajectoryPoint);
         for (ControlMode controlMode : ControlMode.values())
         {
             talon.startMotionProfile(new BufferedTrajectoryPointStream(), 0, controlMode);
@@ -379,9 +379,9 @@ public class TestBaseMotorControllerFunctions
         talon.getControlMode();
         for (FollowerType followerType : FollowerType.values())
         {
-            talon.follow(FIXME, followerType);
+            talon.follow(followTalon, followerType);
         }
-        talon.follow(FIXME);
+        talon.follow(followTalon);
         talon.valueUpdated();
         talon.configureSlot(new SlotConfiguration());
         talon.configureSlot(new SlotConfiguration(), 0, 0);

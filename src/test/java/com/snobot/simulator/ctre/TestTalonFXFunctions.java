@@ -62,7 +62,7 @@ public class TestTalonFXFunctions
         talonFX.getPIDConfigs(new TalonFXPIDSetConfiguration());
         talonFX.configAllSettings(new TalonFXConfiguration(), 0);
         talonFX.getAllConfigs(new TalonFXConfiguration(), 0);
-        talonFX.getAllConfigs(new TalonSRXConfiguration());
+        // talonFX.getAllConfigs(new TalonSRXConfiguration());
         for (MotorCommutation motorCommutation : MotorCommutation.values())
         {
             talonFX.configMotorCommutation(motorCommutation, 0);

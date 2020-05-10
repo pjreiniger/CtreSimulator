@@ -11,18 +11,19 @@ import com.ctre.phoenix.CANifier.PinValues;
 import com.ctre.phoenix.CANifierConfiguration;
 import com.ctre.phoenix.CANifierControlFrame;
 import com.ctre.phoenix.CANifierFaults;
-import com.ctre.phoenix.CANifierJNI.GeneralPin;
+import com.ctre.phoenix.CANifier.GeneralPin;
 import com.ctre.phoenix.CANifierStatusFrame;
 import com.ctre.phoenix.CANifierStickyFaults;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.VelocityPeriod;
 
-public class TestCanifierFunctions {
+public class TestCANifierFunctions
+{
     private CtreCallback mTestCallback = new CtreCallback() {
 
         @Override
         public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount) {
-            System.out.println("Getting Canifier callback " + aName + "' with size of " + aBuffer.capacity() + ", " + aCount); // NOPMD
+            System.out.println("Getting Canifier callback '" + aName + "' with size of " + aBuffer.capacity() + ", " + aCount); // NOPMD
         }
     };
 
@@ -51,7 +52,7 @@ public class TestCanifierFunctions {
         canifier.enablePWMOutput(0, false);
         for (PWMChannel pwmChannel : PWMChannel.values())
         {
-            canifier.getPWMInput(pwmChannel, 0);
+            canifier.getPWMInput(pwmChannel, new double[2]);
         }
         canifier.getQuadraturePosition();
         canifier.setQuadraturePosition(0, 0);
