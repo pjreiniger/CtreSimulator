@@ -6,13 +6,6 @@
 #include "CtreSimMocks/CtreCANCoderWrapper.h"
 #include "CtreSimUtils/MockHooks.h"
 
-#define RECEIVE_HELPER(paramName, size)        \
-    auto* wrapper = ConvertToWrapper(handle);  \
-    uint8_t buffer[size]; /* NOLINT */         \
-    std::memset(&buffer[0], 0, size);          \
-    wrapper->Receive(paramName, buffer, size); \
-    uint32_t buffer_pos = 0;
-
 namespace
 {
 SnobotSim::CtreCANCoderWrapper* ConvertToWrapper(void* param)
@@ -43,17 +36,13 @@ ctre::phoenix::ErrorCode c_CANCoder_Destroy(void* handle)
 
 ctre::phoenix::ErrorCode c_CANCoder_GetDescription(void* handle, char* toFill, int toFillByteSz, size_t* numBytesFilled)
 {
-    RECEIVE_HELPER("GetDescription", 1);
-    buffer_pos += 1; // Removes compiler warning
+    ConvertToWrapper(handle)->GetDescription(toFill, toFillByteSz, numBytesFilled);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_GetLastError(void* handle)
 {
-    int lastError = 0;
-    RECEIVE_HELPER("GetLastError", sizeof(lastError));
-    PoplateReceiveResults(buffer, &lastError, buffer_pos);
-    return (ctre::phoenix::ErrorCode)lastError;
+    return ConvertToWrapper(handle)->GetLastError();
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_GetLastUnitString(void* handle, char* toFill, int toFillByteSz, int* numBytesFilled)

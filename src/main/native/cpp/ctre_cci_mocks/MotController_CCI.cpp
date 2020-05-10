@@ -6,13 +6,6 @@
 #include "CtreSimMocks/CtreMotControllerWrapper.h"
 #include "CtreSimUtils/MockHooks.h"
 
-#define RECEIVE_HELPER(paramName, size)        \
-    auto* wrapper = ConvertToWrapper(handle);  \
-    uint8_t buffer[size]; /* NOLINT */         \
-    std::memset(&buffer[0], 0, size);          \
-    wrapper->Receive(paramName, buffer, size); \
-    uint32_t buffer_pos = 0;
-
 namespace
 {
 SnobotSim::CtreMotControllerWrapper* ConvertToWrapper(void* param)
@@ -620,10 +613,7 @@ ctre::phoenix::ErrorCode c_MotController_ConfigPulseWidthPeriod_FilterWindowSz(v
 
 ctre::phoenix::ErrorCode c_MotController_GetLastError(void* handle)
 {
-    int lastError = 0;
-    RECEIVE_HELPER("GetLastError", sizeof(lastError));
-    PoplateReceiveResults(buffer, &lastError, buffer_pos);
-    return (ctre::phoenix::ErrorCode)lastError;
+    return ConvertToWrapper(handle)->GetLastError();
 }
 
 ctre::phoenix::ErrorCode c_MotController_GetFirmwareVersion(void* handle, int* version)

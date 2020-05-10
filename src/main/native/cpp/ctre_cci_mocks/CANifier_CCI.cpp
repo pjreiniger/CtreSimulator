@@ -6,13 +6,6 @@
 #include "CtreSimMocks/CtreCANifierWrapper.h"
 #include "CtreSimUtils/MockHooks.h"
 
-#define RECEIVE_HELPER(paramName, size)        \
-    auto* wrapper = ConvertToWrapper(handle);  \
-    uint8_t buffer[size]; /* NOLINT */         \
-    std::memset(&buffer[0], 0, size);          \
-    wrapper->Receive(paramName, buffer, size); \
-    uint32_t buffer_pos = 0;
-
 namespace
 {
 SnobotSim::CtreCANifierWrapper* ConvertToWrapper(void* param)
@@ -97,10 +90,7 @@ ctre::phoenix::ErrorCode c_CANifier_GetPWMInput(void* handle, uint32_t pwmChanne
 
 ctre::phoenix::ErrorCode c_CANifier_GetLastError(void* handle)
 {
-    int error = 0;
-    RECEIVE_HELPER("GetLastError", sizeof(error));
-    PoplateReceiveResults(buffer, &error, buffer_pos);
-    return (ctre::phoenix::ErrorCode)error;
+    return ConvertToWrapper(handle)->GetLastError();
 }
 
 ctre::phoenix::ErrorCode c_CANifier_GetBusVoltage(void* handle, double* batteryVoltage)

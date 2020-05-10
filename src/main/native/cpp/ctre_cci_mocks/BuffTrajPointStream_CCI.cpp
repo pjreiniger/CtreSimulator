@@ -6,13 +6,6 @@
 #include "CtreSimMocks/CtreBuffTrajPointStreamWrapper.h"
 #include "CtreSimUtils/MockHooks.h"
 
-#define RECEIVE_HELPER(paramName, size)        \
-    auto* wrapper = ConvertToWrapper(handle);  \
-    uint8_t buffer[size]; /* NOLINT */         \
-    std::memset(&buffer[0], 0, size);          \
-    wrapper->Receive(paramName, buffer, size); \
-    uint32_t buffer_pos = 0;
-
 namespace
 {
 SnobotSim::CtreBuffTrajPointStreamWrapper* ConvertToWrapper(void* param)
