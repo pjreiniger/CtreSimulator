@@ -30,7 +30,7 @@ import com.ctre.phoenix.motorcontrol.can.FilterConfiguration;
 import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class TestMotorControllerFunctions
+public class TestBaseMotorControllerFunctions
 {
     private CtreCallback mTestCallback = new CtreCallback()
     {
@@ -38,7 +38,7 @@ public class TestMotorControllerFunctions
         @Override
         public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
         {
-            System.out.println("Getting callback '" + aName + "' with size of " + aBuffer.capacity() + ", " + aCount); // NOPMD
+            System.out.println("Getting BaseMotorController callback " + aName + "' with size of " + aBuffer.capacity() + ", " + aCount); // NOPMD
         }
     };
     private CtreCallback mTestBuffTrajPointStreamCallback = new CtreCallback()
@@ -47,7 +47,7 @@ public class TestMotorControllerFunctions
         @Override
         public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
         {
-            System.out.println("Getting TrajPoint callback " + aName);
+            System.out.println("Getting TrajPoint callback " + aName + "' with size of " + aBuffer.capacity() + ", " + aCount); // NOPMD
         }
     };
 
@@ -319,7 +319,7 @@ public class TestMotorControllerFunctions
         talon.configMotionSCurveStrength(0);
         talon.clearMotionProfileTrajectories();
         talon.getMotionProfileTopLevelBufferCount();
-        talon.pushMotionProfileTrajectory(trajectoryPoint);
+        talon.pushMotionProfileTrajectory(FIXME);
         for (ControlMode controlMode : ControlMode.values())
         {
             talon.startMotionProfile(new BufferedTrajectoryPointStream(), 0, controlMode);
@@ -379,9 +379,9 @@ public class TestMotorControllerFunctions
         talon.getControlMode();
         for (FollowerType followerType : FollowerType.values())
         {
-            talon.follow(followTalon, followerType);
+            talon.follow(FIXME, followerType);
         }
-        talon.follow(followTalon);
+        talon.follow(FIXME);
         talon.valueUpdated();
         talon.configureSlot(new SlotConfiguration());
         talon.configureSlot(new SlotConfiguration(), 0, 0);

@@ -28,7 +28,7 @@ public class TestTalonSRXFunctions
         @Override
         public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
         {
-            System.out.println("Getting TrajPoint callback " + aName);
+            System.out.println("Getting TrajPoint callback " + aName + "' with size of " + aBuffer.capacity() + ", " + aCount); // NOPMD
         }
     };
 

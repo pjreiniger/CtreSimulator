@@ -17,7 +17,7 @@ import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 import com.ctre.phoenix.sensors.PigeonIMU_StickyFaults;
 
 @Tag("CTRE")
-public class TestPigeonFunctions
+public class TestPigeonIMUFunctions
 {
     private CtreCallback mTestCallback = new CtreCallback()
     {
@@ -25,7 +25,7 @@ public class TestPigeonFunctions
         @Override
         public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
         {
-            System.out.println("Getting callback '" + aName + "' with size of " + aBuffer.capacity() + ", " + aCount); // NOPMD
+            System.out.println("Getting PigeonIMU callback " + aName + "' with size of " + aBuffer.capacity() + ", " + aCount); // NOPMD
         }
     };
 
@@ -34,7 +34,6 @@ public class TestPigeonFunctions
     {
         PigeonIMU imu = new PigeonIMU(0);
         CtreJni.registerCanPigeonImuCallback(mTestCallback);
-
         imu.setYaw(0, 0);
         imu.setYaw(0);
         imu.addYaw(0, 0);
@@ -66,20 +65,20 @@ public class TestPigeonFunctions
         }
         imu.getGeneralStatus(new GeneralStatus());
         imu.getLastError();
-        imu.get6dQuaternion(new double[4]);
-        imu.getYawPitchRoll(new double[3]);
-        imu.getAccumGyro(new double[3]);
+        imu.get6dQuaternion(0);
+        imu.getYawPitchRoll(0);
+        imu.getAccumGyro(0);
         imu.getAbsoluteCompassHeading();
         imu.getCompassHeading();
         imu.getCompassFieldStrength();
         imu.getTemp();
         imu.getState();
         imu.getUpTime();
-        imu.getRawMagnetometer(new short[3]);
-        imu.getBiasedMagnetometer(new short[3]);
-        imu.getBiasedAccelerometer(new short[3]);
-        imu.getRawGyro(new double[3]);
-        imu.getAccelerometerAngles(new double[3]);
+        imu.getRawMagnetometer(FIXME);
+        imu.getBiasedMagnetometer(FIXME);
+        imu.getBiasedAccelerometer(FIXME);
+        imu.getRawGyro(0);
+        imu.getAccelerometerAngles(0);
         imu.getFusedHeading(new FusionStatus());
         imu.getFusedHeading();
         imu.getFirmwareVersion();
@@ -145,5 +144,4 @@ public class TestPigeonFunctions
 
         imu.DestroyObject();
     }
-
 }
