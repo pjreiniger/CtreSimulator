@@ -3,7 +3,7 @@
 
 #include <cassert>
 
-#include "CtreSimMocks/CtreCanifierWrapper.h"
+#include "CtreSimMocks/CtreCANifierWrapper.h"
 #include "CtreSimUtils/MockHookUtilities.h"
 #include "com_ctre_phoenix_CANifierJNI.h"
 #include "ctre/phoenix/cci/CANifier_CCI.h"
