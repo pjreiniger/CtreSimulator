@@ -11,7 +11,7 @@
 #define GET_THREE_AXIS(type, capType, funcName, size)      \
                                                            \
     type angles[size]; /* NOLINT */                        \
-    funcName(ConvertToPigeonWrapper(handle), angles);      \
+    funcName(ConvertToWrapper(handle), angles);      \
                                                            \
     j##type fill[size];                                    \
     for (int i = 0; i < size; ++i)                         \
@@ -22,9 +22,12 @@
     env->Set##capType##ArrayRegion(result, 0, size, fill); \
     return 0;
 
-SnobotSim::CtrePigeonImuWrapper* ConvertToPigeonWrapper(jlong aHandle)
+namespace
+{
+SnobotSim::CtrePigeonImuWrapper* ConvertToWrapper(jlong aHandle)
 {
     return reinterpret_cast<SnobotSim::CtrePigeonImuWrapper*>(aHandle);
+}
 }
 
 extern "C" {
@@ -61,7 +64,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1destroy_1PigeonImu
   (JNIEnv*, jclass, jlong handle)
 {
-    return (jint)c_PigeonIMU_Destroy(ConvertToPigeonWrapper(handle));
+    return (jint)c_PigeonIMU_Destroy(ConvertToWrapper(handle));
 }
 
 /*
@@ -74,7 +77,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1ConfigSetCustomParam
   (JNIEnv*, jclass, jlong handle, jint newValue, jint paramIndex,
    jint timeoutMs)
 {
-    return (jint)c_PigeonIMU_ConfigSetCustomParam(ConvertToPigeonWrapper(handle), newValue, paramIndex, timeoutMs);
+    return (jint)c_PigeonIMU_ConfigSetCustomParam(ConvertToWrapper(handle), newValue, paramIndex, timeoutMs);
 }
 
 /*
@@ -87,7 +90,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1ConfigGetCustomParam
   (JNIEnv*, jclass, jlong aHandle, jint paramIndex, jint timoutMs)
 {
     int output = 0;
-    c_PigeonIMU_ConfigGetCustomParam(ConvertToPigeonWrapper(aHandle), &output, paramIndex, timoutMs);
+    c_PigeonIMU_ConfigGetCustomParam(ConvertToWrapper(aHandle), &output, paramIndex, timoutMs);
     return output;
 }
 
@@ -101,7 +104,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1ConfigSetParameter
   (JNIEnv*, jclass, jlong handle, jint param, jdouble paramValue, jint subValue,
    jint ordinal, jint timeoutMs)
 {
-    return (jint)c_PigeonIMU_ConfigSetParameter(ConvertToPigeonWrapper(handle), param, paramValue, subValue, ordinal, timeoutMs);
+    return (jint)c_PigeonIMU_ConfigSetParameter(ConvertToWrapper(handle), param, paramValue, subValue, ordinal, timeoutMs);
 }
 
 /*
@@ -114,7 +117,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1ConfigGetParameter
   (JNIEnv*, jclass, jlong handle, jint param, jint ordinal, jint timeoutMs)
 {
     double output = 0;
-    c_PigeonIMU_ConfigGetParameter(ConvertToPigeonWrapper(handle), param, &output, ordinal, timeoutMs);
+    c_PigeonIMU_ConfigGetParameter(ConvertToWrapper(handle), param, &output, ordinal, timeoutMs);
     return output;
 }
 
@@ -127,7 +130,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1ConfigFactoryDefault
   (JNIEnv*, jclass, jlong handle, jint timeoutMs)
 {
-    return c_PigeonIMU_ConfigFactoryDefault(ConvertToPigeonWrapper(handle), timeoutMs);
+    return c_PigeonIMU_ConfigFactoryDefault(ConvertToWrapper(handle), timeoutMs);
 }
 
 /*
@@ -139,7 +142,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1SetStatusFramePeriod
   (JNIEnv*, jclass, jlong handle, jint frame, jint periodMs, jint timeoutMs)
 {
-    return c_PigeonIMU_SetStatusFramePeriod(ConvertToPigeonWrapper(handle), frame, periodMs, timeoutMs);
+    return c_PigeonIMU_SetStatusFramePeriod(ConvertToWrapper(handle), frame, periodMs, timeoutMs);
 }
 
 /*
@@ -151,7 +154,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1SetYaw
   (JNIEnv*, jclass, jlong handle, jdouble value, jint timeoutMs)
 {
-    return (jint)c_PigeonIMU_SetYaw(ConvertToPigeonWrapper(handle), value, timeoutMs);
+    return (jint)c_PigeonIMU_SetYaw(ConvertToWrapper(handle), value, timeoutMs);
 }
 
 /*
@@ -163,7 +166,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1AddYaw
   (JNIEnv*, jclass, jlong handle, jdouble value, jint timeoutMs)
 {
-    return (jint)c_PigeonIMU_AddYaw(ConvertToPigeonWrapper(handle), value, timeoutMs);
+    return (jint)c_PigeonIMU_AddYaw(ConvertToWrapper(handle), value, timeoutMs);
 }
 
 /*
@@ -175,7 +178,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1SetYawToCompass
   (JNIEnv*, jclass, jlong handle, jint timeoutMs)
 {
-    return (jint)c_PigeonIMU_SetYawToCompass(ConvertToPigeonWrapper(handle), timeoutMs);
+    return (jint)c_PigeonIMU_SetYawToCompass(ConvertToWrapper(handle), timeoutMs);
 }
 
 /*
@@ -187,7 +190,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1SetFusedHeading
   (JNIEnv*, jclass, jlong handle, jdouble angleDeg, jint timeoutMs)
 {
-    return (jint)c_PigeonIMU_SetFusedHeading(ConvertToPigeonWrapper(handle), angleDeg, timeoutMs);
+    return (jint)c_PigeonIMU_SetFusedHeading(ConvertToWrapper(handle), angleDeg, timeoutMs);
 }
 
 /*
@@ -199,7 +202,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1AddFusedHeading
   (JNIEnv*, jclass, jlong handle, jdouble angleDeg, jint timeoutMs)
 {
-    return (jint)c_PigeonIMU_AddFusedHeading(ConvertToPigeonWrapper(handle), angleDeg, timeoutMs);
+    return (jint)c_PigeonIMU_AddFusedHeading(ConvertToWrapper(handle), angleDeg, timeoutMs);
 }
 
 /*
@@ -211,7 +214,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1SetFusedHeadingToCompass
   (JNIEnv*, jclass, jlong handle, jint timeoutMs)
 {
-    return (jint)c_PigeonIMU_SetFusedHeadingToCompass(ConvertToPigeonWrapper(handle), timeoutMs);
+    return (jint)c_PigeonIMU_SetFusedHeadingToCompass(ConvertToWrapper(handle), timeoutMs);
 }
 
 /*
@@ -223,7 +226,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1SetAccumZAngle
   (JNIEnv*, jclass, jlong handle, jdouble angleDeg, jint timeoutMs)
 {
-    return (jint)c_PigeonIMU_SetAccumZAngle(ConvertToPigeonWrapper(handle), angleDeg, timeoutMs);
+    return (jint)c_PigeonIMU_SetAccumZAngle(ConvertToWrapper(handle), angleDeg, timeoutMs);
 }
 
 /*
@@ -235,7 +238,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1SetTemperatureCompensationDisable
   (JNIEnv*, jclass, jlong handle, jint bTempCompDisable, jint timeoutMs)
 {
-    return c_PigeonIMU_SetTemperatureCompensationDisable(ConvertToPigeonWrapper(handle), bTempCompDisable, timeoutMs);
+    return c_PigeonIMU_SetTemperatureCompensationDisable(ConvertToWrapper(handle), bTempCompDisable, timeoutMs);
 }
 
 /*
@@ -247,7 +250,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1SetCompassDeclination
   (JNIEnv*, jclass, jlong handle, jdouble angleDegOffset, jint timeoutMs)
 {
-    return (jint)c_PigeonIMU_SetCompassDeclination(ConvertToPigeonWrapper(handle), angleDegOffset, timeoutMs);
+    return (jint)c_PigeonIMU_SetCompassDeclination(ConvertToWrapper(handle), angleDegOffset, timeoutMs);
 }
 
 /*
@@ -259,7 +262,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1SetCompassAngle
   (JNIEnv*, jclass, jlong handle, jdouble angleDeg, jint timeoutMs)
 {
-    return (jint)c_PigeonIMU_SetCompassAngle(ConvertToPigeonWrapper(handle), angleDeg, timeoutMs);
+    return (jint)c_PigeonIMU_SetCompassAngle(ConvertToWrapper(handle), angleDeg, timeoutMs);
 }
 
 /*
@@ -271,7 +274,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1EnterCalibrationMode
   (JNIEnv*, jclass, jlong handle, jint value, jint timeoutMs)
 {
-    return (jint)c_PigeonIMU_EnterCalibrationMode(ConvertToPigeonWrapper(handle), value, timeoutMs);
+    return (jint)c_PigeonIMU_EnterCalibrationMode(ConvertToWrapper(handle), value, timeoutMs);
 }
 
 /*
@@ -293,7 +296,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetGeneralStatus
     int tempCompensationCount = 0;
     int lastError = 0;
 
-    return c_PigeonIMU_GetGeneralStatus(ConvertToPigeonWrapper(handle), &state, &currentMode, &calibrationError, &bCalIsBooting, &tempC, &upTimeSec, &noMotionBiasCount, &tempCompensationCount, &lastError);
+    return c_PigeonIMU_GetGeneralStatus(ConvertToWrapper(handle), &state, &currentMode, &calibrationError, &bCalIsBooting, &tempC, &upTimeSec, &noMotionBiasCount, &tempCompensationCount, &lastError);
 }
 
 /*
@@ -342,7 +345,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetAbsoluteCompassHeading
   (JNIEnv*, jclass, jlong handle)
 {
     double output = 0;
-    c_PigeonIMU_GetAbsoluteCompassHeading(ConvertToPigeonWrapper(handle), &output);
+    c_PigeonIMU_GetAbsoluteCompassHeading(ConvertToWrapper(handle), &output);
     return output;
 }
 
@@ -356,7 +359,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetCompassHeading
   (JNIEnv*, jclass, jlong handle)
 {
     double output = 0;
-    c_PigeonIMU_GetCompassHeading(ConvertToPigeonWrapper(handle), &output);
+    c_PigeonIMU_GetCompassHeading(ConvertToWrapper(handle), &output);
     return output;
 }
 
@@ -370,7 +373,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetCompassFieldStrength
   (JNIEnv*, jclass, jlong handle)
 {
     double output = 0;
-    c_PigeonIMU_GetCompassFieldStrength(ConvertToPigeonWrapper(handle), &output);
+    c_PigeonIMU_GetCompassFieldStrength(ConvertToWrapper(handle), &output);
     return output;
 }
 
@@ -384,7 +387,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetTemp
   (JNIEnv*, jclass, jlong handle)
 {
     double output = 0;
-    c_PigeonIMU_GetTemp(ConvertToPigeonWrapper(handle), &output);
+    c_PigeonIMU_GetTemp(ConvertToWrapper(handle), &output);
     return output;
 }
 
@@ -398,7 +401,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetUpTime
   (JNIEnv*, jclass, jlong handle)
 {
     int output = 0;
-    c_PigeonIMU_GetUpTime(ConvertToPigeonWrapper(handle), &output);
+    c_PigeonIMU_GetUpTime(ConvertToWrapper(handle), &output);
     return output;
 }
 
@@ -484,7 +487,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetState
   (JNIEnv*, jclass, jlong handle)
 {
     int output = 0;
-    c_PigeonIMU_GetState(ConvertToPigeonWrapper(handle), &output);
+    c_PigeonIMU_GetState(ConvertToWrapper(handle), &output);
     return output;
 }
 
@@ -498,7 +501,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetResetCount
   (JNIEnv*, jclass, jlong handle)
 {
     int output = 0;
-    c_PigeonIMU_GetResetCount(ConvertToPigeonWrapper(handle), &output);
+    c_PigeonIMU_GetResetCount(ConvertToWrapper(handle), &output);
     return output;
 }
 
@@ -512,7 +515,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetResetFlags
   (JNIEnv*, jclass, jlong handle)
 {
     int output = 0;
-    c_PigeonIMU_GetResetFlags(ConvertToPigeonWrapper(handle), &output);
+    c_PigeonIMU_GetResetFlags(ConvertToWrapper(handle), &output);
     return output;
 }
 
@@ -526,7 +529,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetFirmwareVersion
   (JNIEnv*, jclass, jlong handle)
 {
     int output = 0;
-    c_PigeonIMU_GetFirmwareVersion(ConvertToPigeonWrapper(handle), &output);
+    c_PigeonIMU_GetFirmwareVersion(ConvertToWrapper(handle), &output);
     return output;
 }
 
@@ -539,7 +542,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetLastError
   (JNIEnv*, jclass, jlong handle)
 {
-    return (jint)c_PigeonIMU_GetLastError(ConvertToPigeonWrapper(handle));
+    return (jint)c_PigeonIMU_GetLastError(ConvertToWrapper(handle));
 }
 
 /*
@@ -552,7 +555,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1HasResetOccurred
   (JNIEnv*, jclass, jlong handle)
 {
     bool output = 0;
-    c_PigeonIMU_HasResetOccurred(ConvertToPigeonWrapper(handle), &output);
+    c_PigeonIMU_HasResetOccurred(ConvertToWrapper(handle), &output);
     return output;
 }
 
@@ -566,7 +569,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetStatusFramePeriod
   (JNIEnv*, jclass, jlong handle, jint frame, jint timeoutMs)
 {
     int output = 0;
-    c_PigeonIMU_GetStatusFramePeriod(ConvertToPigeonWrapper(handle), frame, &output, timeoutMs);
+    c_PigeonIMU_GetStatusFramePeriod(ConvertToWrapper(handle), frame, &output, timeoutMs);
     return output;
 }
 
@@ -579,7 +582,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1SetControlFramePeriod
   (JNIEnv*, jclass, jlong handle, jint frame, jint periodMs)
 {
-    return c_PigeonIMU_SetControlFramePeriod(ConvertToPigeonWrapper(handle), frame, periodMs);
+    return c_PigeonIMU_SetControlFramePeriod(ConvertToWrapper(handle), frame, periodMs);
 }
 
 /*
@@ -592,7 +595,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetFaults
   (JNIEnv*, jclass, jlong handle)
 {
     int output = 0;
-    c_PigeonIMU_GetFaults(ConvertToPigeonWrapper(handle), &output);
+    c_PigeonIMU_GetFaults(ConvertToWrapper(handle), &output);
     return output;
 }
 
@@ -606,7 +609,7 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetStickyFaults
   (JNIEnv*, jclass, jlong handle)
 {
     int output = 0;
-    c_PigeonIMU_GetStickyFaults(ConvertToPigeonWrapper(handle), &output);
+    c_PigeonIMU_GetStickyFaults(ConvertToWrapper(handle), &output);
     return output;
 }
 
@@ -619,7 +622,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1ClearStickyFaults
   (JNIEnv*, jclass, jlong handle, jint timeoutMs)
 {
-    return c_PigeonIMU_ClearStickyFaults(ConvertToPigeonWrapper(handle), timeoutMs);
+    return c_PigeonIMU_ClearStickyFaults(ConvertToWrapper(handle), timeoutMs);
 }
 
 } // extern "C"
