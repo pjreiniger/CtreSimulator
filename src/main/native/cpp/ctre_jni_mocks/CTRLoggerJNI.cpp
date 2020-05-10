@@ -3,7 +3,7 @@
 
 #include <cassert>
 
-#include "CtreSimMocks/MockHookUtilities.h"
+#include "CtreSimUtils/MockHookUtilities.h"
 #include "com_ctre_phoenix_CTRLoggerJNI.h"
 #include "ctre/phoenix/cci/Logger_CCI.h"
 

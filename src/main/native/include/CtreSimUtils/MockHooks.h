@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#include "MockHookUtilities.h"
+#include "CtreSimUtils/MockHookUtilities.h"
 
 namespace SnobotSim
 {

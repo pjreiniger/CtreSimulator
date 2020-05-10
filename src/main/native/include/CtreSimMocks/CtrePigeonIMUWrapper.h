@@ -3,17 +3,17 @@
 
 #include <string>
 
-#include "CtreSimMocks/BaseCtreWrapper.h"
+#include "CtreSimUtils/BaseCtreWrapper.h"
 
 namespace SnobotSim
 {
 
-class CtrePigeonImuWrapper : public BaseCtreWrapper
+class CtrePigeonIMUWrapper : public BaseCtreWrapper
 {
 public:
     using BaseCtreWrapper::Send;
 
-    explicit CtrePigeonImuWrapper(int aDeviceId);
+    explicit CtrePigeonIMUWrapper(int aDeviceId);
     const int mDeviceId;
 
     void Send(const std::string& aName, uint8_t* aBuffer, int aSize);

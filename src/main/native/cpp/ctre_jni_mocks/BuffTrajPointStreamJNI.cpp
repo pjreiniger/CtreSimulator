@@ -4,14 +4,17 @@
 #include <cassert>
 
 #include "CtreSimMocks/CtreBuffTrajPointStreamWrapper.h"
-#include "CtreSimMocks/MockHookUtilities.h"
+#include "CtreSimUtils/MockHookUtilities.h"
 #include "com_ctre_phoenix_motion_BuffTrajPointStreamJNI.h"
 #include "ctre/phoenix/cci/BuffTrajPointStream_CCI.h"
 
-void* ConvertToBuffTrajPointStream(jlong aHandle)
+namespace
+{
+void* ConvertToWrapper(jlong aHandle)
 {
     return reinterpret_cast<SnobotSim::CtreBuffTrajPointStreamWrapper*>(aHandle);
 }
+} // namespace
 
 extern "C" {
 /*
@@ -47,7 +50,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motion_BuffTrajPointStreamJNI_Destroy
   (JNIEnv*, jclass, jlong handle)
 {
-    return c_BuffTrajPointStream_Destroy(ConvertToBuffTrajPointStream(handle));
+    return c_BuffTrajPointStream_Destroy(ConvertToWrapper(handle));
 }
 
 /*
@@ -59,7 +62,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motion_BuffTrajPointStreamJNI_Clear
   (JNIEnv*, jclass, jlong handle)
 {
-    return c_BuffTrajPointStream_Clear(ConvertToBuffTrajPointStream(handle));
+    return c_BuffTrajPointStream_Clear(ConvertToWrapper(handle));
 }
 
 /*
@@ -75,7 +78,7 @@ Java_com_ctre_phoenix_motion_BuffTrajPointStreamJNI_Write
    jint profileSlotSelect1, jboolean isLastPoint, jboolean zeroPos,
    jint timeDur, jboolean useAuxPID)
 {
-    return c_BuffTrajPointStream_Write(ConvertToBuffTrajPointStream(handle), position, velocity, arbFeedFwd, auxiliaryPos,
+    return c_BuffTrajPointStream_Write(ConvertToWrapper(handle), position, velocity, arbFeedFwd, auxiliaryPos,
             auxiliaryVel, auxiliaryArbFeedFwd, profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos, timeDur, useAuxPID);
 }
 

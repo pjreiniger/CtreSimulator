@@ -1,9 +1,9 @@
 
-#include "CtreSimMocks/CtreCanifierWrapper.h"
+#include "CtreSimMocks/CtreCANifierWrapper.h"
 
 #include <vector>
 
-#include "CtreSimMocks/MockHooks.h"
+#include "CtreSimUtils/MockHooks.h"
 
 std::vector<SnobotSim::CTRE_CallbackFunc> gCanifierCallbacks;
 
@@ -14,13 +14,13 @@ void SnobotSim::SetCanifierCallback(
     gCanifierCallbacks.push_back(callback);
 }
 
-SnobotSim::CtreCanifierWrapper::CtreCanifierWrapper(int aDeviceId) :
+SnobotSim::CtreCANifierWrapper::CtreCANifierWrapper(int aDeviceId) :
         mDeviceId(aDeviceId)
 {
     Send("Create");
 }
 
-void SnobotSim::CtreCanifierWrapper::Send(const std::string& aName,
+void SnobotSim::CtreCANifierWrapper::Send(const std::string& aName,
         uint8_t* aBuffer, int aSize)
 {
     if (!gCanifierCallbacks.empty())
@@ -33,7 +33,7 @@ void SnobotSim::CtreCanifierWrapper::Send(const std::string& aName,
     }
 }
 
-void SnobotSim::CtreCanifierWrapper::Receive(const std::string& aName,
+void SnobotSim::CtreCANifierWrapper::Receive(const std::string& aName,
         uint8_t* aBuffer,
         int aSize)
 {

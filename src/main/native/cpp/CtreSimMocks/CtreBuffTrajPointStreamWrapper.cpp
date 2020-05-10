@@ -9,7 +9,7 @@
 
 #include <vector>
 
-#include "CtreSimMocks/MockHooks.h"
+#include "CtreSimUtils/MockHooks.h"
 
 std::vector<SnobotSim::CTRE_CallbackFunc> gBuffTrajPointStreamCallbacks;
 
