@@ -25,10 +25,9 @@ extern "C" {
  */
 JNIEXPORT jlong JNICALL
 Java_com_ctre_phoenix_sensors_CANCoderJNI_Create
-  (JNIEnv*, jclass, jint)
+  (JNIEnv*, jclass, jint deviceId)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
-    return 0;
+    return (jlong)c_CANCoder_Create1(deviceId);
 }
 
 /*
@@ -40,8 +39,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_CANCoderJNI_Destroy
   (JNIEnv*, jclass, jlong handle)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
-    return 0;
+    return (jint)c_CANCoder_Destroy(ConvertToWrapper(handle));
 }
 
 /*
