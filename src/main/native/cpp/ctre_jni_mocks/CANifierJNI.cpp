@@ -3,7 +3,7 @@
 
 #include <cassert>
 
-#include "CtreSimMocks/CtreCANifierWrapper.h"
+#include "CtreSimMocks/CtreCanifierWrapper.h"
 #include "CtreSimUtils/MockHookUtilities.h"
 #include "com_ctre_phoenix_CANifierJNI.h"
 #include "ctre/phoenix/cci/CANifier_CCI.h"
@@ -49,9 +49,9 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1destroy_1CANifier
  */
 JNIEXPORT void JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1SetLEDOutput
-  (JNIEnv*, jclass, jlong aHandle, jint aDutyCycle, jint aLedChannel)
+  (JNIEnv*, jclass, jlong handle, jint dutyCycle, jint ledChannel)
 {
-    c_CANifier_SetLEDOutput(ConvertToWrapper(aHandle), aDutyCycle, aLedChannel);
+    c_CANifier_SetLEDOutput(ConvertToWrapper(handle), dutyCycle, ledChannel);
 }
 
 /*
@@ -61,9 +61,9 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1SetLEDOutput
  */
 JNIEXPORT void JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1SetGeneralOutputs
-  (JNIEnv*, jclass, jlong aHandle, jint aOutputBits, jint aIsOutputBits)
+  (JNIEnv*, jclass, jlong handle, jint outputsBits, jint isOutputBits)
 {
-    c_CANifier_SetGeneralOutputs(ConvertToWrapper(aHandle), aOutputBits, aIsOutputBits);
+    c_CANifier_SetGeneralOutputs(ConvertToWrapper(handle), outputsBits, isOutputBits);
 }
 
 /*
@@ -73,10 +73,10 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1SetGeneralOutputs
  */
 JNIEXPORT void JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1SetGeneralOutput
-  (JNIEnv*, jclass, jlong aHandle, jint aOutputPin, jboolean aOutputValue,
-   jboolean aOutputEnable)
+  (JNIEnv*, jclass, jlong handle, jint outputPin, jboolean outputValue,
+   jboolean outputEnable)
 {
-    c_CANifier_SetGeneralOutput(ConvertToWrapper(aHandle), aOutputPin, aOutputValue, aOutputEnable);
+    c_CANifier_SetGeneralOutput(ConvertToWrapper(handle), outputPin, outputValue, outputEnable);
 }
 
 /*
@@ -86,9 +86,9 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1SetGeneralOutput
  */
 JNIEXPORT void JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1SetPWMOutput
-  (JNIEnv*, jclass, jlong aHandle, jint aPwmChannel, jint aDutyCycle)
+  (JNIEnv*, jclass, jlong handle, jint pwmChannel, jint dutyCycle)
 {
-    c_CANifier_SetPWMOutput(ConvertToWrapper(aHandle), aPwmChannel, aDutyCycle);
+    c_CANifier_SetPWMOutput(ConvertToWrapper(handle), pwmChannel, dutyCycle);
 }
 
 /*
@@ -98,9 +98,9 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1SetPWMOutput
  */
 JNIEXPORT void JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1EnablePWMOutput
-  (JNIEnv*, jclass, jlong aHandle, jint aPwmChannel, jboolean aEnable)
+  (JNIEnv*, jclass, jlong handle, jint pwmChannel, jboolean bEnable)
 {
-    c_CANifier_EnablePWMOutput(ConvertToWrapper(aHandle), aPwmChannel, aEnable);
+    c_CANifier_EnablePWMOutput(ConvertToWrapper(handle), pwmChannel, bEnable);
 }
 
 /*
@@ -125,11 +125,11 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1GetGeneralInputs
  */
 JNIEXPORT jboolean JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1GetGeneralInput
-  (JNIEnv*, jclass, jlong aHandle, jint aInputPin)
+  (JNIEnv*, jclass, jlong handle, jint inputPin)
 {
-    bool output = false;
-    c_CANifier_GetGeneralInput(ConvertToWrapper(aHandle), aInputPin, &output);
-    return output;
+    bool measuredInput = false;
+    c_CANifier_GetGeneralInput(ConvertToWrapper(handle), inputPin, &measuredInput);
+    return measuredInput;
 }
 
 /*
@@ -139,11 +139,11 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1GetGeneralInput
  */
 JNIEXPORT void JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1GetPWMInput
-  (JNIEnv*, jclass, jlong aHandle, jint aPwmChannel,
-   jdoubleArray aDutyCyclePeriodPtr)
+  (JNIEnv*, jclass, jlong handle, jint pwmChannel,
+   jdoubleArray dutyCycleAndPeriodPtr)
 {
     double dutyCycleAndPeriod[2];
-    c_CANifier_GetPWMInput(ConvertToWrapper(aHandle), aPwmChannel, dutyCycleAndPeriod);
+    c_CANifier_GetPWMInput(ConvertToWrapper(handle), pwmChannel, dutyCycleAndPeriod);
 }
 
 /*
@@ -153,9 +153,9 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1GetPWMInput
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1GetLastError
-  (JNIEnv*, jclass, jlong aHandle)
+  (JNIEnv*, jclass, jlong handle)
 {
-    return c_CANifier_GetLastError(ConvertToWrapper(aHandle));
+    return (jint)c_CANifier_GetLastError(ConvertToWrapper(handle));
 }
 
 /*
@@ -165,11 +165,10 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1GetLastError
  */
 JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1GetBatteryVoltage
-  (JNIEnv*, jclass, jlong aHandle)
+  (JNIEnv*, jclass, jlong)
 {
-    double output = 0;
-    c_CANifier_GetBusVoltage(ConvertToWrapper(aHandle), &output);
-    return output;
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
 }
 
 /*
@@ -179,11 +178,11 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1GetBatteryVoltage
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1GetQuadraturePosition
-  (JNIEnv*, jclass, jlong aHandle)
+  (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_CANifier_GetQuadraturePosition(ConvertToWrapper(aHandle), &output);
-    return output;
+    int pos = 0;
+    c_CANifier_GetQuadraturePosition(ConvertToWrapper(handle), &pos);
+    return pos;
 }
 
 /*
@@ -193,9 +192,9 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1GetQuadraturePosition
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1SetQuadraturePosition
-  (JNIEnv*, jclass, jlong aHandle, jint newPosition, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint pos, jint timeoutMs)
 {
-    return (jint)c_CANifier_SetQuadraturePosition(ConvertToWrapper(aHandle), newPosition, timeoutMs);
+    return (jint)c_CANifier_SetQuadraturePosition(ConvertToWrapper(handle), pos, timeoutMs);
 }
 
 /*
@@ -205,11 +204,11 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1SetQuadraturePosition
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1GetQuadratureVelocity
-  (JNIEnv*, jclass, jlong aHandle)
+  (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_CANifier_GetQuadratureVelocity(ConvertToWrapper(aHandle), &output);
-    return output;
+    int vel = 0;
+    c_CANifier_GetQuadratureVelocity(ConvertToWrapper(handle), &vel);
+    return vel;
 }
 
 /*
@@ -219,9 +218,9 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1GetQuadratureVelocity
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigVelocityMeasurementPeriod
-  (JNIEnv*, jclass, jlong aHandle, jint period, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint period, jint timeoutMs)
 {
-    return (jint)c_CANifier_ConfigVelocityMeasurementPeriod(ConvertToWrapper(aHandle), period, timeoutMs);
+    return (jint)c_CANifier_ConfigVelocityMeasurementPeriod(ConvertToWrapper(handle), period, timeoutMs);
 }
 
 /*
@@ -231,9 +230,9 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigVelocityMeasurementPeriod
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigVelocityMeasurementWindow
-  (JNIEnv*, jclass, jlong aHandle, jint windowSize, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint window, jint timeoutMs)
 {
-    return (jint)c_CANifier_ConfigVelocityMeasurementWindow(ConvertToWrapper(aHandle), windowSize, timeoutMs);
+    return (jint)c_CANifier_ConfigVelocityMeasurementWindow(ConvertToWrapper(handle), window, timeoutMs);
 }
 
 /*
@@ -243,10 +242,10 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigVelocityMeasurementWindow
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigClearPositionOnLimitF
-  (JNIEnv*, jclass, jlong aHandle, jboolean clearPositionOnLimitF,
+  (JNIEnv*, jclass, jlong handle, jboolean clearPositionOnLimitF,
    jint timeoutMs)
 {
-    return c_CANifier_ConfigClearPositionOnLimitF(ConvertToWrapper(aHandle), clearPositionOnLimitF, timeoutMs);
+    return (jint)c_CANifier_ConfigClearPositionOnLimitF(ConvertToWrapper(handle), clearPositionOnLimitF, timeoutMs);
 }
 
 /*
@@ -256,10 +255,10 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigClearPositionOnLimitF
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigClearPositionOnLimitR
-  (JNIEnv*, jclass, jlong aHandle, jboolean clearPositionOnLimitF,
+  (JNIEnv*, jclass, jlong handle, jboolean clearPositionOnLimitR,
    jint timeoutMs)
 {
-    return c_CANifier_ConfigClearPositionOnLimitR(ConvertToWrapper(aHandle), clearPositionOnLimitF, timeoutMs);
+    return (jint)c_CANifier_ConfigClearPositionOnLimitR(ConvertToWrapper(handle), clearPositionOnLimitR, timeoutMs);
 }
 
 /*
@@ -269,10 +268,10 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigClearPositionOnLimitR
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigClearPositionOnQuadIdx
-  (JNIEnv*, jclass, jlong aHandle, jboolean clearPositionOnLimitF,
+  (JNIEnv*, jclass, jlong handle, jboolean clearPositionOnQuadIdx,
    jint timeoutMs)
 {
-    return c_CANifier_ConfigClearPositionOnQuadIdx(ConvertToWrapper(aHandle), clearPositionOnLimitF, timeoutMs);
+    return (jint)c_CANifier_ConfigClearPositionOnQuadIdx(ConvertToWrapper(handle), clearPositionOnQuadIdx, timeoutMs);
 }
 
 /*
@@ -282,10 +281,10 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigClearPositionOnQuadIdx
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigSetCustomParam
-  (JNIEnv*, jclass, jlong aHandle, jint aNewValue, jint aParamIndex,
-   jint aTimeout)
+  (JNIEnv*, jclass, jlong handle, jint newValue, jint paramIndex,
+   jint timeoutMs)
 {
-    return c_CANifier_ConfigSetCustomParam(ConvertToWrapper(aHandle), aNewValue, aParamIndex, aTimeout);
+    return (jint)c_CANifier_ConfigSetCustomParam(ConvertToWrapper(handle), newValue, paramIndex, timeoutMs);
 }
 
 /*
@@ -295,11 +294,11 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigSetCustomParam
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigGetCustomParam
-  (JNIEnv*, jclass, jlong aHandle, jint aParamIndex, jint aTimeout)
+  (JNIEnv*, jclass, jlong handle, jint paramIndex, jint timoutMs)
 {
-    int output = 0;
-    c_CANifier_ConfigGetCustomParam(ConvertToWrapper(aHandle), &output, aParamIndex, aTimeout);
-    return output;
+    int readValue = 0;
+    c_CANifier_ConfigGetCustomParam(ConvertToWrapper(handle), &readValue, paramIndex, timoutMs);
+    return readValue;
 }
 
 /*
@@ -309,10 +308,10 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigGetCustomParam
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigSetParameter
-  (JNIEnv*, jclass, jlong aHandle, jint aParam, jdouble aValue, jint aSubValue,
-   jint aOrdinal, jint aTimeout)
+  (JNIEnv*, jclass, jlong handle, jint param, jdouble value, jint subValue,
+   jint ordinal, jint timeoutMs)
 {
-    return (jint)c_CANifier_ConfigSetParameter(ConvertToWrapper(aHandle), aParam, aValue, aSubValue, aOrdinal, aTimeout);
+    return (jint)c_CANifier_ConfigSetParameter(ConvertToWrapper(handle), param, value, subValue, ordinal, timeoutMs);
 }
 
 /*
@@ -322,11 +321,11 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigSetParameter
  */
 JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigGetParameter
-  (JNIEnv*, jclass, jlong aHandle, jint aParam, jint aOrdinal, jint aTimeout)
+  (JNIEnv*, jclass, jlong handle, jint param, jint ordinal, jint timeoutMs)
 {
-    double output = 0;
-    c_CANifier_ConfigGetParameter(ConvertToWrapper(aHandle), aParam, &output, aOrdinal, aTimeout);
-    return output;
+    double value = 0;
+    c_CANifier_ConfigGetParameter(ConvertToWrapper(handle), param, &value, ordinal, timeoutMs);
+    return value;
 }
 
 /*
@@ -336,9 +335,9 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigGetParameter
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigFactoryDefault
-  (JNIEnv*, jclass, jlong aHandle, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint timeoutMs)
 {
-    return c_CANifier_ConfigFactoryDefault(ConvertToWrapper(aHandle), timeoutMs);
+    return (jint)c_CANifier_ConfigFactoryDefault(ConvertToWrapper(handle), timeoutMs);
 }
 
 /*
@@ -348,9 +347,9 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigFactoryDefault
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1SetStatusFramePeriod
-  (JNIEnv*, jclass, jlong aHandle, jint aFrame, jint aPeriod, jint aTimeout)
+  (JNIEnv*, jclass, jlong handle, jint frame, jint periodMs, jint timeoutMs)
 {
-    return c_CANifier_SetStatusFramePeriod(ConvertToWrapper(aHandle), aFrame, aPeriod, aTimeout);
+    return (jint)c_CANifier_SetStatusFramePeriod(ConvertToWrapper(handle), frame, periodMs, timeoutMs);
 }
 
 /*
@@ -360,11 +359,11 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1SetStatusFramePeriod
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1GetStatusFramePeriod
-  (JNIEnv*, jclass, jlong aHandle, jint aFrame, jint aTimeout)
+  (JNIEnv*, jclass, jlong handle, jint frame, jint timeoutMs)
 {
-    int output = 0;
-    c_CANifier_GetStatusFramePeriod(ConvertToWrapper(aHandle), aFrame, &output, aTimeout);
-    return output;
+    int periodMs = 0;
+    c_CANifier_GetStatusFramePeriod(ConvertToWrapper(handle), frame, &periodMs, timeoutMs);
+    return periodMs;
 }
 
 /*
@@ -374,9 +373,9 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1GetStatusFramePeriod
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1SetControlFramePeriod
-  (JNIEnv*, jclass, jlong aHandle, jint aFrame, jint aPeriod)
+  (JNIEnv*, jclass, jlong handle, jint frame, jint periodMs)
 {
-    return c_CANifier_SetControlFramePeriod(ConvertToWrapper(aHandle), aFrame, aPeriod);
+    return (jint)c_CANifier_SetControlFramePeriod(ConvertToWrapper(handle), frame, periodMs);
 }
 
 /*
@@ -386,11 +385,11 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1SetControlFramePeriod
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1GetFirmwareVersion
-  (JNIEnv*, jclass, jlong aHandle)
+  (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_CANifier_GetFirmwareVersion(ConvertToWrapper(aHandle), &output);
-    return output;
+    int firmwareVers = 0;
+    c_CANifier_GetFirmwareVersion(ConvertToWrapper(handle), &firmwareVers);
+    return firmwareVers;
 }
 
 /*
@@ -400,11 +399,11 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1GetFirmwareVersion
  */
 JNIEXPORT jboolean JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1HasResetOccurred
-  (JNIEnv*, jclass, jlong aHandle)
+  (JNIEnv*, jclass, jlong handle)
 {
-    bool output = false;
-    c_CANifier_HasResetOccurred(ConvertToWrapper(aHandle), &output);
-    return output;
+    bool hasReset = false;
+    c_CANifier_HasResetOccurred(ConvertToWrapper(handle), &hasReset);
+    return hasReset;
 }
 
 /*
@@ -414,11 +413,11 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1HasResetOccurred
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1GetFaults
-  (JNIEnv*, jclass, jlong aHandle)
+  (JNIEnv*, jclass, jlong handle)
 {
-    int output = false;
-    c_CANifier_GetFaults(ConvertToWrapper(aHandle), &output);
-    return output;
+    int param = 0;
+    c_CANifier_GetFaults(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -428,11 +427,11 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1GetFaults
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1GetStickyFaults
-  (JNIEnv*, jclass, jlong aHandle)
+  (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_CANifier_GetStickyFaults(ConvertToWrapper(aHandle), &output);
-    return output;
+    int param = 0;
+    c_CANifier_GetStickyFaults(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -442,9 +441,9 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1GetStickyFaults
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1ClearStickyFaults
-  (JNIEnv*, jclass, jlong aHandle, jint aTimeout)
+  (JNIEnv*, jclass, jlong handle, jint timeoutMs)
 {
-    return (jint)c_CANifier_ClearStickyFaults(ConvertToWrapper(aHandle), aTimeout);
+    return (jint)c_CANifier_ClearStickyFaults(ConvertToWrapper(handle), timeoutMs);
 }
 
 /*
@@ -454,11 +453,11 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1ClearStickyFaults
  */
 JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1GetBusVoltage
-  (JNIEnv*, jclass, jlong aHandle)
+  (JNIEnv*, jclass, jlong handle)
 {
-    double output = 0;
-    c_CANifier_GetBusVoltage(ConvertToWrapper(aHandle), &output);
-    return output;
+    double batteryVoltage = 0;
+    c_CANifier_GetBusVoltage(ConvertToWrapper(handle), &batteryVoltage);
+    return batteryVoltage;
 }
 
 } // extern "C"
