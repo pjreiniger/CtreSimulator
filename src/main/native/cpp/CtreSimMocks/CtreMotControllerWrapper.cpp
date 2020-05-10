@@ -102,52 +102,52 @@ void SnobotSim::CtreMotControllerWrapper::SetInverted_2(int invertType)
     Send("SetInverted_2", invertType);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigFactoryDefault(int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigFactoryDefault()
 {
     Send("ConfigFactoryDefault");
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigOpenLoopRamp(double secondsFromNeutralToFull, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigOpenLoopRamp(double secondsFromNeutralToFull)
 {
     Send("ConfigOpenLoopRamp", secondsFromNeutralToFull);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigClosedLoopRamp(double secondsFromNeutralToFull, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigClosedLoopRamp(double secondsFromNeutralToFull)
 {
     Send("ConfigClosedLoopRamp", secondsFromNeutralToFull);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigPeakOutputForward(double percentOut, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigPeakOutputForward(double percentOut)
 {
     Send("ConfigPeakOutputForward", percentOut);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigPeakOutputReverse(double percentOut, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigPeakOutputReverse(double percentOut)
 {
     Send("ConfigPeakOutputReverse", percentOut);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigNominalOutputForward(double percentOut, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigNominalOutputForward(double percentOut)
 {
     Send("ConfigNominalOutputForward", percentOut);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigNominalOutputReverse(double percentOut, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigNominalOutputReverse(double percentOut)
 {
     Send("ConfigNominalOutputReverse", percentOut);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigNeutralDeadband(double percentDeadband, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigNeutralDeadband(double percentDeadband)
 {
     Send("ConfigNeutralDeadband", percentDeadband);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigVoltageCompSaturation(double voltage, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigVoltageCompSaturation(double voltage)
 {
     Send("ConfigVoltageCompSaturation", voltage);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigVoltageMeasurementFilter(int filterWindowSamples, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigVoltageMeasurementFilter(int filterWindowSamples)
 {
     Send("ConfigVoltageMeasurementFilter", filterWindowSamples);
 }
@@ -199,22 +199,22 @@ void SnobotSim::CtreMotControllerWrapper::GetTemperature(double* temperature)
     PoplateReceiveResults(buffer, temperature, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigSelectedFeedbackSensor(int feedbackDevice, int pidIdx, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigSelectedFeedbackSensor(int feedbackDevice, int pidIdx)
 {
     Send("ConfigSelectedFeedbackSensor", feedbackDevice, pidIdx);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigSelectedFeedbackCoefficient(double coefficient, int pidIdx, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigSelectedFeedbackCoefficient(double coefficient, int pidIdx)
 {
     Send("ConfigSelectedFeedbackCoefficient", coefficient, pidIdx);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigRemoteFeedbackFilter(int deviceID, int remoteSensorSource, int remoteOrdinal, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigRemoteFeedbackFilter(int deviceID, int remoteSensorSource, int remoteOrdinal)
 {
     Send("ConfigRemoteFeedbackFilter", deviceID, remoteSensorSource, remoteOrdinal);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigSensorTerm(int sensorTerm, int feedbackDevice, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigSensorTerm(int sensorTerm, int feedbackDevice)
 {
     Send("ConfigSensorTerm", sensorTerm, feedbackDevice);
 }
@@ -233,7 +233,7 @@ void SnobotSim::CtreMotControllerWrapper::GetSelectedSensorVelocity(int* param, 
     PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::SetSelectedSensorPosition(int sensorPos, int pidIdx, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::SetSelectedSensorPosition(int sensorPos, int pidIdx)
 {
     Send("SetSelectedSensorPosition", sensorPos, pidIdx);
 }
@@ -243,34 +243,34 @@ void SnobotSim::CtreMotControllerWrapper::SetControlFramePeriod(int frame, int p
     Send("SetControlFramePeriod", frame, periodMs);
 }
 
-void SnobotSim::CtreMotControllerWrapper::SetStatusFramePeriod(int frame, uint8_t periodMs, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::SetStatusFramePeriod(int frame, uint8_t periodMs)
 {
     Send("SetStatusFramePeriod", frame, periodMs);
 }
 
-void SnobotSim::CtreMotControllerWrapper::GetStatusFramePeriod(int frame, int* periodMs, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::GetStatusFramePeriod(int frame, int* periodMs)
 {
     RECEIVE_HELPER("GetStatusFramePeriod", sizeof(frame) + sizeof(*periodMs));
     PoplateReceiveResults(buffer, &frame, buffer_pos);
     PoplateReceiveResults(buffer, periodMs, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigVelocityMeasurementPeriod(int period, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigVelocityMeasurementPeriod(int period)
 {
     Send("ConfigVelocityMeasurementPeriod", period);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigVelocityMeasurementWindow(int windowSize, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigVelocityMeasurementWindow(int windowSize)
 {
     Send("ConfigVelocityMeasurementWindow", windowSize);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigForwardLimitSwitchSource(int type, int normalOpenOrClose, int deviceID, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigForwardLimitSwitchSource(int type, int normalOpenOrClose, int deviceID)
 {
     Send("ConfigForwardLimitSwitchSource", type, normalOpenOrClose, deviceID);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigReverseLimitSwitchSource(int type, int normalOpenOrClose, int deviceID, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigReverseLimitSwitchSource(int type, int normalOpenOrClose, int deviceID)
 {
     Send("ConfigReverseLimitSwitchSource", type, normalOpenOrClose, deviceID);
 }
@@ -280,22 +280,22 @@ void SnobotSim::CtreMotControllerWrapper::OverrideLimitSwitchesEnable(bool enabl
     Send("OverrideLimitSwitchesEnable", enable);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigForwardSoftLimitThreshold(int forwardSensorLimit, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigForwardSoftLimitThreshold(int forwardSensorLimit)
 {
     Send("ConfigForwardSoftLimitThreshold", forwardSensorLimit);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigReverseSoftLimitThreshold(int reverseSensorLimit, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigReverseSoftLimitThreshold(int reverseSensorLimit)
 {
     Send("ConfigReverseSoftLimitThreshold", reverseSensorLimit);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigForwardSoftLimitEnable(bool enable, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigForwardSoftLimitEnable(bool enable)
 {
     Send("ConfigForwardSoftLimitEnable", enable);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigReverseSoftLimitEnable(bool enable, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigReverseSoftLimitEnable(bool enable)
 {
     Send("ConfigReverseSoftLimitEnable", enable);
 }
@@ -305,52 +305,52 @@ void SnobotSim::CtreMotControllerWrapper::OverrideSoftLimitsEnable(bool enable)
     Send("OverrideSoftLimitsEnable", enable);
 }
 
-void SnobotSim::CtreMotControllerWrapper::Config_kP(int slotIdx, double value, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::Config_kP(int slotIdx, double value)
 {
     Send("Config_kP", slotIdx, value);
 }
 
-void SnobotSim::CtreMotControllerWrapper::Config_kI(int slotIdx, double value, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::Config_kI(int slotIdx, double value)
 {
     Send("Config_kI", slotIdx, value);
 }
 
-void SnobotSim::CtreMotControllerWrapper::Config_kD(int slotIdx, double value, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::Config_kD(int slotIdx, double value)
 {
     Send("Config_kD", slotIdx, value);
 }
 
-void SnobotSim::CtreMotControllerWrapper::Config_kF(int slotIdx, double value, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::Config_kF(int slotIdx, double value)
 {
     Send("Config_kF", slotIdx, value);
 }
 
-void SnobotSim::CtreMotControllerWrapper::Config_IntegralZone(int slotIdx, double izone, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::Config_IntegralZone(int slotIdx, double izone)
 {
     Send("Config_IntegralZone", slotIdx, izone);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigAllowableClosedloopError(int slotIdx, int allowableClosedLoopError, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigAllowableClosedloopError(int slotIdx, int allowableClosedLoopError)
 {
     Send("ConfigAllowableClosedloopError", slotIdx, allowableClosedLoopError);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigMaxIntegralAccumulator(int slotIdx, double iaccum, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigMaxIntegralAccumulator(int slotIdx, double iaccum)
 {
     Send("ConfigMaxIntegralAccumulator", slotIdx, iaccum);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigClosedLoopPeakOutput(int slotIdx, double percentOut)
 {
     Send("ConfigClosedLoopPeakOutput", slotIdx, percentOut);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigClosedLoopPeriod(int slotIdx, int loopTimeMs)
 {
     Send("ConfigClosedLoopPeriod", slotIdx, loopTimeMs);
 }
 
-void SnobotSim::CtreMotControllerWrapper::SetIntegralAccumulator(double iaccum, int pidIdx, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::SetIntegralAccumulator(double iaccum, int pidIdx)
 {
     Send("SetIntegralAccumulator", iaccum, pidIdx);
 }
@@ -437,17 +437,17 @@ void SnobotSim::CtreMotControllerWrapper::GetActiveTrajectoryAll_5(int* vel, int
     PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigMotionCruiseVelocity(int sensorUnitsPer100ms)
 {
     Send("ConfigMotionCruiseVelocity", sensorUnitsPer100ms);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigMotionAcceleration(int sensorUnitsPer100msPerSec)
 {
     Send("ConfigMotionAcceleration", sensorUnitsPer100msPerSec);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigMotionSCurveStrength(int curveStrength, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigMotionSCurveStrength(int curveStrength)
 {
     Send("ConfigMotionSCurveStrength", curveStrength);
 }
@@ -532,7 +532,7 @@ void SnobotSim::CtreMotControllerWrapper::GetMotionProfileStatus_2(size_t* topBu
     PoplateReceiveResults(buffer, profileSlotSelect1, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ClearMotionProfileHasUnderrun(int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ClearMotionProfileHasUnderrun()
 {
     Send("ClearMotionProfileHasUnderrun");
 }
@@ -542,57 +542,57 @@ void SnobotSim::CtreMotControllerWrapper::ChangeMotionControlFramePeriod(int per
     Send("ChangeMotionControlFramePeriod", periodMs);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigMotionProfileTrajectoryPeriod(int durationMs, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigMotionProfileTrajectoryPeriod(int durationMs)
 {
     Send("ConfigMotionProfileTrajectoryPeriod", durationMs);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigMotionProfileTrajectoryInterpolationEnable(bool enable, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigMotionProfileTrajectoryInterpolationEnable(bool enable)
 {
     Send("ConfigMotionProfileTrajectoryInterpolationEnable", enable);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigFeedbackNotContinuous(bool feedbackNotContinuous, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigFeedbackNotContinuous(bool feedbackNotContinuous)
 {
     Send("ConfigFeedbackNotContinuous", feedbackNotContinuous);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigRemoteSensorClosedLoopDisableNeutralOnLOS(bool remoteSensorClosedLoopDisableNeutralOnLOS, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigRemoteSensorClosedLoopDisableNeutralOnLOS(bool remoteSensorClosedLoopDisableNeutralOnLOS)
 {
     Send("ConfigRemoteSensorClosedLoopDisableNeutralOnLOS", remoteSensorClosedLoopDisableNeutralOnLOS);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigClearPositionOnLimitF(bool clearPositionOnLimitF, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigClearPositionOnLimitF(bool clearPositionOnLimitF)
 {
     Send("ConfigClearPositionOnLimitF", clearPositionOnLimitF);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigClearPositionOnLimitR(bool clearPositionOnLimitR, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigClearPositionOnLimitR(bool clearPositionOnLimitR)
 {
     Send("ConfigClearPositionOnLimitR", clearPositionOnLimitR);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigClearPositionOnQuadIdx(bool clearPositionOnQuadIdx, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigClearPositionOnQuadIdx(bool clearPositionOnQuadIdx)
 {
     Send("ConfigClearPositionOnQuadIdx", clearPositionOnQuadIdx);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigLimitSwitchDisableNeutralOnLOS(bool limitSwitchDisableNeutralOnLOS, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigLimitSwitchDisableNeutralOnLOS(bool limitSwitchDisableNeutralOnLOS)
 {
     Send("ConfigLimitSwitchDisableNeutralOnLOS", limitSwitchDisableNeutralOnLOS);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigSoftLimitDisableNeutralOnLOS(bool softLimitDisableNeutralOnLOS, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigSoftLimitDisableNeutralOnLOS(bool softLimitDisableNeutralOnLOS)
 {
     Send("ConfigSoftLimitDisableNeutralOnLOS", softLimitDisableNeutralOnLOS);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigPulseWidthPeriod_EdgesPerRot(int pulseWidthPeriod_EdgesPerRot, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigPulseWidthPeriod_EdgesPerRot(int pulseWidthPeriod_EdgesPerRot)
 {
     Send("ConfigPulseWidthPeriod_EdgesPerRot", pulseWidthPeriod_EdgesPerRot);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigPulseWidthPeriod_FilterWindowSz(int pulseWidthPeriod_FilterWindowSz, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigPulseWidthPeriod_FilterWindowSz(int pulseWidthPeriod_FilterWindowSz)
 {
     Send("ConfigPulseWidthPeriod_FilterWindowSz", pulseWidthPeriod_FilterWindowSz);
 }
@@ -617,7 +617,7 @@ void SnobotSim::CtreMotControllerWrapper::HasResetOccurred(bool* output)
     PoplateReceiveResults(buffer, output, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigSetCustomParam(int newValue, int paramIndex, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigSetCustomParam(int newValue, int paramIndex)
 {
     Send("ConfigSetCustomParam", newValue, paramIndex);
 }
@@ -630,12 +630,12 @@ void SnobotSim::CtreMotControllerWrapper::ConfigGetCustomParam(int* readValue, i
     PoplateReceiveResults(buffer, &timoutMs, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigSetParameter(int param, double value, uint8_t subValue, int ordinal, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigSetParameter(int param, double value, uint8_t subValue, int ordinal)
 {
     Send("ConfigSetParameter", param, value, subValue, ordinal);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigGetParameter(int param, double* value, int ordinal, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigGetParameter(int param, double* value, int ordinal)
 {
     RECEIVE_HELPER("ConfigGetParameter", sizeof(param) + sizeof(*value) + sizeof(ordinal));
     PoplateReceiveResults(buffer, &param, buffer_pos);
@@ -643,7 +643,7 @@ void SnobotSim::CtreMotControllerWrapper::ConfigGetParameter(int param, double* 
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal, int32_t timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal)
 {
     RECEIVE_HELPER("ConfigGetParameter_6", sizeof(param) + sizeof(valueToSend) + sizeof(*valueRecieved) + sizeof(*subValue) + sizeof(ordinal));
     PoplateReceiveResults(buffer, &param, buffer_pos);
@@ -653,17 +653,17 @@ void SnobotSim::CtreMotControllerWrapper::ConfigGetParameter_6(int32_t param, in
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigPeakCurrentLimit(int amps, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigPeakCurrentLimit(int amps)
 {
     Send("ConfigPeakCurrentLimit", amps);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigPeakCurrentDuration(int milliseconds, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigPeakCurrentDuration(int milliseconds)
 {
     Send("ConfigPeakCurrentDuration", milliseconds);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigContinuousCurrentLimit(int amps, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigContinuousCurrentLimit(int amps)
 {
     Send("ConfigContinuousCurrentLimit", amps);
 }
@@ -684,7 +684,7 @@ void SnobotSim::CtreMotControllerWrapper::GetAnalogIn(int* param)
     PoplateReceiveResults(buffer, param, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::SetAnalogPosition(int newPosition, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::SetAnalogPosition(int newPosition)
 {
     Send("SetAnalogPosition", newPosition);
 }
@@ -707,7 +707,7 @@ void SnobotSim::CtreMotControllerWrapper::GetQuadraturePosition(int* param)
     PoplateReceiveResults(buffer, param, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::SetQuadraturePosition(int newPosition, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::SetQuadraturePosition(int newPosition)
 {
     Send("SetQuadraturePosition", newPosition);
 }
@@ -724,7 +724,7 @@ void SnobotSim::CtreMotControllerWrapper::GetPulseWidthPosition(int* param)
     PoplateReceiveResults(buffer, param, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::SetPulseWidthPosition(int newPosition, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::SetPulseWidthPosition(int newPosition)
 {
     Send("SetPulseWidthPosition", newPosition);
 }
@@ -789,7 +789,7 @@ void SnobotSim::CtreMotControllerWrapper::GetStickyFaults(int* param)
     PoplateReceiveResults(buffer, param, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ClearStickyFaults(int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ClearStickyFaults()
 {
     Send("ClearStickyFaults");
 }
@@ -855,18 +855,18 @@ void SnobotSim::CtreMotControllerWrapper::GetClosedLoopTarget(int* value, int pi
     PoplateReceiveResults(buffer, &pidIdx, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigMotorCommutation(ctre::phoenix::motorcontrol::MotorCommutation motorCommutation, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigMotorCommutation(ctre::phoenix::motorcontrol::MotorCommutation motorCommutation)
 {
     Send("ConfigMotorCommutation", motorCommutation);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigGetMotorCommutation(ctre::phoenix::motorcontrol::MotorCommutation* motorCommutation, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigGetMotorCommutation(ctre::phoenix::motorcontrol::MotorCommutation* motorCommutation)
 {
     RECEIVE_HELPER("ConfigGetMotorCommutation", sizeof(*motorCommutation));
     PoplateReceiveResults(buffer, motorCommutation, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigSupplyCurrentLimit(const double* params, int paramCnt, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigSupplyCurrentLimit(const double* params, int paramCnt)
 {
     LOG_UNSUPPORTED_CAN_FUNC("")
     //    RECEIVE_HELPER("ConfigSupplyCurrentLimit", sizeof(*params) + sizeof(paramCnt) + sizeof(timeoutMs));
@@ -875,7 +875,7 @@ void SnobotSim::CtreMotControllerWrapper::ConfigSupplyCurrentLimit(const double*
     //    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigStatorCurrentLimit(const double* params, int paramCnt, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigStatorCurrentLimit(const double* params, int paramCnt)
 {
     LOG_UNSUPPORTED_CAN_FUNC("")
     //    RECEIVE_HELPER("ConfigStatorCurrentLimit", sizeof(*params) + sizeof(paramCnt) + sizeof(timeoutMs));
@@ -884,17 +884,17 @@ void SnobotSim::CtreMotControllerWrapper::ConfigStatorCurrentLimit(const double*
     //    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigSupplyCurrentLimitEnable(bool enable, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigSupplyCurrentLimitEnable(bool enable)
 {
     Send("ConfigSupplyCurrentLimitEnable", enable);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigStatorCurrentLimitEnable(bool enable, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigStatorCurrentLimitEnable(bool enable)
 {
     Send("ConfigStatorCurrentLimitEnable", enable);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigGetSupplyCurrentLimit(double* toFill, int* fillCnt, int fillCapacity, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigGetSupplyCurrentLimit(double* toFill, int* fillCnt, int fillCapacity)
 {
     RECEIVE_HELPER("ConfigGetSupplyCurrentLimit", sizeof(*toFill) + sizeof(*fillCnt) + sizeof(fillCapacity));
     PoplateReceiveResults(buffer, toFill, buffer_pos);
@@ -902,7 +902,7 @@ void SnobotSim::CtreMotControllerWrapper::ConfigGetSupplyCurrentLimit(double* to
     PoplateReceiveResults(buffer, &fillCapacity, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigGetStatorCurrentLimit(double* toFill, int* fillCnt, int fillCapacity, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigGetStatorCurrentLimit(double* toFill, int* fillCnt, int fillCapacity)
 {
     RECEIVE_HELPER("ConfigGetStatorCurrentLimit", sizeof(*toFill) + sizeof(*fillCnt) + sizeof(fillCapacity));
     PoplateReceiveResults(buffer, toFill, buffer_pos);
@@ -910,12 +910,12 @@ void SnobotSim::CtreMotControllerWrapper::ConfigGetStatorCurrentLimit(double* to
     PoplateReceiveResults(buffer, &fillCapacity, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::SetIntegratedSensorPosition(double newpos, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::SetIntegratedSensorPosition(double newpos)
 {
     Send("SetIntegratedSensorPosition", newpos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::SetIntegratedSensorPositionToAbsolute(int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::SetIntegratedSensorPositionToAbsolute()
 {
     Send("SetIntegratedSensorPositionToAbsolute");
 }
@@ -928,17 +928,17 @@ void SnobotSim::CtreMotControllerWrapper::GetIntegratedSensor(double* pos, doubl
     PoplateReceiveResults(buffer, vel, buffer_pos);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigIntegratedSensorAbsoluteRange(ctre::phoenix::sensors::AbsoluteSensorRange absoluteSensorRange, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigIntegratedSensorAbsoluteRange(ctre::phoenix::sensors::AbsoluteSensorRange absoluteSensorRange)
 {
     Send("ConfigIntegratedSensorAbsoluteRange", absoluteSensorRange);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigIntegratedSensorOffset(double offsetDegrees, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigIntegratedSensorOffset(double offsetDegrees)
 {
     Send("ConfigIntegratedSensorOffset", offsetDegrees);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigIntegratedSensorInitializationStrategy(ctre::phoenix::sensors::SensorInitializationStrategy initializationStrategy, int timeoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigIntegratedSensorInitializationStrategy(ctre::phoenix::sensors::SensorInitializationStrategy initializationStrategy)
 {
     Send("ConfigIntegratedSensorInitializationStrategy", initializationStrategy);
 }

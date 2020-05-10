@@ -58,12 +58,12 @@ void SnobotSim::CtrePigeonIMUWrapper::GetDescription(char* toFill, int toFillByt
     buffer_pos += 1; // Removes compiler warning
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::ConfigSetParameter(int param, double value, uint8_t subValue, int ordinal, int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::ConfigSetParameter(int param, double value, uint8_t subValue, int ordinal)
 {
     Send("ConfigSetParameter", param, value, subValue, ordinal);
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::ConfigGetParameter(int param, double* value, int ordinal, int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::ConfigGetParameter(int param, double* value, int ordinal)
 {
     RECEIVE_HELPER("ConfigGetParameter", sizeof(param) + sizeof(*value) + sizeof(ordinal));
     PoplateReceiveResults(buffer, &param, buffer_pos);
@@ -71,7 +71,7 @@ void SnobotSim::CtrePigeonIMUWrapper::ConfigGetParameter(int param, double* valu
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal, int32_t timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal)
 {
     RECEIVE_HELPER("ConfigGetParameter_6", sizeof(param) + sizeof(valueToSend) + sizeof(*valueRecieved) + sizeof(*subValue) + sizeof(ordinal));
     PoplateReceiveResults(buffer, &param, buffer_pos);
@@ -81,7 +81,7 @@ void SnobotSim::CtrePigeonIMUWrapper::ConfigGetParameter_6(int32_t param, int32_
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::ConfigSetCustomParam(int newValue, int paramIndex, int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::ConfigSetCustomParam(int newValue, int paramIndex)
 {
     Send("ConfigSetCustomParam", newValue, paramIndex);
 }
@@ -94,62 +94,62 @@ void SnobotSim::CtrePigeonIMUWrapper::ConfigGetCustomParam(int* readValue, int p
     PoplateReceiveResults(buffer, &timoutMs, buffer_pos);
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::ConfigFactoryDefault(int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::ConfigFactoryDefault()
 {
     Send("ConfigFactoryDefault");
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::SetYaw(double angleDeg, int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::SetYaw(double angleDeg)
 {
     Send("SetYaw", angleDeg);
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::AddYaw(double angleDeg, int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::AddYaw(double angleDeg)
 {
     Send("AddYaw", angleDeg);
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::SetYawToCompass(int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::SetYawToCompass()
 {
     Send("SetYawToCompass");
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::SetFusedHeading(double angleDeg, int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::SetFusedHeading(double angleDeg)
 {
     Send("SetFusedHeading", angleDeg);
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::AddFusedHeading(double angleDeg, int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::AddFusedHeading(double angleDeg)
 {
     Send("AddFusedHeading", angleDeg);
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::SetFusedHeadingToCompass(int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::SetFusedHeadingToCompass()
 {
     Send("SetFusedHeadingToCompass");
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::SetAccumZAngle(double angleDeg, int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::SetAccumZAngle(double angleDeg)
 {
     Send("SetAccumZAngle", angleDeg);
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::SetTemperatureCompensationDisable(int bTempCompDisable, int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::SetTemperatureCompensationDisable(int bTempCompDisable)
 {
     Send("SetTemperatureCompensationDisable", bTempCompDisable);
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::SetCompassDeclination(double angleDegOffset, int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::SetCompassDeclination(double angleDegOffset)
 {
     Send("SetCompassDeclination", angleDegOffset);
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::SetCompassAngle(double angleDeg, int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::SetCompassAngle(double angleDeg)
 {
     Send("SetCompassAngle", angleDeg);
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::EnterCalibrationMode(int calMode, int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::EnterCalibrationMode(int calMode)
 {
     Send("EnterCalibrationMode", calMode);
 }
@@ -335,17 +335,17 @@ void SnobotSim::CtrePigeonIMUWrapper::GetStickyFaults(int* param)
     PoplateReceiveResults(buffer, param, buffer_pos);
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::ClearStickyFaults(int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::ClearStickyFaults()
 {
     Send("ClearStickyFaults");
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::SetStatusFramePeriod(int frame, uint8_t periodMs, int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::SetStatusFramePeriod(int frame, uint8_t periodMs)
 {
     Send("SetStatusFramePeriod", frame, periodMs);
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::GetStatusFramePeriod(int frame, int* periodMs, int timeoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::GetStatusFramePeriod(int frame, int* periodMs)
 {
     RECEIVE_HELPER("GetStatusFramePeriod", sizeof(frame) + sizeof(*periodMs));
     PoplateReceiveResults(buffer, &frame, buffer_pos);

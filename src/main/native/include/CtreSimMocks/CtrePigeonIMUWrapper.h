@@ -22,23 +22,23 @@ public:
 
     //////////////////////////////////////////////////////////////////
     void GetDescription(char* toFill, int toFillByteSz, size_t* numBytesFilled);
-    void ConfigSetParameter(int param, double value, uint8_t subValue, int ordinal, int timeoutMs);
-    void ConfigGetParameter(int param, double* value, int ordinal, int timeoutMs);
-    void ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal, int32_t timeoutMs);
-    void ConfigSetCustomParam(int newValue, int paramIndex, int timeoutMs);
+    void ConfigSetParameter(int param, double value, uint8_t subValue, int ordinal);
+    void ConfigGetParameter(int param, double* value, int ordinal);
+    void ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal);
+    void ConfigSetCustomParam(int newValue, int paramIndex);
     void ConfigGetCustomParam(int* readValue, int paramIndex, int timoutMs);
-    void ConfigFactoryDefault(int timeoutMs);
-    void SetYaw(double angleDeg, int timeoutMs);
-    void AddYaw(double angleDeg, int timeoutMs);
-    void SetYawToCompass(int timeoutMs);
-    void SetFusedHeading(double angleDeg, int timeoutMs);
-    void AddFusedHeading(double angleDeg, int timeoutMs);
-    void SetFusedHeadingToCompass(int timeoutMs);
-    void SetAccumZAngle(double angleDeg, int timeoutMs);
-    void SetTemperatureCompensationDisable(int bTempCompDisable, int timeoutMs);
-    void SetCompassDeclination(double angleDegOffset, int timeoutMs);
-    void SetCompassAngle(double angleDeg, int timeoutMs);
-    void EnterCalibrationMode(int calMode, int timeoutMs);
+    void ConfigFactoryDefault();
+    void SetYaw(double angleDeg);
+    void AddYaw(double angleDeg);
+    void SetYawToCompass();
+    void SetFusedHeading(double angleDeg);
+    void AddFusedHeading(double angleDeg);
+    void SetFusedHeadingToCompass();
+    void SetAccumZAngle(double angleDeg);
+    void SetTemperatureCompensationDisable(int bTempCompDisable);
+    void SetCompassDeclination(double angleDegOffset);
+    void SetCompassAngle(double angleDeg);
+    void EnterCalibrationMode(int calMode);
     void GetGeneralStatus(int* state, int* currentMode, int* calibrationError, int* bCalIsBooting, double* tempC, int* upTimeSec, int* noMotionBiasCount, int* tempCompensationCount, int* lastError);
     ctre::phoenix::ErrorCode GetLastError();
     void Get6dQuaternion(double wxyz[4]);
@@ -64,9 +64,9 @@ public:
     void SetLastError(int value);
     void GetFaults(int* param);
     void GetStickyFaults(int* param);
-    void ClearStickyFaults(int timeoutMs);
-    void SetStatusFramePeriod(int frame, uint8_t periodMs, int timeoutMs);
-    void GetStatusFramePeriod(int frame, int* periodMs, int timeoutMs);
+    void ClearStickyFaults();
+    void SetStatusFramePeriod(int frame, uint8_t periodMs);
+    void GetStatusFramePeriod(int frame, int* periodMs);
     void SetControlFramePeriod(int frame, int periodMs);
 };
 

@@ -75,17 +75,17 @@ void SnobotSim::CtreCANCoderWrapper::GetPosition(double* pos)
     PoplateReceiveResults(buffer, pos, buffer_pos);
 }
 
-void SnobotSim::CtreCANCoderWrapper::SetPosition(double pos, int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::SetPosition(double pos)
 {
     Send("SetPosition", pos);
 }
 
-void SnobotSim::CtreCANCoderWrapper::SetPositionToAbsolute(int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::SetPositionToAbsolute()
 {
     Send("SetPositionToAbsolute");
 }
 
-void SnobotSim::CtreCANCoderWrapper::ConfigSensorDirection(int bDirection, int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::ConfigSensorDirection(int bDirection)
 {
     Send("ConfigSensorDirection", bDirection);
 }
@@ -102,32 +102,32 @@ void SnobotSim::CtreCANCoderWrapper::GetAbsolutePosition(double* pos)
     PoplateReceiveResults(buffer, pos, buffer_pos);
 }
 
-void SnobotSim::CtreCANCoderWrapper::ConfigVelocityMeasurementPeriod(int period, int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::ConfigVelocityMeasurementPeriod(int period)
 {
     Send("ConfigVelocityMeasurementPeriod", period);
 }
 
-void SnobotSim::CtreCANCoderWrapper::ConfigVelocityMeasurementWindow(int window, int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::ConfigVelocityMeasurementWindow(int window)
 {
     Send("ConfigVelocityMeasurementWindow", window);
 }
 
-void SnobotSim::CtreCANCoderWrapper::ConfigAbsoluteSensorRange(ctre::phoenix::sensors::AbsoluteSensorRange absoluteSensorRange, int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::ConfigAbsoluteSensorRange(ctre::phoenix::sensors::AbsoluteSensorRange absoluteSensorRange)
 {
     Send("ConfigAbsoluteSensorRange", absoluteSensorRange);
 }
 
-void SnobotSim::CtreCANCoderWrapper::ConfigMagnetOffset(double offsetDegrees, int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::ConfigMagnetOffset(double offsetDegrees)
 {
     Send("ConfigMagnetOffset", offsetDegrees);
 }
 
-void SnobotSim::CtreCANCoderWrapper::ConfigSensorInitializationStrategy(ctre::phoenix::sensors::SensorInitializationStrategy initializationStrategy, int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::ConfigSensorInitializationStrategy(ctre::phoenix::sensors::SensorInitializationStrategy initializationStrategy)
 {
     Send("ConfigSensorInitializationStrategy", initializationStrategy);
 }
 
-void SnobotSim::CtreCANCoderWrapper::ConfigFeedbackCoefficient(double sensorCoefficient, const char* unitString, ctre::phoenix::sensors::SensorTimeBase sensortimeBase, int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::ConfigFeedbackCoefficient(double sensorCoefficient, const char* unitString, ctre::phoenix::sensors::SensorTimeBase sensortimeBase)
 {
     //    RECEIVE_HELPER("ConfigFeedbackCoefficient", sizeof(sensorCoefficient) + sizeof(*unitString) + sizeof(sensortimeBase));
     //    PoplateReceiveResults(buffer, &sensorCoefficient, buffer_pos);
@@ -136,12 +136,12 @@ void SnobotSim::CtreCANCoderWrapper::ConfigFeedbackCoefficient(double sensorCoef
     LOG_UNSUPPORTED_CAN_FUNC("");
 }
 
-void SnobotSim::CtreCANCoderWrapper::ConfigSetParameter(int param, double value, uint8_t subValue, int ordinal, int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::ConfigSetParameter(int param, double value, uint8_t subValue, int ordinal)
 {
     Send("ConfigSetParameter", param, value, subValue, ordinal);
 }
 
-void SnobotSim::CtreCANCoderWrapper::ConfigGetParameter(int param, double* value, int ordinal, int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::ConfigGetParameter(int param, double* value, int ordinal)
 {
     RECEIVE_HELPER("ConfigGetParameter", sizeof(param) + sizeof(*value) + sizeof(ordinal));
     PoplateReceiveResults(buffer, &param, buffer_pos);
@@ -149,7 +149,7 @@ void SnobotSim::CtreCANCoderWrapper::ConfigGetParameter(int param, double* value
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 }
 
-void SnobotSim::CtreCANCoderWrapper::ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal, int32_t timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal)
 {
     RECEIVE_HELPER("ConfigGetParameter_6", sizeof(param) + sizeof(valueToSend) + sizeof(*valueRecieved) + sizeof(*subValue) + sizeof(ordinal));
     PoplateReceiveResults(buffer, &param, buffer_pos);
@@ -159,20 +159,19 @@ void SnobotSim::CtreCANCoderWrapper::ConfigGetParameter_6(int32_t param, int32_t
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 }
 
-void SnobotSim::CtreCANCoderWrapper::ConfigSetCustomParam(int newValue, int paramIndex, int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::ConfigSetCustomParam(int newValue, int paramIndex)
 {
     Send("ConfigSetCustomParam", newValue, paramIndex);
 }
 
-void SnobotSim::CtreCANCoderWrapper::ConfigGetCustomParam(int* readValue, int paramIndex, int timoutMs)
+void SnobotSim::CtreCANCoderWrapper::ConfigGetCustomParam(int* readValue, int paramIndex)
 {
-    RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex) + sizeof(timoutMs));
+    RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex));
     PoplateReceiveResults(buffer, readValue, buffer_pos);
     PoplateReceiveResults(buffer, &paramIndex, buffer_pos);
-    PoplateReceiveResults(buffer, &timoutMs, buffer_pos);
 }
 
-void SnobotSim::CtreCANCoderWrapper::ConfigFactoryDefault(int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::ConfigFactoryDefault()
 {
     Send("ConfigFactoryDefault");
 }
@@ -189,7 +188,7 @@ void SnobotSim::CtreCANCoderWrapper::GetStickyFaults(int* param)
     PoplateReceiveResults(buffer, param, buffer_pos);
 }
 
-void SnobotSim::CtreCANCoderWrapper::ClearStickyFaults(int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::ClearStickyFaults()
 {
     Send("ClearStickyFaults");
 }
@@ -206,12 +205,12 @@ void SnobotSim::CtreCANCoderWrapper::HasResetOccurred(bool* hasReset)
     PoplateReceiveResults(buffer, hasReset, buffer_pos);
 }
 
-void SnobotSim::CtreCANCoderWrapper::SetStatusFramePeriod(int frame, uint8_t periodMs, int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::SetStatusFramePeriod(int frame, uint8_t periodMs)
 {
     Send("SetStatusFramePeriod", frame, periodMs);
 }
 
-void SnobotSim::CtreCANCoderWrapper::GetStatusFramePeriod(int frame, int* periodMs, int timeoutMs)
+void SnobotSim::CtreCANCoderWrapper::GetStatusFramePeriod(int frame, int* periodMs)
 {
     RECEIVE_HELPER("GetStatusFramePeriod", sizeof(frame) + sizeof(*periodMs));
     PoplateReceiveResults(buffer, &frame, buffer_pos);

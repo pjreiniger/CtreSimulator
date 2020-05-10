@@ -127,7 +127,7 @@ void SnobotSim::CtreCANifierWrapper::GetQuadraturePosition(int* pos)
     PoplateReceiveResults(buffer, pos, buffer_pos);
 }
 
-void SnobotSim::CtreCANifierWrapper::SetQuadraturePosition(int pos, int timeoutMs)
+void SnobotSim::CtreCANifierWrapper::SetQuadraturePosition(int pos)
 {
     Send("SetQuadraturePosition", pos);
 }
@@ -145,27 +145,27 @@ void SnobotSim::CtreCANifierWrapper::GetQuadratureSensor(int* pos, int* vel)
     PoplateReceiveResults(buffer, vel, buffer_pos);
 }
 
-void SnobotSim::CtreCANifierWrapper::ConfigVelocityMeasurementPeriod(int period, int timeoutMs)
+void SnobotSim::CtreCANifierWrapper::ConfigVelocityMeasurementPeriod(int period)
 {
     Send("ConfigVelocityMeasurementPeriod", period);
 }
 
-void SnobotSim::CtreCANifierWrapper::ConfigVelocityMeasurementWindow(int window, int timeoutMs)
+void SnobotSim::CtreCANifierWrapper::ConfigVelocityMeasurementWindow(int window)
 {
     Send("ConfigVelocityMeasurementWindow", window);
 }
 
-void SnobotSim::CtreCANifierWrapper::ConfigClearPositionOnLimitF(bool clearPositionOnLimitF, int timeoutMs)
+void SnobotSim::CtreCANifierWrapper::ConfigClearPositionOnLimitF(bool clearPositionOnLimitF)
 {
     Send("ConfigClearPositionOnLimitF", clearPositionOnLimitF);
 }
 
-void SnobotSim::CtreCANifierWrapper::ConfigClearPositionOnLimitR(bool clearPositionOnLimitR, int timeoutMs)
+void SnobotSim::CtreCANifierWrapper::ConfigClearPositionOnLimitR(bool clearPositionOnLimitR)
 {
     Send("ConfigClearPositionOnLimitR", clearPositionOnLimitR);
 }
 
-void SnobotSim::CtreCANifierWrapper::ConfigClearPositionOnQuadIdx(bool clearPositionOnQuadIdx, int timeoutMs)
+void SnobotSim::CtreCANifierWrapper::ConfigClearPositionOnQuadIdx(bool clearPositionOnQuadIdx)
 {
     Send("ConfigClearPositionOnQuadIdx", clearPositionOnQuadIdx);
 }
@@ -175,12 +175,12 @@ void SnobotSim::CtreCANifierWrapper::SetLastError(int error)
     Send("SetLastError", error);
 }
 
-void SnobotSim::CtreCANifierWrapper::ConfigSetParameter(int param, double value, uint8_t subValue, int ordinal, int timeoutMs)
+void SnobotSim::CtreCANifierWrapper::ConfigSetParameter(int param, double value, uint8_t subValue, int ordinal)
 {
     Send("ConfigSetParameter", param, value, subValue, ordinal);
 }
 
-void SnobotSim::CtreCANifierWrapper::ConfigGetParameter(int param, double* value, int ordinal, int timeoutMs)
+void SnobotSim::CtreCANifierWrapper::ConfigGetParameter(int param, double* value, int ordinal)
 {
     RECEIVE_HELPER("ConfigGetParameter", sizeof(param) + sizeof(*value) + sizeof(ordinal));
     PoplateReceiveResults(buffer, &param, buffer_pos);
@@ -188,7 +188,7 @@ void SnobotSim::CtreCANifierWrapper::ConfigGetParameter(int param, double* value
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 }
 
-void SnobotSim::CtreCANifierWrapper::ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal, int32_t timeoutMs)
+void SnobotSim::CtreCANifierWrapper::ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal)
 {
     RECEIVE_HELPER("ConfigGetParameter_6", sizeof(param) + sizeof(valueToSend) + sizeof(*valueRecieved) + sizeof(*subValue) + sizeof(ordinal));
     PoplateReceiveResults(buffer, &param, buffer_pos);
@@ -198,20 +198,19 @@ void SnobotSim::CtreCANifierWrapper::ConfigGetParameter_6(int32_t param, int32_t
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 }
 
-void SnobotSim::CtreCANifierWrapper::ConfigSetCustomParam(int newValue, int paramIndex, int timeoutMs)
+void SnobotSim::CtreCANifierWrapper::ConfigSetCustomParam(int newValue, int paramIndex)
 {
     Send("ConfigSetCustomParam", newValue, paramIndex);
 }
 
-void SnobotSim::CtreCANifierWrapper::ConfigGetCustomParam(int* readValue, int paramIndex, int timoutMs)
+void SnobotSim::CtreCANifierWrapper::ConfigGetCustomParam(int* readValue, int paramIndex)
 {
-    RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex) + sizeof(timoutMs));
+    RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex));
     PoplateReceiveResults(buffer, readValue, buffer_pos);
     PoplateReceiveResults(buffer, &paramIndex, buffer_pos);
-    PoplateReceiveResults(buffer, &timoutMs, buffer_pos);
 }
 
-void SnobotSim::CtreCANifierWrapper::ConfigFactoryDefault(int timeoutMs)
+void SnobotSim::CtreCANifierWrapper::ConfigFactoryDefault()
 {
     Send("ConfigFactoryDefault");
 }
@@ -228,7 +227,7 @@ void SnobotSim::CtreCANifierWrapper::GetStickyFaults(int* param)
     PoplateReceiveResults(buffer, param, buffer_pos);
 }
 
-void SnobotSim::CtreCANifierWrapper::ClearStickyFaults(int timeoutMs)
+void SnobotSim::CtreCANifierWrapper::ClearStickyFaults()
 {
     Send("ClearStickyFaults");
 }
@@ -245,12 +244,12 @@ void SnobotSim::CtreCANifierWrapper::HasResetOccurred(bool* hasReset)
     PoplateReceiveResults(buffer, hasReset, buffer_pos);
 }
 
-void SnobotSim::CtreCANifierWrapper::SetStatusFramePeriod(int frame, uint8_t periodMs, int timeoutMs)
+void SnobotSim::CtreCANifierWrapper::SetStatusFramePeriod(int frame, uint8_t periodMs)
 {
     Send("SetStatusFramePeriod", frame, periodMs);
 }
 
-void SnobotSim::CtreCANifierWrapper::GetStatusFramePeriod(int frame, int* periodMs, int timeoutMs)
+void SnobotSim::CtreCANifierWrapper::GetStatusFramePeriod(int frame, int* periodMs)
 {
     RECEIVE_HELPER("GetStatusFramePeriod", sizeof(frame) + sizeof(*periodMs));
     PoplateReceiveResults(buffer, &frame, buffer_pos);

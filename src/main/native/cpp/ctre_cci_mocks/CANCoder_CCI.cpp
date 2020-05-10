@@ -58,218 +58,175 @@ ctre::phoenix::ErrorCode c_CANCoder_GetLastError(void* handle)
 
 ctre::phoenix::ErrorCode c_CANCoder_GetLastUnitString(void* handle, char* toFill, int toFillByteSz, int* numBytesFilled)
 {
-    RECEIVE_HELPER("GetLastUnitString", sizeof(*toFill) + sizeof(toFillByteSz) + sizeof(*numBytesFilled));
-    PoplateReceiveResults(buffer, toFill, buffer_pos);
-    PoplateReceiveResults(buffer, &toFillByteSz, buffer_pos);
-    PoplateReceiveResults(buffer, numBytesFilled, buffer_pos);
+    ConvertToWrapper(handle)->GetLastUnitString(toFill, toFillByteSz, numBytesFilled);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_GetLastTimestamp(void* handle, double* timestamp)
 {
-    RECEIVE_HELPER("GetLastTimestamp", sizeof(*timestamp));
-    PoplateReceiveResults(buffer, timestamp, buffer_pos);
+    ConvertToWrapper(handle)->GetLastTimestamp(timestamp);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_GetBusVoltage(void* handle, double* batteryVoltage)
 {
-    RECEIVE_HELPER("GetBusVoltage", sizeof(*batteryVoltage));
-    PoplateReceiveResults(buffer, batteryVoltage, buffer_pos);
+    ConvertToWrapper(handle)->GetBusVoltage(batteryVoltage);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_GetMagnetFieldStrength(void* handle, ctre::phoenix::sensors::MagnetFieldStrength* magnetFieldStrength)
 {
-    RECEIVE_HELPER("GetMagnetFieldStrength", sizeof(*magnetFieldStrength));
-    PoplateReceiveResults(buffer, magnetFieldStrength, buffer_pos);
+    ConvertToWrapper(handle)->GetMagnetFieldStrength(magnetFieldStrength);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_GetPosition(void* handle, double* pos)
 {
-    RECEIVE_HELPER("GetPosition", sizeof(*pos));
-    PoplateReceiveResults(buffer, pos, buffer_pos);
+    ConvertToWrapper(handle)->GetPosition(pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_SetPosition(void* handle, double pos, int timeoutMs)
 {
-    auto* wrapper = ConvertToWrapper(handle);
-    wrapper->Send("SetPosition", pos);
+    ConvertToWrapper(handle)->SetPosition(pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_SetPositionToAbsolute(void* handle, int timeoutMs)
 {
-    auto* wrapper = ConvertToWrapper(handle);
-    wrapper->Send("SetPositionToAbsolute");
+    ConvertToWrapper(handle)->SetPositionToAbsolute();
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_ConfigSensorDirection(void* handle, int bDirection, int timeoutMs)
 {
-    auto* wrapper = ConvertToWrapper(handle);
-    wrapper->Send("ConfigSensorDirection", bDirection);
+    ConvertToWrapper(handle)->ConfigSensorDirection(bDirection);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_GetVelocity(void* handle, double* vel)
 {
-    RECEIVE_HELPER("GetVelocity", sizeof(*vel));
-    PoplateReceiveResults(buffer, vel, buffer_pos);
+    ConvertToWrapper(handle)->GetVelocity(vel);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_GetAbsolutePosition(void* handle, double* pos)
 {
-    RECEIVE_HELPER("GetAbsolutePosition", sizeof(*pos));
-    PoplateReceiveResults(buffer, pos, buffer_pos);
+    ConvertToWrapper(handle)->GetAbsolutePosition(pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_ConfigVelocityMeasurementPeriod(void* handle, int period, int timeoutMs)
 {
-    auto* wrapper = ConvertToWrapper(handle);
-    wrapper->Send("ConfigVelocityMeasurementPeriod", period);
+    ConvertToWrapper(handle)->ConfigVelocityMeasurementPeriod(period);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_ConfigVelocityMeasurementWindow(void* handle, int window, int timeoutMs)
 {
-    auto* wrapper = ConvertToWrapper(handle);
-    wrapper->Send("ConfigVelocityMeasurementWindow", window);
+    ConvertToWrapper(handle)->ConfigVelocityMeasurementWindow(window);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_ConfigAbsoluteSensorRange(void* handle, ctre::phoenix::sensors::AbsoluteSensorRange absoluteSensorRange, int timeoutMs)
 {
-    auto* wrapper = ConvertToWrapper(handle);
-    wrapper->Send("ConfigAbsoluteSensorRange", absoluteSensorRange);
+    ConvertToWrapper(handle)->ConfigAbsoluteSensorRange(absoluteSensorRange);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_ConfigMagnetOffset(void* handle, double offsetDegrees, int timeoutMs)
 {
-    auto* wrapper = ConvertToWrapper(handle);
-    wrapper->Send("ConfigMagnetOffset", offsetDegrees);
+    ConvertToWrapper(handle)->ConfigMagnetOffset(offsetDegrees);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_ConfigSensorInitializationStrategy(void* handle, ctre::phoenix::sensors::SensorInitializationStrategy initializationStrategy, int timeoutMs)
 {
-    auto* wrapper = ConvertToWrapper(handle);
-    wrapper->Send("ConfigSensorInitializationStrategy", initializationStrategy);
+    ConvertToWrapper(handle)->ConfigSensorInitializationStrategy(initializationStrategy);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_ConfigFeedbackCoefficient(void* handle, double sensorCoefficient, const char* unitString, ctre::phoenix::sensors::SensorTimeBase sensortimeBase, int timeoutMs)
 {
-    //    RECEIVE_HELPER("ConfigFeedbackCoefficient", sizeof(sensorCoefficient) + sizeof(*unitString) + sizeof(sensortimeBase));
-    //    PoplateReceiveResults(buffer, &sensorCoefficient, buffer_pos);
-    //    PoplateReceiveResults(buffer, unitString, buffer_pos);
-    //    PoplateReceiveResults(buffer, &sensortimeBase, buffer_pos);
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    ConvertToWrapper(handle)->ConfigFeedbackCoefficient(sensorCoefficient, unitString, sensortimeBase);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_ConfigSetParameter(void* handle, int param, double value, uint8_t subValue, int ordinal, int timeoutMs)
 {
-    auto* wrapper = ConvertToWrapper(handle);
-    wrapper->Send("ConfigSetParameter", param, value, subValue, ordinal);
+    ConvertToWrapper(handle)->ConfigSetParameter(param, value, subValue, ordinal);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_ConfigGetParameter(void* handle, int param, double* value, int ordinal, int timeoutMs)
 {
-    RECEIVE_HELPER("ConfigGetParameter", sizeof(param) + sizeof(*value) + sizeof(ordinal));
-    PoplateReceiveResults(buffer, &param, buffer_pos);
-    PoplateReceiveResults(buffer, value, buffer_pos);
-    PoplateReceiveResults(buffer, &ordinal, buffer_pos);
+    ConvertToWrapper(handle)->ConfigGetParameter(param, value, ordinal);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_ConfigGetParameter_6(void* handle, int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal, int32_t timeoutMs)
 {
-    RECEIVE_HELPER("ConfigGetParameter_6", sizeof(param) + sizeof(valueToSend) + sizeof(*valueRecieved) + sizeof(*subValue) + sizeof(ordinal));
-    PoplateReceiveResults(buffer, &param, buffer_pos);
-    PoplateReceiveResults(buffer, &valueToSend, buffer_pos);
-    PoplateReceiveResults(buffer, valueRecieved, buffer_pos);
-    PoplateReceiveResults(buffer, subValue, buffer_pos);
-    PoplateReceiveResults(buffer, &ordinal, buffer_pos);
+    ConvertToWrapper(handle)->ConfigGetParameter_6(param, valueToSend, valueRecieved, subValue, ordinal);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_ConfigSetCustomParam(void* handle, int newValue, int paramIndex, int timeoutMs)
 {
-    auto* wrapper = ConvertToWrapper(handle);
-    wrapper->Send("ConfigSetCustomParam", newValue, paramIndex);
+    ConvertToWrapper(handle)->ConfigSetCustomParam(newValue, paramIndex);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_ConfigGetCustomParam(void* handle, int* readValue, int paramIndex, int timoutMs)
 {
-    RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex) + sizeof(timoutMs));
-    PoplateReceiveResults(buffer, readValue, buffer_pos);
-    PoplateReceiveResults(buffer, &paramIndex, buffer_pos);
-    PoplateReceiveResults(buffer, &timoutMs, buffer_pos);
+    ConvertToWrapper(handle)->ConfigGetCustomParam(readValue, paramIndex);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_ConfigFactoryDefault(void* handle, int timeoutMs)
 {
-    auto* wrapper = ConvertToWrapper(handle);
-    wrapper->Send("ConfigFactoryDefault");
+    ConvertToWrapper(handle)->ConfigFactoryDefault();
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_GetFaults(void* handle, int* param)
 {
-    RECEIVE_HELPER("GetFaults", sizeof(*param));
-    PoplateReceiveResults(buffer, param, buffer_pos);
+    ConvertToWrapper(handle)->GetFaults(param);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_GetStickyFaults(void* handle, int* param)
 {
-    RECEIVE_HELPER("GetStickyFaults", sizeof(*param));
-    PoplateReceiveResults(buffer, param, buffer_pos);
+    ConvertToWrapper(handle)->GetStickyFaults(param);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_ClearStickyFaults(void* handle, int timeoutMs)
 {
-    auto* wrapper = ConvertToWrapper(handle);
-    wrapper->Send("ClearStickyFaults");
+    ConvertToWrapper(handle)->ClearStickyFaults();
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_GetFirmwareVersion(void* handle, int* firmwareVers)
 {
-    RECEIVE_HELPER("GetFirmwareVersion", sizeof(*firmwareVers));
-    PoplateReceiveResults(buffer, firmwareVers, buffer_pos);
+    ConvertToWrapper(handle)->GetFirmwareVersion(firmwareVers);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_HasResetOccurred(void* handle, bool* hasReset)
 {
-    RECEIVE_HELPER("HasResetOccurred", sizeof(*hasReset));
-    PoplateReceiveResults(buffer, hasReset, buffer_pos);
+    ConvertToWrapper(handle)->HasResetOccurred(hasReset);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_SetStatusFramePeriod(void* handle, int frame, uint8_t periodMs, int timeoutMs)
 {
-    auto* wrapper = ConvertToWrapper(handle);
-    wrapper->Send("SetStatusFramePeriod", frame, periodMs);
+    ConvertToWrapper(handle)->SetStatusFramePeriod(frame, periodMs);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_CANCoder_GetStatusFramePeriod(void* handle, int frame, int* periodMs, int timeoutMs)
 {
-    RECEIVE_HELPER("GetStatusFramePeriod", sizeof(frame) + sizeof(*periodMs));
-    PoplateReceiveResults(buffer, &frame, buffer_pos);
-    PoplateReceiveResults(buffer, periodMs, buffer_pos);
+    ConvertToWrapper(handle)->GetStatusFramePeriod(frame, periodMs);
     return (ctre::phoenix::ErrorCode)0;
 }
 
