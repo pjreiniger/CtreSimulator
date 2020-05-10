@@ -93,25 +93,28 @@ enum ErrorCode
 };
 class ErrorCollection {
 public:
-    static ErrorCode worstOne(ErrorCode errorCode1, ErrorCode errorCode2) {
-        if (errorCode1 != OK)
-            return errorCode1;
-        return errorCode2;
-    }
+	ErrorCollection() {
+		_firstError = OK;
+	}
     void NewError(ErrorCode err) {
-        _worstError = worstOne(_worstError, err);
+        _firstError = FirstOne(_firstError, err);
     }
     void NewError(int err) {
-        _worstError = worstOne(_worstError, (ErrorCode) err); 
+        _firstError = FirstOne(_firstError, (ErrorCode) err); 
     }
-    ErrorCode _worstError;
-    ErrorCollection() {
-        _worstError = OK;
-    }
+	ErrorCode GetFirstNonZeroError()
+	{
+		return _firstError;
+	}
+private:
 
+	static ErrorCode FirstOne(ErrorCode errorCode1, ErrorCode errorCode2) {
+		if (errorCode1 != OK)
+			return errorCode1;
+		return errorCode2;
+	}
 
-
-
+	ErrorCode _firstError;
 };
 
 } // namespace phoenix

@@ -1,8 +1,6 @@
 #include "ctre/phoenix/cci/CANifier_CCI.h"
 
 #include <cstring>
-#include <iostream>
-#include <string>
 #include <vector>
 
 #include "CtreSimMocks/CtreCANifierWrapper.h"
@@ -209,7 +207,6 @@ ctre::phoenix::ErrorCode c_CANifier_ConfigGetParameter(void* handle, int param, 
     PoplateReceiveResults(buffer, &param, buffer_pos);
     PoplateReceiveResults(buffer, value, buffer_pos);
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
-    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -221,7 +218,6 @@ ctre::phoenix::ErrorCode c_CANifier_ConfigGetParameter_6(void* handle, int32_t p
     PoplateReceiveResults(buffer, valueRecieved, buffer_pos);
     PoplateReceiveResults(buffer, subValue, buffer_pos);
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
-    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -295,7 +291,6 @@ ctre::phoenix::ErrorCode c_CANifier_GetStatusFramePeriod(void* handle, int frame
     RECEIVE_HELPER("GetStatusFramePeriod", sizeof(frame) + sizeof(*periodMs));
     PoplateReceiveResults(buffer, &frame, buffer_pos);
     PoplateReceiveResults(buffer, periodMs, buffer_pos);
-    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 

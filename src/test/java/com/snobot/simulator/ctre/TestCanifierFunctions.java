@@ -18,13 +18,13 @@ import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.VelocityPeriod;
 
 public class TestCanifierFunctions {
-	private CtreCallback mTestCallback = new CtreCallback() {
+    private CtreCallback mTestCallback = new CtreCallback() {
 
-		@Override
-		public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount) {
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount) {
             System.out.println("Getting Canifier callback '" + aName + "' with size of " + aBuffer.capacity() + ", " + aCount); // NOPMD
-		}
-	};
+        }
+    };
 
     @Test
     public void testAllFunctions()
@@ -32,18 +32,17 @@ public class TestCanifierFunctions {
         CANifier canifier = new CANifier(0);
         CtreJni.registerCanCanifierCallback(mTestCallback);
 
-
-        for(LEDChannel ledChannel : LEDChannel.values())
+        for (LEDChannel ledChannel : LEDChannel.values())
         {
             canifier.setLEDOutput(0, ledChannel);
         }
-        for(GeneralPin generalPin : GeneralPin.values())
+        for (GeneralPin generalPin : GeneralPin.values())
         {
             canifier.setGeneralOutput(generalPin, false, false);
         }
         canifier.setGeneralOutputs(0, 0);
         canifier.getGeneralInputs(new PinValues());
-        for(GeneralPin generalPin : GeneralPin.values())
+        for (GeneralPin generalPin : GeneralPin.values())
         {
             canifier.getGeneralInput(generalPin);
         }
@@ -57,11 +56,11 @@ public class TestCanifierFunctions {
         canifier.getQuadraturePosition();
         canifier.setQuadraturePosition(0, 0);
         canifier.getQuadratureVelocity();
-        for(VelocityPeriod velocityPeriod : VelocityPeriod.values())
+        for (VelocityPeriod velocityPeriod : VelocityPeriod.values())
         {
             canifier.configVelocityMeasurementPeriod(velocityPeriod, 0);
         }
-        for(VelocityPeriod velocityPeriod : VelocityPeriod.values())
+        for (VelocityPeriod velocityPeriod : VelocityPeriod.values())
         {
             canifier.configVelocityMeasurementPeriod(velocityPeriod);
         }
@@ -74,43 +73,43 @@ public class TestCanifierFunctions {
         canifier.configSetCustomParam(0, 0);
         canifier.configGetCustomParam(0, 0);
         canifier.configGetCustomParam(0);
-        for(ParamEnum paramEnum : ParamEnum.values())
+        for (ParamEnum paramEnum : ParamEnum.values())
         {
             canifier.configSetParameter(paramEnum, 0, 0, 0, 0);
         }
-        for(ParamEnum paramEnum : ParamEnum.values())
+        for (ParamEnum paramEnum : ParamEnum.values())
         {
             canifier.configSetParameter(paramEnum, 0, 0, 0);
         }
         canifier.configSetParameter(0, 0, 0, 0, 0);
         canifier.configSetParameter(0, 0, 0, 0);
-        for(ParamEnum paramEnum : ParamEnum.values())
+        for (ParamEnum paramEnum : ParamEnum.values())
         {
             canifier.configGetParameter(paramEnum, 0, 0);
         }
-        for(ParamEnum paramEnum : ParamEnum.values())
+        for (ParamEnum paramEnum : ParamEnum.values())
         {
             canifier.configGetParameter(paramEnum, 0);
         }
-        for(CANifierStatusFrame canifierStatusFrame : CANifierStatusFrame.values())
+        for (CANifierStatusFrame canifierStatusFrame : CANifierStatusFrame.values())
         {
             canifier.setStatusFramePeriod(canifierStatusFrame, 0, 0);
         }
-        for(CANifierStatusFrame canifierStatusFrame : CANifierStatusFrame.values())
+        for (CANifierStatusFrame canifierStatusFrame : CANifierStatusFrame.values())
         {
             canifier.setStatusFramePeriod(canifierStatusFrame, 0);
         }
         canifier.setStatusFramePeriod(0, 0, 0);
         canifier.setStatusFramePeriod(0, 0);
-        for(CANifierStatusFrame canifierStatusFrame : CANifierStatusFrame.values())
+        for (CANifierStatusFrame canifierStatusFrame : CANifierStatusFrame.values())
         {
             canifier.getStatusFramePeriod(canifierStatusFrame, 0);
         }
-        for(CANifierStatusFrame canifierStatusFrame : CANifierStatusFrame.values())
+        for (CANifierStatusFrame canifierStatusFrame : CANifierStatusFrame.values())
         {
             canifier.getStatusFramePeriod(canifierStatusFrame);
         }
-        for(CANifierControlFrame canifierControlFrame : CANifierControlFrame.values())
+        for (CANifierControlFrame canifierControlFrame : CANifierControlFrame.values())
         {
             canifier.setControlFramePeriod(canifierControlFrame, 0);
         }
@@ -131,5 +130,4 @@ public class TestCanifierFunctions {
 
         canifier.DestroyObject();
     }
-
 }

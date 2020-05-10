@@ -1,4 +1,3 @@
-
 #include "ctre/phoenix/cci/PigeonIMU_CCI.h"
 
 #include <cstring>
@@ -64,23 +63,21 @@ ctre::phoenix::ErrorCode c_PigeonIMU_ConfigSetParameter(void* handle, int param,
 
 ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetParameter(void* handle, int param, double* value, int ordinal, int timeoutMs)
 {
-    RECEIVE_HELPER("ConfigGetParameter", sizeof(param) + sizeof(*value) + sizeof(ordinal) + sizeof(timeoutMs));
+    RECEIVE_HELPER("ConfigGetParameter", sizeof(param) + sizeof(*value) + sizeof(ordinal));
     PoplateReceiveResults(buffer, &param, buffer_pos);
     PoplateReceiveResults(buffer, value, buffer_pos);
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
-    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetParameter_6(void* handle, int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal, int32_t timeoutMs)
 {
-    RECEIVE_HELPER("ConfigGetParameter_6", sizeof(param) + sizeof(valueToSend) + sizeof(*valueRecieved) + sizeof(*subValue) + sizeof(ordinal) + sizeof(timeoutMs));
+    RECEIVE_HELPER("ConfigGetParameter_6", sizeof(param) + sizeof(valueToSend) + sizeof(*valueRecieved) + sizeof(*subValue) + sizeof(ordinal));
     PoplateReceiveResults(buffer, &param, buffer_pos);
     PoplateReceiveResults(buffer, &valueToSend, buffer_pos);
     PoplateReceiveResults(buffer, valueRecieved, buffer_pos);
     PoplateReceiveResults(buffer, subValue, buffer_pos);
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
-    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -406,7 +403,8 @@ ctre::phoenix::ErrorCode c_PigeonIMU_SetStatusFramePeriod(void* handle, int fram
 
 ctre::phoenix::ErrorCode c_PigeonIMU_GetStatusFramePeriod(void* handle, int frame, int* periodMs, int timeoutMs)
 {
-    RECEIVE_HELPER("GetStatusFramePeriod", sizeof(int));
+    RECEIVE_HELPER("GetStatusFramePeriod", sizeof(frame) + sizeof(*periodMs));
+    PoplateReceiveResults(buffer, &frame, buffer_pos);
     PoplateReceiveResults(buffer, periodMs, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }

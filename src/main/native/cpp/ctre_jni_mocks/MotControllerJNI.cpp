@@ -126,9 +126,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetNeutralMode
  */
 JNIEXPORT void JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetSensorPhase
-  (JNIEnv*, jclass, jlong handle, jboolean phaseSensor)
+  (JNIEnv*, jclass, jlong handle, jboolean PhaseSensor)
 {
-    c_MotController_SetSensorPhase(ConvertToWrapper(handle), phaseSensor);
+    c_MotController_SetSensorPhase(ConvertToWrapper(handle), PhaseSensor);
 }
 
 /*
@@ -138,9 +138,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetSensorPhase
  */
 JNIEXPORT void JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetInverted
-  (JNIEnv*, jclass, jlong handle, jboolean inverted)
+  (JNIEnv*, jclass, jlong handle, jboolean invert)
 {
-    c_MotController_SetInverted(ConvertToWrapper(handle), inverted);
+    c_MotController_SetInverted(ConvertToWrapper(handle), invert);
 }
 
 /*
@@ -150,9 +150,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetInverted
  */
 JNIEXPORT void JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetInverted_12
-  (JNIEnv*, jclass, jlong handle, jint inverted)
+  (JNIEnv*, jclass, jlong handle, jint invertType)
 {
-    c_MotController_SetInverted_2(ConvertToWrapper(handle), inverted);
+    c_MotController_SetInverted_2(ConvertToWrapper(handle), invertType);
 }
 
 /*
@@ -164,7 +164,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigFactoryDefault
   (JNIEnv*, jclass, jlong handle, jint timeoutMs)
 {
-    return c_MotController_ConfigFactoryDefault(ConvertToWrapper(handle), timeoutMs);
+    return (jint)c_MotController_ConfigFactoryDefault(ConvertToWrapper(handle), timeoutMs);
 }
 
 /*
@@ -224,9 +224,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigPeakOutputReverse
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigNominalOutputForward
-  (JNIEnv*, jclass, jlong handle, jdouble value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jdouble percentOut, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigNominalOutputForward(ConvertToWrapper(handle), value, timeoutMs);
+    return (jint)c_MotController_ConfigNominalOutputForward(ConvertToWrapper(handle), percentOut, timeoutMs);
 }
 
 /*
@@ -236,9 +236,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigNominalOutputForwa
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigNominalOutputReverse
-  (JNIEnv*, jclass, jlong handle, jdouble value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jdouble percentOut, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigNominalOutputReverse(ConvertToWrapper(handle), value, timeoutMs);
+    return (jint)c_MotController_ConfigNominalOutputReverse(ConvertToWrapper(handle), percentOut, timeoutMs);
 }
 
 /*
@@ -248,9 +248,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigNominalOutputRever
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigNeutralDeadband
-  (JNIEnv*, jclass, jlong handle, jdouble value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jdouble percentDeadband, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigNeutralDeadband(ConvertToWrapper(handle), value, timeoutMs);
+    return (jint)c_MotController_ConfigNeutralDeadband(ConvertToWrapper(handle), percentDeadband, timeoutMs);
 }
 
 /*
@@ -260,9 +260,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigNeutralDeadband
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigVoltageCompSaturation
-  (JNIEnv*, jclass, jlong handle, jdouble value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jdouble voltage, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigVoltageCompSaturation(ConvertToWrapper(handle), value, timeoutMs);
+    return (jint)c_MotController_ConfigVoltageCompSaturation(ConvertToWrapper(handle), voltage, timeoutMs);
 }
 
 /*
@@ -272,9 +272,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigVoltageCompSaturat
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigVoltageMeasurementFilter
-  (JNIEnv*, jclass, jlong handle, jint value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint filterWindowSamples, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigVoltageMeasurementFilter(ConvertToWrapper(handle), value, timeoutMs);
+    return (jint)c_MotController_ConfigVoltageMeasurementFilter(ConvertToWrapper(handle), filterWindowSamples, timeoutMs);
 }
 
 /*
@@ -284,9 +284,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigVoltageMeasurement
  */
 JNIEXPORT void JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_EnableVoltageCompensation
-  (JNIEnv*, jclass, jlong handle, jboolean value)
+  (JNIEnv*, jclass, jlong handle, jboolean enable)
 {
-    c_MotController_EnableVoltageCompensation(ConvertToWrapper(handle), value);
+    c_MotController_EnableVoltageCompensation(ConvertToWrapper(handle), enable);
 }
 
 /*
@@ -298,9 +298,9 @@ JNIEXPORT jboolean JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetInverted
   (JNIEnv*, jclass, jlong handle)
 {
-    bool inverted = false;
-    c_MotController_GetInverted(ConvertToWrapper(handle), &inverted);
-    return inverted;
+    bool invert = false;
+    c_MotController_GetInverted(ConvertToWrapper(handle), &invert);
+    return invert;
 }
 
 /*
@@ -312,9 +312,9 @@ JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetBusVoltage
   (JNIEnv*, jclass, jlong handle)
 {
-    double output = 0;
-    c_MotController_GetBusVoltage(ConvertToWrapper(handle), &output);
-    return output;
+    double voltage = 0;
+    c_MotController_GetBusVoltage(ConvertToWrapper(handle), &voltage);
+    return voltage;
 }
 
 /*
@@ -326,9 +326,9 @@ JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetMotorOutputPercent
   (JNIEnv*, jclass, jlong handle)
 {
-    double percentage = 0;
-    c_MotController_GetMotorOutputPercent(ConvertToWrapper(handle), &percentage);
-    return percentage;
+    double percentOutput = 0;
+    c_MotController_GetMotorOutputPercent(ConvertToWrapper(handle), &percentOutput);
+    return percentOutput;
 }
 
 /*
@@ -340,9 +340,9 @@ JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetOutputCurrent
   (JNIEnv*, jclass, jlong handle)
 {
-    double output = 0;
-    c_MotController_GetOutputCurrent(ConvertToWrapper(handle), &output);
-    return output;
+    double current = 0;
+    c_MotController_GetOutputCurrent(ConvertToWrapper(handle), &current);
+    return current;
 }
 
 /*
@@ -354,9 +354,9 @@ JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetSupplyCurrent
   (JNIEnv*, jclass, jlong handle)
 {
-    double output = 0;
-    c_MotController_GetSupplyCurrent(ConvertToWrapper(handle), &output);
-    return output;
+    double current = 0;
+    c_MotController_GetSupplyCurrent(ConvertToWrapper(handle), &current);
+    return current;
 }
 
 /*
@@ -368,9 +368,9 @@ JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetStatorCurrent
   (JNIEnv*, jclass, jlong handle)
 {
-    double output = 0;
-    c_MotController_GetStatorCurrent(ConvertToWrapper(handle), &output);
-    return output;
+    double current = 0;
+    c_MotController_GetStatorCurrent(ConvertToWrapper(handle), &current);
+    return current;
 }
 
 /*
@@ -382,9 +382,9 @@ JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetTemperature
   (JNIEnv*, jclass, jlong handle)
 {
-    double output = 0;
-    c_MotController_GetTemperature(ConvertToWrapper(handle), &output);
-    return output;
+    double temperature = 0;
+    c_MotController_GetTemperature(ConvertToWrapper(handle), &temperature);
+    return temperature;
 }
 
 /*
@@ -394,10 +394,10 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetTemperature
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigRemoteFeedbackFilter
-  (JNIEnv*, jclass, jlong handle, jint arbId, jint peripheralIdx, jint reserved,
-   jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint deviceID, jint remoteSensorSource,
+   jint remoteOrdinal, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigRemoteFeedbackFilter(ConvertToWrapper(handle), arbId, peripheralIdx, reserved, timeoutMs);
+    return (jint)c_MotController_ConfigRemoteFeedbackFilter(ConvertToWrapper(handle), deviceID, remoteSensorSource, remoteOrdinal, timeoutMs);
 }
 
 /*
@@ -435,9 +435,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetSelectedSensorPosition
   (JNIEnv*, jclass, jlong handle, jint pidIdx)
 {
-    int output = 0;
-    c_MotController_GetSelectedSensorPosition(ConvertToWrapper(handle), &output, pidIdx);
-    return output;
+    int param = 0;
+    c_MotController_GetSelectedSensorPosition(ConvertToWrapper(handle), &param, pidIdx);
+    return param;
 }
 
 /*
@@ -449,9 +449,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetSelectedSensorVelocity
   (JNIEnv*, jclass, jlong handle, jint pidIdx)
 {
-    int output = 0;
-    c_MotController_GetSelectedSensorVelocity(ConvertToWrapper(handle), &output, pidIdx);
-    return output;
+    int param = 0;
+    c_MotController_GetSelectedSensorVelocity(ConvertToWrapper(handle), &param, pidIdx);
+    return param;
 }
 
 /*
@@ -461,9 +461,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetSelectedSensorVelocit
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetSelectedSensorPosition
-  (JNIEnv*, jclass, jlong handle, jint value, jint pidIdx, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint sensorPos, jint pidIdx, jint timeoutMs)
 {
-    return (jint)c_MotController_SetSelectedSensorPosition(ConvertToWrapper(handle), value, pidIdx, timeoutMs);
+    return (jint)c_MotController_SetSelectedSensorPosition(ConvertToWrapper(handle), sensorPos, pidIdx, timeoutMs);
 }
 
 /*
@@ -473,9 +473,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetSelectedSensorPositio
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetControlFramePeriod
-  (JNIEnv*, jclass, jlong handle, jint value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint frame, jint periodMs)
 {
-    return (jint)c_MotController_SetControlFramePeriod(ConvertToWrapper(handle), value, timeoutMs);
+    return (jint)c_MotController_SetControlFramePeriod(ConvertToWrapper(handle), frame, periodMs);
 }
 
 /*
@@ -499,9 +499,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetStatusFramePeriod
   (JNIEnv*, jclass, jlong handle, jint frame, jint timeoutMs)
 {
-    int status = 0;
-    c_MotController_GetStatusFramePeriod(ConvertToWrapper(handle), frame, &status, timeoutMs);
-    return status;
+    int periodMs = 0;
+    c_MotController_GetStatusFramePeriod(ConvertToWrapper(handle), frame, &periodMs, timeoutMs);
+    return periodMs;
 }
 
 /*
@@ -511,9 +511,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetStatusFramePeriod
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigVelocityMeasurementPeriod
-  (JNIEnv*, jclass, jlong handle, jint value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint period, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigVelocityMeasurementPeriod(ConvertToWrapper(handle), value, timeoutMs);
+    return (jint)c_MotController_ConfigVelocityMeasurementPeriod(ConvertToWrapper(handle), period, timeoutMs);
 }
 
 /*
@@ -523,9 +523,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigVelocityMeasuremen
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigVelocityMeasurementWindow
-  (JNIEnv*, jclass, jlong handle, jint value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint windowSize, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigVelocityMeasurementWindow(ConvertToWrapper(handle), value, timeoutMs);
+    return (jint)c_MotController_ConfigVelocityMeasurementWindow(ConvertToWrapper(handle), windowSize, timeoutMs);
 }
 
 /*
@@ -536,9 +536,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigVelocityMeasuremen
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigForwardLimitSwitchSource
   (JNIEnv*, jclass, jlong handle, jint type, jint normalOpenOrClose,
-   jint deviceId, jint timeoutMs)
+   jint deviceID, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigForwardLimitSwitchSource(ConvertToWrapper(handle), type, normalOpenOrClose, deviceId, timeoutMs);
+    return (jint)c_MotController_ConfigForwardLimitSwitchSource(ConvertToWrapper(handle), type, normalOpenOrClose, deviceID, timeoutMs);
 }
 
 /*
@@ -561,9 +561,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigReverseLimitSwitch
  */
 JNIEXPORT void JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_OverrideLimitSwitchesEnable
-  (JNIEnv*, jclass, jlong aHandle, jboolean aEnable)
+  (JNIEnv*, jclass, jlong handle, jboolean enable)
 {
-    c_MotController_OverrideLimitSwitchesEnable(ConvertToWrapper(aHandle), aEnable);
+    c_MotController_OverrideLimitSwitchesEnable(ConvertToWrapper(handle), enable);
 }
 
 /*
@@ -585,9 +585,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigForwardSoftLimitTh
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigReverseSoftLimitThreshold
-  (JNIEnv*, jclass, jlong handle, jint value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint reverseSensorLimit, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigReverseSoftLimitThreshold(ConvertToWrapper(handle), value, timeoutMs);
+    return (jint)c_MotController_ConfigReverseSoftLimitThreshold(ConvertToWrapper(handle), reverseSensorLimit, timeoutMs);
 }
 
 /*
@@ -597,9 +597,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigReverseSoftLimitTh
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigForwardSoftLimitEnable
-  (JNIEnv*, jclass, jlong handle, jboolean value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jboolean enable, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigForwardSoftLimitEnable(ConvertToWrapper(handle), value, timeoutMs);
+    return (jint)c_MotController_ConfigForwardSoftLimitEnable(ConvertToWrapper(handle), enable, timeoutMs);
 }
 
 /*
@@ -609,9 +609,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigForwardSoftLimitEn
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigReverseSoftLimitEnable
-  (JNIEnv*, jclass, jlong aHandle, jboolean aEnable, jint aTimeout)
+  (JNIEnv*, jclass, jlong handle, jboolean enable, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigReverseSoftLimitEnable(ConvertToWrapper(aHandle), aEnable, aTimeout);
+    return (jint)c_MotController_ConfigReverseSoftLimitEnable(ConvertToWrapper(handle), enable, timeoutMs);
 }
 
 /*
@@ -621,9 +621,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigReverseSoftLimitEn
  */
 JNIEXPORT void JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_OverrideSoftLimitsEnable
-  (JNIEnv*, jclass, jlong handle, jboolean value)
+  (JNIEnv*, jclass, jlong handle, jboolean enable)
 {
-    c_MotController_OverrideSoftLimitsEnable(ConvertToWrapper(handle), value);
+    c_MotController_OverrideSoftLimitsEnable(ConvertToWrapper(handle), enable);
 }
 
 /*
@@ -633,9 +633,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_OverrideSoftLimitsEnable
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_Config_1kP
-  (JNIEnv*, jclass, jlong handle, jint slot, jdouble value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint slotIdx, jdouble value, jint timeoutMs)
 {
-    return (jint)c_MotController_Config_kP(ConvertToWrapper(handle), slot, value, timeoutMs);
+    return (jint)c_MotController_Config_kP(ConvertToWrapper(handle), slotIdx, value, timeoutMs);
 }
 
 /*
@@ -645,9 +645,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_Config_1kP
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_Config_1kI
-  (JNIEnv*, jclass, jlong handle, jint slot, jdouble value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint slotIdx, jdouble value, jint timeoutMs)
 {
-    return (jint)c_MotController_Config_kI(ConvertToWrapper(handle), slot, value, timeoutMs);
+    return (jint)c_MotController_Config_kI(ConvertToWrapper(handle), slotIdx, value, timeoutMs);
 }
 
 /*
@@ -657,9 +657,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_Config_1kI
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_Config_1kD
-  (JNIEnv*, jclass, jlong handle, jint slot, jdouble value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint slotIdx, jdouble value, jint timeoutMs)
 {
-    return (jint)c_MotController_Config_kD(ConvertToWrapper(handle), slot, value, timeoutMs);
+    return (jint)c_MotController_Config_kD(ConvertToWrapper(handle), slotIdx, value, timeoutMs);
 }
 
 /*
@@ -669,9 +669,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_Config_1kD
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_Config_1kF
-  (JNIEnv*, jclass, jlong handle, jint slot, jdouble value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint slotIdx, jdouble value, jint timeoutMs)
 {
-    return (jint)c_MotController_Config_kF(ConvertToWrapper(handle), slot, value, timeoutMs);
+    return (jint)c_MotController_Config_kF(ConvertToWrapper(handle), slotIdx, value, timeoutMs);
 }
 
 /*
@@ -681,9 +681,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_Config_1kF
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_Config_1IntegralZone
-  (JNIEnv*, jclass, jlong handle, jint slot, jdouble value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint slotIdx, jdouble izone, jint timeoutMs)
 {
-    return (jint)c_MotController_Config_IntegralZone(ConvertToWrapper(handle), slot, value, timeoutMs);
+    return (jint)c_MotController_Config_IntegralZone(ConvertToWrapper(handle), slotIdx, izone, timeoutMs);
 }
 
 /*
@@ -718,9 +718,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigMaxIntegralAccumul
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetIntegralAccumulator
-  (JNIEnv*, jclass, jlong handle, jdouble value, jint pidIdx, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jdouble iaccum, jint pidIdx, jint timeoutMs)
 {
-    return (jint)c_MotController_SetIntegralAccumulator(ConvertToWrapper(handle), value, pidIdx, timeoutMs);
+    return (jint)c_MotController_SetIntegralAccumulator(ConvertToWrapper(handle), iaccum, pidIdx, timeoutMs);
 }
 
 /*
@@ -730,10 +730,10 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetIntegralAccumulator
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetClosedLoopError
-  (JNIEnv*, jclass, jlong handle, jint slotIdx)
+  (JNIEnv*, jclass, jlong handle, jint pidIdx)
 {
     int closedLoopError = 0;
-    c_MotController_GetClosedLoopError(ConvertToWrapper(handle), &closedLoopError, slotIdx);
+    c_MotController_GetClosedLoopError(ConvertToWrapper(handle), &closedLoopError, pidIdx);
     return closedLoopError;
 }
 
@@ -744,11 +744,11 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetClosedLoopError
  */
 JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetIntegralAccumulator
-  (JNIEnv*, jclass, jlong handle, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint pidIdx)
 {
-    double output = 0;
-    c_MotController_GetIntegralAccumulator(ConvertToWrapper(handle), &output, timeoutMs);
-    return output;
+    double iaccum = 0;
+    c_MotController_GetIntegralAccumulator(ConvertToWrapper(handle), &iaccum, pidIdx);
+    return iaccum;
 }
 
 /*
@@ -758,11 +758,11 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetIntegralAccumulator
  */
 JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetErrorDerivative
-  (JNIEnv*, jclass, jlong handle, jint slotIdx)
+  (JNIEnv*, jclass, jlong handle, jint pidIdx)
 {
-    double output = 0;
-    c_MotController_GetErrorDerivative(ConvertToWrapper(handle), &output, slotIdx);
-    return output;
+    double derror = 0;
+    c_MotController_GetErrorDerivative(ConvertToWrapper(handle), &derror, pidIdx);
+    return derror;
 }
 
 /*
@@ -786,9 +786,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetActiveTrajectoryPosition3
   (JNIEnv*, jclass, jlong handle, jint pidIdx)
 {
-    int output = 0;
-    c_MotController_GetActiveTrajectoryPosition_3(ConvertToWrapper(handle), &output, pidIdx);
-    return output;
+    int param = 0;
+    c_MotController_GetActiveTrajectoryPosition_3(ConvertToWrapper(handle), &param, pidIdx);
+    return param;
 }
 
 /*
@@ -800,9 +800,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetActiveTrajectoryVelocity3
   (JNIEnv*, jclass, jlong handle, jint pidIdx)
 {
-    int output = 0;
-    c_MotController_GetActiveTrajectoryVelocity_3(ConvertToWrapper(handle), &output, pidIdx);
-    return output;
+    int param = 0;
+    c_MotController_GetActiveTrajectoryVelocity_3(ConvertToWrapper(handle), &param, pidIdx);
+    return param;
 }
 
 /*
@@ -814,9 +814,9 @@ JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetActiveTrajectoryArbFeedFwd3
   (JNIEnv*, jclass, jlong handle, jint pidIdx)
 {
-    double output = 0;
-    c_MotController_GetActiveTrajectoryArbFeedFwd_3(ConvertToWrapper(handle), &output, pidIdx);
-    return output;
+    double param = 0;
+    c_MotController_GetActiveTrajectoryArbFeedFwd_3(ConvertToWrapper(handle), &param, pidIdx);
+    return param;
 }
 
 /*
@@ -828,9 +828,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetActiveTrajectoryPosition
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetActiveTrajectoryPosition(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetActiveTrajectoryPosition(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -842,9 +842,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetActiveTrajectoryVelocity
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetActiveTrajectoryVelocity(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetActiveTrajectoryVelocity(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -856,9 +856,9 @@ JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetActiveTrajectoryHeading
   (JNIEnv*, jclass, jlong handle)
 {
-    double output = 0;
-    c_MotController_GetActiveTrajectoryHeading(ConvertToWrapper(handle), &output);
-    return output;
+    double param = 0;
+    c_MotController_GetActiveTrajectoryHeading(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -919,9 +919,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetMotionProfileTopLevelBufferCount
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetMotionProfileTopLevelBufferCount(ConvertToWrapper(handle), &output);
-    return output;
+    int value = 0;
+    c_MotController_GetMotionProfileTopLevelBufferCount(ConvertToWrapper(handle), &value);
+    return value;
 }
 
 /*
@@ -983,8 +983,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_StartMotionProfile
   (JNIEnv*, jclass, jlong handle, jlong streamHandle, jint minBufferedPts,
    jint controlMode)
 {
-    c_MotController_StartMotionProfile(ConvertToWrapper(handle), NULL, minBufferedPts, (ctre::phoenix::motorcontrol::ControlMode)controlMode);
-    return 0;
+    return (jint)c_MotController_StartMotionProfile(ConvertToWrapper(handle), NULL, minBufferedPts, (ctre::phoenix::motorcontrol::ControlMode)controlMode);
 }
 
 /*
@@ -996,9 +995,9 @@ JNIEXPORT jboolean JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_IsMotionProfileTopLevelBufferFull
   (JNIEnv*, jclass, jlong handle)
 {
-    bool output = 0;
-    c_MotController_IsMotionProfileTopLevelBufferFull(ConvertToWrapper(handle), &output);
-    return output;
+    bool value = false;
+    c_MotController_IsMotionProfileTopLevelBufferFull(ConvertToWrapper(handle), &value);
+    return value;
 }
 
 /*
@@ -1010,9 +1009,9 @@ JNIEXPORT jboolean JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_IsMotionProfileFinished
   (JNIEnv*, jclass, jlong handle)
 {
-    bool output = false;
-    c_MotController_IsMotionProfileTopLevelBufferFull(ConvertToWrapper(handle), &output);
-    return output;
+    bool value = false;
+    c_MotController_IsMotionProfileFinished(ConvertToWrapper(handle), &value);
+    return value;
 }
 
 /*
@@ -1131,9 +1130,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ClearMotionProfileHasUnd
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ChangeMotionControlFramePeriod
-  (JNIEnv*, jclass, jlong handle, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint periodMs)
 {
-    return (jint)c_MotController_ChangeMotionControlFramePeriod(ConvertToWrapper(handle), timeoutMs);
+    return (jint)c_MotController_ChangeMotionControlFramePeriod(ConvertToWrapper(handle), periodMs);
 }
 
 /*
@@ -1157,7 +1156,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigMotionProfileTrajectoryInterpolationEnable
   (JNIEnv*, jclass, jlong handle, jboolean enable, jint timeoutMs)
 {
-    return c_MotController_ConfigMotionProfileTrajectoryInterpolationEnable(ConvertToWrapper(handle), enable, timeoutMs);
+    return (jint)c_MotController_ConfigMotionProfileTrajectoryInterpolationEnable(ConvertToWrapper(handle), enable, timeoutMs);
 }
 
 /*
@@ -1170,7 +1169,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigFeedbackNotContinu
   (JNIEnv*, jclass, jlong handle, jboolean feedbackNotContinuous,
    jint timeoutMs)
 {
-    return c_MotController_ConfigFeedbackNotContinuous(ConvertToWrapper(handle), feedbackNotContinuous, timeoutMs);
+    return (jint)c_MotController_ConfigFeedbackNotContinuous(ConvertToWrapper(handle), feedbackNotContinuous, timeoutMs);
 }
 
 /*
@@ -1183,7 +1182,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigRemoteSensorClosed
   (JNIEnv*, jclass, jlong handle,
    jboolean remoteSensorClosedLoopDisableNeutralOnLOS, jint timeoutMs)
 {
-    return c_MotController_ConfigRemoteSensorClosedLoopDisableNeutralOnLOS(ConvertToWrapper(handle),
+    return (jint)c_MotController_ConfigRemoteSensorClosedLoopDisableNeutralOnLOS(ConvertToWrapper(handle),
             remoteSensorClosedLoopDisableNeutralOnLOS, timeoutMs);
 }
 
@@ -1197,8 +1196,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigClearPositionOnLim
   (JNIEnv*, jclass, jlong handle, jboolean clearPositionOnLimitF,
    jint timeoutMs)
 {
-    return c_MotController_ConfigClearPositionOnLimitF(ConvertToWrapper(handle),
-            clearPositionOnLimitF, timeoutMs);
+    return (jint)c_MotController_ConfigClearPositionOnLimitF(ConvertToWrapper(handle), clearPositionOnLimitF, timeoutMs);
 }
 
 /*
@@ -1208,11 +1206,10 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigClearPositionOnLim
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigClearPositionOnLimitR
-  (JNIEnv*, jclass, jlong handle, jboolean clearPositionOnLimitF,
+  (JNIEnv*, jclass, jlong handle, jboolean clearPositionOnLimitR,
    jint timeoutMs)
 {
-    return c_MotController_ConfigClearPositionOnLimitR(ConvertToWrapper(handle),
-            clearPositionOnLimitF, timeoutMs);
+    return (jint)c_MotController_ConfigClearPositionOnLimitR(ConvertToWrapper(handle), clearPositionOnLimitR, timeoutMs);
 }
 
 /*
@@ -1225,8 +1222,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigClearPositionOnQua
   (JNIEnv*, jclass, jlong handle, jboolean clearPositionOnQuadIdx,
    jint timeoutMs)
 {
-    return c_MotController_ConfigClearPositionOnQuadIdx(ConvertToWrapper(handle),
-            clearPositionOnQuadIdx, timeoutMs);
+    return (jint)c_MotController_ConfigClearPositionOnQuadIdx(ConvertToWrapper(handle), clearPositionOnQuadIdx, timeoutMs);
 }
 
 /*
@@ -1239,8 +1235,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigLimitSwitchDisable
   (JNIEnv*, jclass, jlong handle, jboolean limitSwitchDisableNeutralOnLOS,
    jint timeoutMs)
 {
-    return c_MotController_ConfigLimitSwitchDisableNeutralOnLOS(ConvertToWrapper(handle),
-            limitSwitchDisableNeutralOnLOS, timeoutMs);
+    return (jint)c_MotController_ConfigLimitSwitchDisableNeutralOnLOS(ConvertToWrapper(handle), limitSwitchDisableNeutralOnLOS, timeoutMs);
 }
 
 /*
@@ -1250,11 +1245,10 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigLimitSwitchDisable
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigSoftLimitDisableNeutralOnLOS
-  (JNIEnv*, jclass, jlong handle, jboolean limitSwitchDisableNeutralOnLOS,
+  (JNIEnv*, jclass, jlong handle, jboolean softLimitDisableNeutralOnLOS,
    jint timeoutMs)
 {
-    return c_MotController_ConfigSoftLimitDisableNeutralOnLOS(ConvertToWrapper(handle),
-            limitSwitchDisableNeutralOnLOS, timeoutMs);
+    return (jint)c_MotController_ConfigSoftLimitDisableNeutralOnLOS(ConvertToWrapper(handle), softLimitDisableNeutralOnLOS, timeoutMs);
 }
 
 /*
@@ -1267,8 +1261,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigPulseWidthPeriod_1
   (JNIEnv*, jclass, jlong handle, jint pulseWidthPeriod_EdgesPerRot,
    jint timeoutMs)
 {
-    return c_MotController_ConfigPulseWidthPeriod_EdgesPerRot(ConvertToWrapper(handle),
-            pulseWidthPeriod_EdgesPerRot, timeoutMs);
+    return (jint)c_MotController_ConfigPulseWidthPeriod_EdgesPerRot(ConvertToWrapper(handle), pulseWidthPeriod_EdgesPerRot, timeoutMs);
 }
 
 /*
@@ -1281,8 +1274,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigPulseWidthPeriod_1
   (JNIEnv*, jclass, jlong handle, jint pulseWidthPeriod_FilterWindowSz,
    jint timeoutMs)
 {
-    return c_MotController_ConfigPulseWidthPeriod_FilterWindowSz(ConvertToWrapper(handle),
-            pulseWidthPeriod_FilterWindowSz, timeoutMs);
+    return (jint)c_MotController_ConfigPulseWidthPeriod_FilterWindowSz(ConvertToWrapper(handle), pulseWidthPeriod_FilterWindowSz, timeoutMs);
 }
 
 /*
@@ -1306,9 +1298,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetFirmwareVersion
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetFirmwareVersion(ConvertToWrapper(handle), &output);
-    return output;
+    int version = 0;
+    c_MotController_GetFirmwareVersion(ConvertToWrapper(handle), &version);
+    return version;
 }
 
 /*
@@ -1320,9 +1312,9 @@ JNIEXPORT jboolean JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_HasResetOccurred
   (JNIEnv*, jclass, jlong handle)
 {
-    bool value = false;
-    c_MotController_HasResetOccurred(ConvertToWrapper(handle), &value);
-    return value;
+    bool hasResetOccured = false;
+    c_MotController_HasResetOccurred(ConvertToWrapper(handle), &hasResetOccured);
+    return hasResetOccured;
 }
 
 /*
@@ -1345,11 +1337,11 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigSetCustomParam
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigGetCustomParam
-  (JNIEnv*, jclass, jlong handle, jint paramIndex, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint paramIndex, jint timoutMs)
 {
-    int output = 0;
-    c_MotController_ConfigGetCustomParam(ConvertToWrapper(handle), &output, paramIndex, timeoutMs);
-    return output;
+    int readValue = 0;
+    c_MotController_ConfigGetCustomParam(ConvertToWrapper(handle), &readValue, paramIndex, timoutMs);
+    return readValue;
 }
 
 /*
@@ -1374,9 +1366,9 @@ JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigGetParameter
   (JNIEnv*, jclass, jlong handle, jint param, jint ordinal, jint timeoutMs)
 {
-    double output = 0;
-    c_MotController_ConfigGetParameter(ConvertToWrapper(handle), param, &output, ordinal, timeoutMs);
-    return output;
+    double value = 0;
+    c_MotController_ConfigGetParameter(ConvertToWrapper(handle), param, &value, ordinal, timeoutMs);
+    return value;
 }
 
 /*
@@ -1386,9 +1378,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigGetParameter
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigPeakCurrentLimit
-  (JNIEnv*, jclass, jlong handle, jint value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint amps, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigPeakCurrentLimit(ConvertToWrapper(handle), value, timeoutMs);
+    return (jint)c_MotController_ConfigPeakCurrentLimit(ConvertToWrapper(handle), amps, timeoutMs);
 }
 
 /*
@@ -1398,9 +1390,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigPeakCurrentLimit
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigPeakCurrentDuration
-  (JNIEnv*, jclass, jlong handle, jint value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint milliseconds, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigPeakCurrentDuration(ConvertToWrapper(handle), value, timeoutMs);
+    return (jint)c_MotController_ConfigPeakCurrentDuration(ConvertToWrapper(handle), milliseconds, timeoutMs);
 }
 
 /*
@@ -1410,9 +1402,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigPeakCurrentDuratio
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigContinuousCurrentLimit
-  (JNIEnv*, jclass, jlong handle, jint value, jint timeoutMs)
+  (JNIEnv*, jclass, jlong handle, jint amps, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigContinuousCurrentLimit(ConvertToWrapper(handle), value, timeoutMs);
+    return (jint)c_MotController_ConfigContinuousCurrentLimit(ConvertToWrapper(handle), amps, timeoutMs);
 }
 
 /*
@@ -1422,9 +1414,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigContinuousCurrentL
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_EnableCurrentLimit
-  (JNIEnv*, jclass, jlong handle, jboolean value)
+  (JNIEnv*, jclass, jlong handle, jboolean enable)
 {
-    return (jint)c_MotController_EnableCurrentLimit(ConvertToWrapper(handle), value);
+    return (jint)c_MotController_EnableCurrentLimit(ConvertToWrapper(handle), enable);
 }
 
 /*
@@ -1436,9 +1428,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetAnalogIn
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetAnalogIn(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetAnalogIn(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1462,9 +1454,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetAnalogInRaw
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetAnalogInRaw(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetAnalogInRaw(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1476,9 +1468,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetAnalogInVel
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetAnalogInVel(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetAnalogInVel(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1490,9 +1482,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetQuadraturePosition
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetQuadraturePosition(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetQuadraturePosition(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1516,9 +1508,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetQuadratureVelocity
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetQuadratureVelocity(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetQuadratureVelocity(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1530,9 +1522,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetPulseWidthPosition
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetPulseWidthPosition(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetPulseWidthPosition(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1556,9 +1548,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetPulseWidthVelocity
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetPulseWidthVelocity(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetPulseWidthVelocity(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1570,9 +1562,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetPulseWidthRiseToFallUs
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetPulseWidthRiseToFallUs(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetPulseWidthRiseToFallUs(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1584,9 +1576,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetPulseWidthRiseToRiseUs
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetPulseWidthRiseToRiseUs(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetPulseWidthRiseToRiseUs(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1598,9 +1590,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetPinStateQuadA
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetPinStateQuadA(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetPinStateQuadA(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1612,9 +1604,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetPinStateQuadB
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetPinStateQuadB(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetPinStateQuadB(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1626,9 +1618,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetPinStateQuadIdx
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetPinStateQuadIdx(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetPinStateQuadIdx(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1640,9 +1632,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_IsFwdLimitSwitchClosed
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_IsFwdLimitSwitchClosed(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_IsFwdLimitSwitchClosed(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1654,9 +1646,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_IsRevLimitSwitchClosed
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_IsRevLimitSwitchClosed(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_IsRevLimitSwitchClosed(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1668,9 +1660,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetFaults
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetFaults(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetFaults(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1682,9 +1674,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetStickyFaults
   (JNIEnv*, jclass, jlong handle)
 {
-    int output = 0;
-    c_MotController_GetStickyFaults(ConvertToWrapper(handle), &output);
-    return output;
+    int param = 0;
+    c_MotController_GetStickyFaults(ConvertToWrapper(handle), &param);
+    return param;
 }
 
 /*
@@ -1706,9 +1698,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ClearStickyFaults
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SelectDemandType
-  (JNIEnv*, jclass, jlong handle, jint value)
+  (JNIEnv*, jclass, jlong handle, jint enable)
 {
-    return (jint)c_MotController_SelectDemandType(ConvertToWrapper(handle), value);
+    return (jint)c_MotController_SelectDemandType(ConvertToWrapper(handle), enable);
 }
 
 /*
@@ -1718,9 +1710,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SelectDemandType
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetMPEOutput
-  (JNIEnv*, jclass, jlong handle, jint value)
+  (JNIEnv*, jclass, jlong handle, jint MpeOutput)
 {
-    return (jint)c_MotController_SetMPEOutput(ConvertToWrapper(handle), value);
+    return (jint)c_MotController_SetMPEOutput(ConvertToWrapper(handle), MpeOutput);
 }
 
 /*
@@ -1730,9 +1722,9 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetMPEOutput
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_EnableHeadingHold
-  (JNIEnv*, jclass, jlong handle, jint value)
+  (JNIEnv*, jclass, jlong handle, jint enable)
 {
-    return (jint)c_MotController_EnableHeadingHold(ConvertToWrapper(handle), value);
+    return (jint)c_MotController_EnableHeadingHold(ConvertToWrapper(handle), enable);
 }
 
 /*
@@ -1744,9 +1736,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetClosedLoopTarget
   (JNIEnv*, jclass, jlong handle, jint pidIdx)
 {
-    int output = 0;
-    c_MotController_GetClosedLoopTarget(ConvertToWrapper(handle), &output, pidIdx);
-    return output;
+    int value = 0;
+    c_MotController_GetClosedLoopTarget(ConvertToWrapper(handle), &value, pidIdx);
+    return value;
 }
 
 /*
@@ -1769,10 +1761,10 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigSelectedFeedbackCo
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigClosedLoopPeakOutput
-  (JNIEnv*, jclass, jlong handle, jint coefficient, jdouble pidIdx,
+  (JNIEnv*, jclass, jlong handle, jint slotIdx, jdouble percentOut,
    jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigClosedLoopPeakOutput(ConvertToWrapper(handle), coefficient, pidIdx, timeoutMs);
+    return (jint)c_MotController_ConfigClosedLoopPeakOutput(ConvertToWrapper(handle), slotIdx, percentOut, timeoutMs);
 }
 
 /*
@@ -1808,9 +1800,9 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigGetMotorCommutation
   (JNIEnv*, jclass, jlong handle, jint timeoutMs)
 {
-    ctre::phoenix::motorcontrol::MotorCommutation output;
-    c_MotController_ConfigGetMotorCommutation(ConvertToWrapper(handle), &output, timeoutMs);
-    return (jint)output;
+    ctre::phoenix::motorcontrol::MotorCommutation motorCommutation;
+    c_MotController_ConfigGetMotorCommutation(ConvertToWrapper(handle), &motorCommutation, timeoutMs);
+    return (jint)motorCommutation;
 }
 
 /*
@@ -1820,7 +1812,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigGetMotorCommutatio
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigSupplyCurrentLimit
-  (JNIEnv*, jclass, jlong, jdoubleArray, jint)
+  (JNIEnv*, jclass, jlong handle, jdoubleArray paramCnt, jint timeoutMs)
 {
     LOG_UNSUPPORTED_CAN_FUNC("");
     return 0;
@@ -1833,7 +1825,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigSupplyCurrentLimit
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigStatorCurrentLimit
-  (JNIEnv*, jclass, jlong, jdoubleArray, jint)
+  (JNIEnv*, jclass, jlong handle, jdoubleArray paramCnt, jint timeoutMs)
 {
     LOG_UNSUPPORTED_CAN_FUNC("");
     return 0;
@@ -1896,7 +1888,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigBrakeCurrentLimitE
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigGetSupplyCurrentLimit
-  (JNIEnv*, jclass, jlong, jdoubleArray, jint)
+  (JNIEnv*, jclass, jlong handle, jdoubleArray fillCapacity, jint timeoutMs)
 {
     LOG_UNSUPPORTED_CAN_FUNC("");
     return 0;
@@ -1909,7 +1901,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigGetSupplyCurrentLi
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigGetStatorCurrentLimit
-  (JNIEnv*, jclass, jlong, jdoubleArray, jint)
+  (JNIEnv*, jclass, jlong handle, jdoubleArray fillCapacity, jint timeoutMs)
 {
     LOG_UNSUPPORTED_CAN_FUNC("");
     return 0;
@@ -1946,7 +1938,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_SetIntegratedSensorPosit
  */
 JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetIntegratedSensorPosition
-  (JNIEnv*, jclass, jlong handle)
+  (JNIEnv*, jclass, jlong)
 {
     LOG_UNSUPPORTED_CAN_FUNC("");
     return 0;
@@ -1959,7 +1951,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetIntegratedSensorPosit
  */
 JNIEXPORT jdouble JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetIntegratedSensorAbsolutePosition
-  (JNIEnv*, jclass, jlong handle)
+  (JNIEnv*, jclass, jlong)
 {
     LOG_UNSUPPORTED_CAN_FUNC("");
     return 0;

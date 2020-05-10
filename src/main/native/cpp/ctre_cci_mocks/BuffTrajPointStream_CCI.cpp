@@ -1,4 +1,3 @@
-
 #include "ctre/phoenix/cci/BuffTrajPointStream_CCI.h"
 
 #include <cstring>
@@ -6,6 +5,13 @@
 
 #include "CtreSimMocks/CtreBuffTrajPointStreamWrapper.h"
 #include "CtreSimUtils/MockHooks.h"
+
+#define RECEIVE_HELPER(paramName, size)        \
+    auto* wrapper = ConvertToWrapper(handle);  \
+    uint8_t buffer[size]; /* NOLINT */         \
+    std::memset(&buffer[0], 0, size);          \
+    wrapper->Receive(paramName, buffer, size); \
+    uint32_t buffer_pos = 0;
 
 namespace
 {
@@ -45,14 +51,15 @@ ctre::phoenix::ErrorCode c_BuffTrajPointStream_Clear(void* handle)
 ctre::phoenix::ErrorCode c_BuffTrajPointStream_Write(void* handle, double position, double velocity, double arbFeedFwd, double auxiliaryPos, double auxiliaryVel, double auxiliaryArbFeedFwd, uint32_t profileSlotSelect0, uint32_t profileSlotSelect1, bool isLastPoint, bool zeroPos, uint32_t timeDur, bool useAuxPID)
 {
     auto* wrapper = ConvertToWrapper(handle);
-    wrapper->Send("Clear", position, velocity, arbFeedFwd, auxiliaryPos, auxiliaryVel, auxiliaryArbFeedFwd,
-            profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos, timeDur, useAuxPID);
+    wrapper->Send("Write", position, velocity, arbFeedFwd, auxiliaryPos, auxiliaryVel, auxiliaryArbFeedFwd, profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos, timeDur, useAuxPID);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_BuffTrajPointStream_Lookup(void* handle, void** outObject)
 {
     LOG_UNSUPPORTED_CAN_FUNC("");
+    // RECEIVE_HELPER("Lookup", sizeof(*outObject));
+    // PoplateReceiveResults(buffer, outObject, buffer_pos);
     return (ctre::phoenix::ErrorCode)0;
 }
 
