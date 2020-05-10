@@ -10,9 +10,9 @@
 
 namespace
 {
-SnobotSim::CtreCANifierWrapper* ConvertToWrapper(jlong handle)
+void* ConvertToWrapper(jlong aHandle)
 {
-    return reinterpret_cast<SnobotSim::CtreCANifierWrapper*>(handle);
+    return reinterpret_cast<SnobotSim::CtreCANifierWrapper*>(aHandle);
 }
 } // namespace
 
@@ -37,9 +37,9 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1new_1CANifier
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1destroy_1CANifier
-  (JNIEnv*, jclass, jlong aHandle)
+  (JNIEnv*, jclass, jlong handle)
 {
-    return c_CANifier_Destroy(ConvertToWrapper(aHandle));
+    return c_CANifier_Destroy(ConvertToWrapper(handle));
 }
 
 /*
@@ -110,12 +110,13 @@ Java_com_ctre_phoenix_CANifierJNI_JNI_1EnablePWMOutput
  */
 JNIEXPORT void JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1GetGeneralInputs
-  (JNIEnv*, jclass, jlong aHandle, jbooleanArray allPinsPtr)
+  (JNIEnv*, jclass, jlong handle, jbooleanArray allPins)
 {
-    const int kCapacity = 11;
-    bool allPins[kCapacity];
 
-    c_CANifier_GetGeneralInputs(ConvertToWrapper(aHandle), allPins, kCapacity);
+    const int kCapacity = 11;
+    bool allPinsArray[kCapacity];
+
+    c_CANifier_GetGeneralInputs(ConvertToWrapper(handle), allPinsArray, kCapacity);
 }
 
 /*

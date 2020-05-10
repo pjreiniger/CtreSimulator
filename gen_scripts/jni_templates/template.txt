@@ -1,0 +1,23 @@
+
+#include <jni.h>
+
+#include <cassert>
+
+#include "CtreSimMocks/{{cci_wrapper_type}}.h"
+#include "CtreSimUtils/MockHookUtilities.h"
+#include "{{jni_package}}.h"
+#include "ctre/phoenix/cci/{{ cci_class_name }}.h"
+{{extra_jni_header}}
+namespace
+{
+void* ConvertToWrapper(jlong aHandle)
+{
+    return reinterpret_cast<SnobotSim::{{ cci_wrapper_type }}*>(aHandle);
+}
+} // namespace
+
+extern "C" {
+
+{{functions}}
+
+}  // extern "C"

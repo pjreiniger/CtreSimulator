@@ -15,17 +15,17 @@ public:
     using BaseCtreWrapper::Send;
 
     explicit CtreCANCoderWrapper(int aDeviceId);
+    const int mDeviceId;
 
     void Receive(const std::string& aName, uint8_t* aBuffer, int aSize);
     void Send(const std::string& aName, uint8_t* aBuffer, int aSize);
 
-    //////////////////////////////////////////////////
-
-    void GetDescription(char* toFill, int toFillByteSz, size_t* numBytesFilled);
     ctre::phoenix::ErrorCode GetLastError();
+
+    //////////////////////////////////////////
+    void GetDescription(char* toFill, int toFillByteSz, size_t* numBytesFilled);
     void GetLastUnitString(char* toFill, int toFillByteSz, int* numBytesFilled);
     void GetLastTimestamp(double* timestamp);
-
     void GetBusVoltage(double* batteryVoltage);
     void GetMagnetFieldStrength(ctre::phoenix::sensors::MagnetFieldStrength* magnetFieldStrength);
     void GetPosition(double* pos);

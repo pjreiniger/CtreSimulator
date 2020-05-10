@@ -1,0 +1,39 @@
+package com.snobot.simulator.ctre;
+
+import java.nio.ByteBuffer;
+
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.MotorCommutation;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+
+import org.junit.jupiter.api.Test;
+
+public class TestTalonFXFunctions
+{
+    private CtreCallback mTestCallback = new CtreCallback()
+    {
+
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
+        {
+            System.out.println("Getting TalonFX callback " + aName);
+        }
+    };
+
+    @Test
+    public void testAllFunctions()
+    {
+        TalonFX talonFX = new TalonFX(0);
+{{ functions }}
+
+    }
+}

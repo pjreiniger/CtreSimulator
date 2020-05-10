@@ -20,7 +20,9 @@ public:
     void Receive(const std::string& aName, uint8_t* aBuffer, int aSize);
     void Send(const std::string& aName, uint8_t* aBuffer, int aSize);
 
-    /////////////////////////////////////////////////////////////////////
+    ctre::phoenix::ErrorCode GetLastError();
+
+    //////////////////////////////////////////
     void GetDeviceNumber(int* deviceNumber);
     void GetDescription(char* toFill, int toFillByteSz, size_t* numBytesFilled);
     void GetBaseID(int* baseArbId);
@@ -96,23 +98,14 @@ public:
     void ClearMotionProfileTrajectories();
     void GetMotionProfileTopLevelBufferCount(int* value);
     void PushMotionProfileTrajectory(double position, double velocity, double headingDeg, int profileSlotSelect, bool isLastPoint, bool zeroPos);
-    void PushMotionProfileTrajectory_2(
-            double position, double velocity, double headingDeg,
-            int profileSlotSelect0, int profileSlotSelect1, bool isLastPoint, bool zeroPos, int durationMs);
+    void PushMotionProfileTrajectory_2(double position, double velocity, double headingDeg, int profileSlotSelect0, int profileSlotSelect1, bool isLastPoint, bool zeroPos, int durationMs);
     void PushMotionProfileTrajectory_3(double position, double velocity, double arbFeedFwd, double auxiliaryPos, double auxiliaryVel, double auxiliaryArbFeedFwd, uint32_t profileSlotSelect0, uint32_t profileSlotSelect1, bool isLastPoint, bool zeroPos0, uint32_t timeDur, bool useAuxPID);
     void StartMotionProfile(void* streamHandle, uint32_t minBufferedPts, ctre::phoenix::motorcontrol::ControlMode controlMode);
     void IsMotionProfileFinished(bool* value);
     void IsMotionProfileTopLevelBufferFull(bool* value);
     void ProcessMotionProfileBuffer();
-    void GetMotionProfileStatus(
-            size_t* topBufferRem, size_t* topBufferCnt, int* btmBufferCnt,
-            bool* hasUnderrun, bool* isUnderrun, bool* activePointValid,
-            bool* isLast, int* profileSlotSelect, int* outputEnable);
-    void GetMotionProfileStatus_2(
-            size_t* topBufferRem, size_t* topBufferCnt, int* btmBufferCnt,
-            bool* hasUnderrun, bool* isUnderrun, bool* activePointValid,
-            bool* isLast, int* profileSlotSelect, int* outputEnable, int* timeDurMs,
-            int* profileSlotSelect1);
+    void GetMotionProfileStatus(size_t* topBufferRem, size_t* topBufferCnt, int* btmBufferCnt, bool* hasUnderrun, bool* isUnderrun, bool* activePointValid, bool* isLast, int* profileSlotSelect, int* outputEnable);
+    void GetMotionProfileStatus_2(size_t* topBufferRem, size_t* topBufferCnt, int* btmBufferCnt, bool* hasUnderrun, bool* isUnderrun, bool* activePointValid, bool* isLast, int* profileSlotSelect, int* outputEnable, int* timeDurMs, int* profileSlotSelect1);
     void ClearMotionProfileHasUnderrun();
     void ChangeMotionControlFramePeriod(int periodMs);
     void ConfigMotionProfileTrajectoryPeriod(int durationMs);
@@ -126,11 +119,10 @@ public:
     void ConfigSoftLimitDisableNeutralOnLOS(bool softLimitDisableNeutralOnLOS);
     void ConfigPulseWidthPeriod_EdgesPerRot(int pulseWidthPeriod_EdgesPerRot);
     void ConfigPulseWidthPeriod_FilterWindowSz(int pulseWidthPeriod_FilterWindowSz);
-    ctre::phoenix::ErrorCode GetLastError();
-    void GetFirmwareVersion(int*);
-    void HasResetOccurred(bool*);
+    void GetFirmwareVersion(int* version);
+    void HasResetOccurred(bool* output);
     void ConfigSetCustomParam(int newValue, int paramIndex);
-    void ConfigGetCustomParam(int* readValue, int paramIndex, int timoutMs);
+    void ConfigGetCustomParam(int* readValue, int paramIndex);
     void ConfigSetParameter(int param, double value, uint8_t subValue, int ordinal);
     void ConfigGetParameter(int param, double* value, int ordinal);
     void ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal);

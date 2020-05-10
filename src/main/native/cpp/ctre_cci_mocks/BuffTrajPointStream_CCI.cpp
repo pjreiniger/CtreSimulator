@@ -48,9 +48,7 @@ ctre::phoenix::ErrorCode c_BuffTrajPointStream_Write(void* handle, double positi
 
 ctre::phoenix::ErrorCode c_BuffTrajPointStream_Lookup(void* handle, void** outObject)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
-    // RECEIVE_HELPER("Lookup", sizeof(*outObject));
-    // PoplateReceiveResults(buffer, outObject, buffer_pos);
+    ConvertToWrapper(handle)->Lookup(outObject);
     return (ctre::phoenix::ErrorCode)0;
 }
 

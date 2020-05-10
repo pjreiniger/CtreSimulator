@@ -1,0 +1,41 @@
+package com.snobot.simulator.ctre;
+
+import java.nio.ByteBuffer;
+
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+
+import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.PigeonIMU.CalibrationMode;
+import com.ctre.phoenix.sensors.PigeonIMU.FusionStatus;
+import com.ctre.phoenix.sensors.PigeonIMU.GeneralStatus;
+import com.ctre.phoenix.sensors.PigeonIMUConfiguration;
+import com.ctre.phoenix.sensors.PigeonIMU_ControlFrame;
+import com.ctre.phoenix.sensors.PigeonIMU_Faults;
+import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
+import com.ctre.phoenix.sensors.PigeonIMU_StickyFaults;
+
+@Tag("CTRE")
+public class TestPigeonIMUFunctions
+{
+    private CtreCallback mTestCallback = new CtreCallback()
+    {
+
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
+        {
+            System.out.println("Getting PigeonIMU callback " + aName);
+        }
+    };
+
+    @Test
+    public void testAllFunctions()
+    {
+        PigeonIMU imu = new PigeonIMU(0);
+        CtreJni.registerCanPigeonImuCallback(mTestCallback);
+{{ functions }}
+
+        imu.DestroyObject();
+    }
+}

@@ -1,0 +1,57 @@
+
+
+#include "CtreSimMocks/{{ wrapper_class_name }}.h"
+
+#include <vector>
+
+#include "CtreSimUtils/MockHooks.h"
+
+#define RECEIVE_HELPER(paramName, size)                                  \
+    uint8_t buffer[size]; /* NOLINT */                                   \
+    std::memset(&buffer[0], 0, size);                                    \
+    Receive(paramName, buffer, size);                           \
+    uint32_t buffer_pos = 0;
+
+std::vector<SnobotSim::CTRE_CallbackFunc> g{{ stripped_cci_class_name }}Callbacks;
+
+void SnobotSim::Set{{ stripped_cci_class_name }}Callback(
+        SnobotSim::CTRE_CallbackFunc callback)
+{
+    g{{ stripped_cci_class_name }}Callbacks.clear();
+    g{{ stripped_cci_class_name }}Callbacks.push_back(callback);
+}
+
+SnobotSim::{{ wrapper_class_name }}::{{ wrapper_class_name }}({% if has_device_id %}int aDeviceId) :
+        mDeviceId(aDeviceId & 0x3F){% else %}){% endif %}
+{
+    Send("Create");
+}
+
+void SnobotSim::{{ wrapper_class_name }}::Send(const std::string& aName,
+        uint8_t* aBuffer, int aSize)
+{
+    if (!g{{ stripped_cci_class_name }}Callbacks.empty())
+    {
+        g{{ stripped_cci_class_name }}Callbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
+    }
+    else
+    {
+        LOG_UNSUPPORTED_CAN_FUNC("Callback " << aName << " not registered");
+    }
+}
+
+void SnobotSim::{{ wrapper_class_name }}::Receive(const std::string& aName,
+        uint8_t* aBuffer,
+        int aSize)
+{
+    if (!g{{ stripped_cci_class_name }}Callbacks.empty())
+    {
+        g{{ stripped_cci_class_name }}Callbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
+    }
+    else
+    {
+        LOG_UNSUPPORTED_CAN_FUNC("Callback " << aName << " not registered");
+    }
+}
+
+{{ cpp_functions }}

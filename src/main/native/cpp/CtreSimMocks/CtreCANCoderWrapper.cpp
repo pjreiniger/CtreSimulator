@@ -1,4 +1,5 @@
 
+
 #include "CtreSimMocks/CtreCANCoderWrapper.h"
 
 #include <vector>
@@ -11,7 +12,17 @@
     Receive(paramName, buffer, size);   \
     uint32_t buffer_pos = 0;
 
-SnobotSim::CtreCANCoderWrapper::CtreCANCoderWrapper(int deviceId)
+std::vector<SnobotSim::CTRE_CallbackFunc> gCANCoderCallbacks;
+
+void SnobotSim::SetCANCoderCallback(
+        SnobotSim::CTRE_CallbackFunc callback)
+{
+    gCANCoderCallbacks.clear();
+    gCANCoderCallbacks.push_back(callback);
+}
+
+SnobotSim::CtreCANCoderWrapper::CtreCANCoderWrapper(int aDeviceId) :
+        mDeviceId(aDeviceId & 0x3F)
 {
     Send("Create");
 }
@@ -19,28 +30,34 @@ SnobotSim::CtreCANCoderWrapper::CtreCANCoderWrapper(int deviceId)
 void SnobotSim::CtreCANCoderWrapper::Send(const std::string& aName,
         uint8_t* aBuffer, int aSize)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    if (!gCANCoderCallbacks.empty())
+    {
+        gCANCoderCallbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
+    }
+    else
+    {
+        LOG_UNSUPPORTED_CAN_FUNC("Callback " << aName << " not registered");
+    }
 }
 
 void SnobotSim::CtreCANCoderWrapper::Receive(const std::string& aName,
         uint8_t* aBuffer,
         int aSize)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    if (!gCANCoderCallbacks.empty())
+    {
+        gCANCoderCallbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
+    }
+    else
+    {
+        LOG_UNSUPPORTED_CAN_FUNC("Callback " << aName << " not registered");
+    }
 }
 
 void SnobotSim::CtreCANCoderWrapper::GetDescription(char* toFill, int toFillByteSz, size_t* numBytesFilled)
 {
     RECEIVE_HELPER("GetDescription", 1);
     buffer_pos += 1; // Removes compiler warning
-}
-
-ctre::phoenix::ErrorCode SnobotSim::CtreCANCoderWrapper::GetLastError()
-{
-    int lastError = 0;
-    RECEIVE_HELPER("GetLastError", sizeof(lastError));
-    PoplateReceiveResults(buffer, &lastError, buffer_pos);
-    return (ctre::phoenix::ErrorCode)lastError;
 }
 
 void SnobotSim::CtreCANCoderWrapper::GetLastUnitString(char* toFill, int toFillByteSz, int* numBytesFilled)
@@ -215,4 +232,12 @@ void SnobotSim::CtreCANCoderWrapper::GetStatusFramePeriod(int frame, int* period
     RECEIVE_HELPER("GetStatusFramePeriod", sizeof(frame) + sizeof(*periodMs));
     PoplateReceiveResults(buffer, &frame, buffer_pos);
     PoplateReceiveResults(buffer, periodMs, buffer_pos);
+}
+
+ctre::phoenix::ErrorCode SnobotSim::CtreCANCoderWrapper::GetLastError()
+{
+    int lastError = 0;
+    RECEIVE_HELPER("GetLastError", sizeof(lastError));
+    PoplateReceiveResults(buffer, &lastError, buffer_pos);
+    return (ctre::phoenix::ErrorCode)lastError;
 }

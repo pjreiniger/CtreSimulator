@@ -1,9 +1,4 @@
-/*
- * CtreBuffTrajPointStreamWrapper.cpp
- *
- *  Created on: Jan 9, 2019
- *      Author: PJ
- */
+
 
 #include "CtreSimMocks/CtreBuffTrajPointStreamWrapper.h"
 
@@ -19,7 +14,7 @@
 
 std::vector<SnobotSim::CTRE_CallbackFunc> gBuffTrajPointStreamCallbacks;
 
-void SnobotSim::SetBuffTrajPiontStreamCallback(
+void SnobotSim::SetBuffTrajPointStreamCallback(
         SnobotSim::CTRE_CallbackFunc callback)
 {
     gBuffTrajPointStreamCallbacks.clear();

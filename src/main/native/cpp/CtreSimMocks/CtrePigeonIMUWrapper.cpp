@@ -12,12 +12,13 @@
     Receive(paramName, buffer, size);   \
     uint32_t buffer_pos = 0;
 
-std::vector<SnobotSim::CTRE_CallbackFunc> gPigeonCallbacks;
+std::vector<SnobotSim::CTRE_CallbackFunc> gPigeonIMUCallbacks;
 
-void SnobotSim::SetPigeonCallback(SnobotSim::CTRE_CallbackFunc callback)
+void SnobotSim::SetPigeonIMUCallback(
+        SnobotSim::CTRE_CallbackFunc callback)
 {
-    gPigeonCallbacks.clear();
-    gPigeonCallbacks.push_back(callback);
+    gPigeonIMUCallbacks.clear();
+    gPigeonIMUCallbacks.push_back(callback);
 }
 
 SnobotSim::CtrePigeonIMUWrapper::CtrePigeonIMUWrapper(int aDeviceId) :
@@ -29,9 +30,9 @@ SnobotSim::CtrePigeonIMUWrapper::CtrePigeonIMUWrapper(int aDeviceId) :
 void SnobotSim::CtrePigeonIMUWrapper::Send(const std::string& aName,
         uint8_t* aBuffer, int aSize)
 {
-    if (!gPigeonCallbacks.empty())
+    if (!gPigeonIMUCallbacks.empty())
     {
-        gPigeonCallbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
+        gPigeonIMUCallbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
     }
     else
     {
@@ -40,11 +41,12 @@ void SnobotSim::CtrePigeonIMUWrapper::Send(const std::string& aName,
 }
 
 void SnobotSim::CtrePigeonIMUWrapper::Receive(const std::string& aName,
-        uint8_t* aBuffer, int aSize)
+        uint8_t* aBuffer,
+        int aSize)
 {
-    if (!gPigeonCallbacks.empty())
+    if (!gPigeonIMUCallbacks.empty())
     {
-        gPigeonCallbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
+        gPigeonIMUCallbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
     }
     else
     {
@@ -86,12 +88,11 @@ void SnobotSim::CtrePigeonIMUWrapper::ConfigSetCustomParam(int newValue, int par
     Send("ConfigSetCustomParam", newValue, paramIndex);
 }
 
-void SnobotSim::CtrePigeonIMUWrapper::ConfigGetCustomParam(int* readValue, int paramIndex, int timoutMs)
+void SnobotSim::CtrePigeonIMUWrapper::ConfigGetCustomParam(int* readValue, int paramIndex)
 {
-    RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex) + sizeof(timoutMs));
+    RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex));
     PoplateReceiveResults(buffer, readValue, buffer_pos);
     PoplateReceiveResults(buffer, &paramIndex, buffer_pos);
-    PoplateReceiveResults(buffer, &timoutMs, buffer_pos);
 }
 
 void SnobotSim::CtrePigeonIMUWrapper::ConfigFactoryDefault()
@@ -166,14 +167,6 @@ void SnobotSim::CtrePigeonIMUWrapper::GetGeneralStatus(int* state, int* currentM
     PoplateReceiveResults(buffer, noMotionBiasCount, buffer_pos);
     PoplateReceiveResults(buffer, tempCompensationCount, buffer_pos);
     PoplateReceiveResults(buffer, lastError, buffer_pos);
-}
-
-ctre::phoenix::ErrorCode SnobotSim::CtrePigeonIMUWrapper::GetLastError()
-{
-    int lastError = 0;
-    RECEIVE_HELPER("GetLastError", sizeof(lastError));
-    PoplateReceiveResults(buffer, &lastError, buffer_pos);
-    return (ctre::phoenix::ErrorCode)lastError;
 }
 
 void SnobotSim::CtrePigeonIMUWrapper::Get6dQuaternion(double wxyz[4])
@@ -355,4 +348,12 @@ void SnobotSim::CtrePigeonIMUWrapper::GetStatusFramePeriod(int frame, int* perio
 void SnobotSim::CtrePigeonIMUWrapper::SetControlFramePeriod(int frame, int periodMs)
 {
     Send("SetControlFramePeriod", frame, periodMs);
+}
+
+ctre::phoenix::ErrorCode SnobotSim::CtrePigeonIMUWrapper::GetLastError()
+{
+    int lastError = 0;
+    RECEIVE_HELPER("GetLastError", sizeof(lastError));
+    PoplateReceiveResults(buffer, &lastError, buffer_pos);
+    return (ctre::phoenix::ErrorCode)lastError;
 }

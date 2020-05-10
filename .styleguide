@@ -10,6 +10,7 @@ cppSrcFileInclude {
 
 generatedFileExclude {
   ctre_source
+  gen_scripts
 }
 
 modifiableFileExclude {

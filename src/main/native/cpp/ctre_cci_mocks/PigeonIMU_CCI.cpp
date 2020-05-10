@@ -72,7 +72,7 @@ ctre::phoenix::ErrorCode c_PigeonIMU_ConfigSetCustomParam(void* handle, int newV
 
 ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetCustomParam(void* handle, int* readValue, int paramIndex, int timoutMs)
 {
-    ConvertToWrapper(handle)->ConfigGetCustomParam(readValue, paramIndex, timoutMs);
+    ConvertToWrapper(handle)->ConfigGetCustomParam(readValue, paramIndex);
     return (ctre::phoenix::ErrorCode)0;
 }
 
