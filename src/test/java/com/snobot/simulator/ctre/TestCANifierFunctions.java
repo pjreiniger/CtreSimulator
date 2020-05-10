@@ -5,19 +5,20 @@ import java.nio.ByteBuffer;
 import org.junit.jupiter.api.Test;
 
 import com.ctre.phoenix.CANifier;
-import com.ctre.phoenix.CANifier.GeneralPin;
 import com.ctre.phoenix.CANifier.LEDChannel;
 import com.ctre.phoenix.CANifier.PWMChannel;
 import com.ctre.phoenix.CANifier.PinValues;
 import com.ctre.phoenix.CANifierConfiguration;
 import com.ctre.phoenix.CANifierControlFrame;
 import com.ctre.phoenix.CANifierFaults;
+import com.ctre.phoenix.CANifier.GeneralPin;
 import com.ctre.phoenix.CANifierStatusFrame;
 import com.ctre.phoenix.CANifierStickyFaults;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.VelocityPeriod;
 
-public class TestCanifierFunctions {
+public class TestCANifierFunctions
+{
     private CtreCallback mTestCallback = new CtreCallback() {
 
         @Override

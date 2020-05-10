@@ -23,7 +23,7 @@ public class TestCANCoderFunctions
         @Override
         public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
         {
-            System.out.println("Getting CANCoder callback " + aName + "' with size of " + aBuffer.capacity() + ", " + aCount); // NOPMD
+            System.out.println("Getting CANCoder callback '" + aName + "' with size of " + aBuffer.capacity() + ", " + aCount); // NOPMD
         }
     };
 
