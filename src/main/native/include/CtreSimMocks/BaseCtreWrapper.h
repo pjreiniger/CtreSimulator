@@ -1,10 +1,8 @@
 
-#ifndef CTRESIMULATOR_SRC_MAIN_NATIVE_INCLUDE_CTRESIMMOCKS_BASECTREWRAPPER_H_
-#define CTRESIMULATOR_SRC_MAIN_NATIVE_INCLUDE_CTRESIMMOCKS_BASECTREWRAPPER_H_
+#pragma once
 
 #include <cstring>
 #include <string>
-#include <cstring>
 
 template <typename T>
 void PoplateReceiveResults(uint8_t* buffer, T* value, uint32_t& offset)
@@ -18,19 +16,19 @@ namespace SnobotSim
 
 class BaseCtreWrapper
 {
-
 public:
-
-    virtual ~BaseCtreWrapper() {}
+    virtual ~BaseCtreWrapper()
+    {
+    }
 
     virtual void Receive(const std::string& aName, uint8_t* aBuffer, int aSize) = 0;
     virtual void Send(const std::string& aName, uint8_t* aBuffer, int aSize) = 0;
 
     void Send(const std::string& aName)
-	{
-		uint8_t buffer[1];
-		Send(aName, buffer, 1);
-	}
+    {
+        uint8_t buffer[1];
+        Send(aName, buffer, 1);
+    }
 
     template <typename T0>
     void Send(const std::string& aName, T0& param0)
@@ -163,13 +161,12 @@ public:
     }
 
     template <typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6,
-              typename T7, typename T8, typename T9, typename T10, typename T11>
+            typename T7, typename T8, typename T9, typename T10, typename T11>
     void Send(const std::string& aName, T0& param0, T1& param1, T2& param2,
             T3& param3, T4& param4, T5& param5, T6& param6,
             T7& param7, T8& param8, T9& param9, T10& param10, T11& param11)
     {
-        int size = sizeof(T0) + sizeof(T1) + sizeof(T2) + sizeof(T3) + sizeof(T4) + sizeof(T5) + sizeof(T6) +
-                sizeof(T7) + sizeof(T8) + sizeof(T9) + sizeof(T10) + sizeof(T11);
+        int size = sizeof(T0) + sizeof(T1) + sizeof(T2) + sizeof(T3) + sizeof(T4) + sizeof(T5) + sizeof(T6) + sizeof(T7) + sizeof(T8) + sizeof(T9) + sizeof(T10) + sizeof(T11);
 
         uint8_t* buffer = new uint8_t[size];
         std::memset(&buffer[0], 0, size);
@@ -200,6 +197,4 @@ public:
     }
 };
 
-}  // namespace SnobotSim
-
-#endif  // CTRESIMULATOR_SRC_MAIN_NATIVE_INCLUDE_CTRESIMMOCKS_BASECTREWRAPPER_H_
+} // namespace SnobotSim

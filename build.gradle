@@ -10,7 +10,7 @@ plugins {
 }
 
 ext.ctre_library_version = "5.17.2"
-ext.release_version = ctre_library_version + "_V0_RC"
+ext.release_version = ctre_library_version + "_V1"
 
 repositories {
     mavenCentral()
@@ -57,8 +57,8 @@ model {
                         includes = ["**/*.cpp"]
                     }
                     exportedHeaders {
-                        srcDirs = ["src/main/native/include", 
-                                   "ctre_source/cci/native/include", 
+                        srcDirs = ["src/main/native/include",
+                                   "ctre_source/cci/native/include",
                                    "ctre_source/core/native/include"]
                     }
                 }

@@ -1,9 +1,12 @@
-
 import re
 import collections
 
 
-def check(source_file, parent_deff_pattern , child_def_pattern, max_diff=5, child_group_index=1):
+def check(source_file,
+          parent_deff_pattern,
+          child_def_pattern,
+          max_diff=5,
+          child_group_index=1):
 
     print "Checking file ", source_file
 
@@ -21,7 +24,7 @@ def check(source_file, parent_deff_pattern , child_def_pattern, max_diff=5, chil
             child_results = re.match(child_def_pattern, line)
             if child_results:
                 child_functions[child_results.group(child_group_index)] = i
-                
+
     print parent_functions
     print child_functions
 
@@ -34,12 +37,11 @@ def check(source_file, parent_deff_pattern , child_def_pattern, max_diff=5, chil
         child_line = child_functions[func]
 
         line_diff = child_line - parent_line
-        if  line_diff > max_diff or line_diff < 0:
+        if line_diff > max_diff or line_diff < 0:
             print "  Function %s is %s lines away" % (func, line_diff)
 
 
 def search_files(header_file, source_file, header_pattern, source_pattern):
-
 
     header_functions = collections.OrderedDict()
     with open(header_file, 'r') as f:
@@ -55,10 +57,11 @@ def search_files(header_file, source_file, header_pattern, source_pattern):
         for match in source_pattern.finditer(lines):
             source_functions[match.group(2)] = (match.group(1))
 
+
 #     print "Headers..."
 #     for func_name in header_functions:
 #        print "  ", header_functions[func_name], func_name
-# 
+#
 #     print "Source..."
 #     for func_name in source_functions:
 #        print "  ", source_functions[func_name], func_name
@@ -85,14 +88,29 @@ def search_jni():
     jni_header_base = r'ctre_source\cci\native\include\ctre\phoenix\jni'
     jni_source_base = r'src\main\native\cpp\ctre_jni_mocks'
 
-    jni_header_pattern = re.compile(r'JNIEXPORT (.*) JNICALL (.*)\n +\((.*)\);', re.MULTILINE)
-    jni_source_pattern = re.compile(r'JNIEXPORT (.*) JNICALL (.*)(\r?\n +)?\(', re.MULTILINE)
+    jni_header_pattern = re.compile(r'JNIEXPORT (.*) JNICALL (.*)\n +\((.*)\);',
+                                    re.MULTILINE)
+    jni_source_pattern = re.compile(r'JNIEXPORT (.*) JNICALL (.*)(\r?\n +)?\(',
+                                    re.MULTILINE)
 
-    search_files(jni_header_base + '/com_ctre_phoenix_CANifierJNI.h', jni_source_base + '/CANifierJNI.cpp', jni_header_pattern, jni_source_pattern)
-    search_files(jni_header_base + '/com_ctre_phoenix_CTRLoggerJNI.h', jni_source_base + '/CTRLoggerJNI.cpp', jni_header_pattern, jni_source_pattern)
-    search_files(jni_header_base + '/com_ctre_phoenix_MotorControl_CAN_MotControllerJNI.h', jni_source_base + '/MotControllerJNI.cpp', jni_header_pattern, jni_source_pattern)
-    search_files(jni_header_base + '/com_ctre_phoenix_Sensors_PigeonImuJNI.h', jni_source_base + '/PigeonImuJNI.cpp', jni_header_pattern, jni_source_pattern)
-    search_files(jni_header_base + '/com_ctre_phoenix_motion_BuffTrajPointStreamJNI.h', jni_source_base + '/BuffTrajPointStreamJNI.cpp', jni_header_pattern, jni_source_pattern)
+    search_files(jni_header_base + '/com_ctre_phoenix_CANifierJNI.h',
+                 jni_source_base + '/CANifierJNI.cpp', jni_header_pattern,
+                 jni_source_pattern)
+    search_files(jni_header_base + '/com_ctre_phoenix_CTRLoggerJNI.h',
+                 jni_source_base + '/CTRLoggerJNI.cpp', jni_header_pattern,
+                 jni_source_pattern)
+    search_files(
+        jni_header_base +
+        '/com_ctre_phoenix_MotorControl_CAN_MotControllerJNI.h',
+        jni_source_base + '/MotControllerJNI.cpp', jni_header_pattern,
+        jni_source_pattern)
+    search_files(jni_header_base + '/com_ctre_phoenix_Sensors_PigeonImuJNI.h',
+                 jni_source_base + '/PigeonImuJNI.cpp', jni_header_pattern,
+                 jni_source_pattern)
+    search_files(
+        jni_header_base + '/com_ctre_phoenix_motion_BuffTrajPointStreamJNI.h',
+        jni_source_base + '/BuffTrajPointStreamJNI.cpp', jni_header_pattern,
+        jni_source_pattern)
 
 
 def search_cci():
@@ -100,50 +118,54 @@ def search_cci():
     cci_source_base = r'src\main\native\cpp\ctre_cci_mocks'
 
     search_files(cci_header_base + '/CANifier_CCI.h',
-                cci_source_base + '/CANifier_CCI.cpp',
-                re.compile(r'\s(.*)(c_CANifier_.*)\(', re.MULTILINE),
-                re.compile(r'(.*)(c_CANifier_.*)\(', re.MULTILINE))
+                 cci_source_base + '/CANifier_CCI.cpp',
+                 re.compile(r'\s(.*)(c_CANifier_.*)\(', re.MULTILINE),
+                 re.compile(r'(.*)(c_CANifier_.*)\(', re.MULTILINE))
 
     search_files(cci_header_base + '/Logger_CCI.h',
-                cci_source_base + '/Logger_CCI.cpp',
-                re.compile(r'\s(.*)(c_Logger_.*)\(', re.MULTILINE),
-                re.compile(r'(.*)(c_Logger_.*)\(', re.MULTILINE))
+                 cci_source_base + '/Logger_CCI.cpp',
+                 re.compile(r'\s(.*)(c_Logger_.*)\(', re.MULTILINE),
+                 re.compile(r'(.*)(c_Logger_.*)\(', re.MULTILINE))
 
     search_files(cci_header_base + '/MotController_CCI.h',
-                cci_source_base + '/MotController_CCI.cpp',
-                re.compile(r'\s(.*)(c_MotController_.*)\(', re.MULTILINE),
-                re.compile(r'(.*)(c_MotController_.*)\(', re.MULTILINE))
+                 cci_source_base + '/MotController_CCI.cpp',
+                 re.compile(r'\s(.*)(c_MotController_.*)\(', re.MULTILINE),
+                 re.compile(r'(.*)(c_MotController_.*)\(', re.MULTILINE))
 
     search_files(cci_header_base + '/PigeonIMU_CCI.h',
                  cci_source_base + '/PigeonIMU_CCI.cpp',
                  re.compile(r'\s(.*)(c_PigeonIMU_.*)\(', re.MULTILINE),
                  re.compile(r'(.*)(c_PigeonIMU_.*)\(', re.MULTILINE))
 
-    search_files(cci_header_base + '/BuffTrajPointStream_CCI.h',
-                 cci_source_base + '/BuffTrajPointStream_CCI.cpp',
-                 re.compile(r'\s(.*)(c_BuffTrajPointStream_.*)\(', re.MULTILINE),
-                 re.compile(r'(.*)(c_BuffTrajPointStream_.*)\(', re.MULTILINE))
+    search_files(
+        cci_header_base + '/BuffTrajPointStream_CCI.h',
+        cci_source_base + '/BuffTrajPointStream_CCI.cpp',
+        re.compile(r'\s(.*)(c_BuffTrajPointStream_.*)\(', re.MULTILINE),
+        re.compile(r'(.*)(c_BuffTrajPointStream_.*)\(', re.MULTILINE))
 
 
 def check_jni_sources():
     cci_base = r'src\main\native\cpp\ctre_jni_mocks'
 
-    check(cci_base + '/CANifierJNI.cpp',
-          "JNIEXPORT .* JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_[0-9]?(.*)",
-          ".*c_CANifier_(.*?)\(.*")
+    check(
+        cci_base + '/CANifierJNI.cpp',
+        "JNIEXPORT .* JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_[0-9]?(.*)",
+        ".*c_CANifier_(.*?)\(.*")
 
-    check(cci_base + '/CTRLoggerJNI.cpp',
-          "JNIEXPORT .* JNICALL Java_com_ctre_phoenix_CTRLoggerJNI_JNI_[0-9]?(.*)",
-          ".*c_Logger_(.*?)\(.*")
+    check(
+        cci_base + '/CTRLoggerJNI.cpp',
+        "JNIEXPORT .* JNICALL Java_com_ctre_phoenix_CTRLoggerJNI_JNI_[0-9]?(.*)",
+        ".*c_Logger_(.*?)\(.*")
 
-    check(cci_base + '/MotControllerJNI.cpp',
-          "JNIEXPORT .* JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_[0-9]?(.*)",
-          ".*c_MotController_(.*?)\(.*")
+    check(
+        cci_base + '/MotControllerJNI.cpp',
+        "JNIEXPORT .* JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_[0-9]?(.*)",
+        ".*c_MotController_(.*?)\(.*")
 
-    check(cci_base + '/PigeonImuJNI.cpp',
-          "JNIEXPORT .* JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_[0-9]?(.*)",
-          ".*c_PigeonIMU_(.*?)\(.*")
-
+    check(
+        cci_base + '/PigeonImuJNI.cpp',
+        "JNIEXPORT .* JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_[0-9]?(.*)",
+        ".*c_PigeonIMU_(.*?)\(.*")
 
 
 def check_cci_sources():
@@ -153,25 +175,35 @@ def check_cci_sources():
     max_diff = 5
 
     check(cci_base + '/CANifier_CCI.cpp',
-          ".*c_CANifier_(.*)\(.*",  child_pattern, max_diff, child_group_index=2)
+          ".*c_CANifier_(.*)\(.*",
+          child_pattern,
+          max_diff,
+          child_group_index=2)
 
-#     check(cci_base + '/Logger_CCI.cpp',
-#           ".*c_Logger_(.*)\(.*",  child_pattern, max_diff, child_group_index=2)
+    #     check(cci_base + '/Logger_CCI.cpp',
+    #           ".*c_Logger_(.*)\(.*",  child_pattern, max_diff, child_group_index=2)
 
     check(cci_base + '/MotController_CCI.cpp',
-          ".*c_MotController_(.*)\(.*", child_pattern, max_diff, child_group_index=2)
+          ".*c_MotController_(.*)\(.*",
+          child_pattern,
+          max_diff,
+          child_group_index=2)
 
     check(cci_base + '/PigeonIMU_CCI.cpp',
-          ".*c_PigeonIMU_(.*)\(.*",  child_pattern, max_diff, child_group_index=2)
+          ".*c_PigeonIMU_(.*)\(.*",
+          child_pattern,
+          max_diff,
+          child_group_index=2)
 
 
 def main():
-    
+
     root_path = "."
-    
+
     search_jni()
     search_cci()
     check_jni_sources()
     check_cci_sources()
+
 
 main()

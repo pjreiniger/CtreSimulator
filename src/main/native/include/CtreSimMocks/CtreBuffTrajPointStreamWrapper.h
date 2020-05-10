@@ -1,6 +1,5 @@
 
-#ifndef SRC_MAIN_NATIVE_CPP_CTRESIMMOCKS_CTREBUFFTRAJPOINTSTREAMWRAPPER_H_
-#define SRC_MAIN_NATIVE_CPP_CTRESIMMOCKS_CTREBUFFTRAJPOINTSTREAMWRAPPER_H_
+#pragma once
 
 #include <string>
 
@@ -20,6 +19,4 @@ public:
     void Send(const std::string& aName, uint8_t* aBuffer, int aSize);
 };
 
-}
-
-#endif /* SRC_MAIN_NATIVE_CPP_CTRESIMMOCKS_CTREBUFFTRAJPOINTSTREAMWRAPPER_H_ */
+} // namespace SnobotSim
