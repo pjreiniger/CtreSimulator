@@ -36,7 +36,7 @@ ctre::phoenix::ErrorCode c_CANifier_Destroy(void* handle)
 
 ctre::phoenix::ErrorCode c_CANifier_GetDescription(void* handle, char* toFill, int toFillByteSz, size_t* numBytesFilled)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
+    ConvertToWrapper(handle)->GetDescription(toFill, toFillByteSz, numBytesFilled);
     return (ctre::phoenix::ErrorCode)0;
 }
 

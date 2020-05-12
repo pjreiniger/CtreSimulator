@@ -10,9 +10,9 @@
 
 namespace
 {
-SnobotSim::CtreCANCoderWrapper* ConvertToWrapper(jlong handle)
+void* ConvertToWrapper(jlong aHandle)
 {
-    return reinterpret_cast<SnobotSim::CtreCANCoderWrapper*>(handle);
+    return reinterpret_cast<SnobotSim::CtreCANCoderWrapper*>(aHandle);
 }
 } // namespace
 
@@ -25,9 +25,9 @@ extern "C" {
  */
 JNIEXPORT jlong JNICALL
 Java_com_ctre_phoenix_sensors_CANCoderJNI_Create
-  (JNIEnv*, jclass, jint deviceId)
+  (JNIEnv*, jclass, jint deviceNumber)
 {
-    return (jlong)c_CANCoder_Create1(deviceId);
+    return (jlong)c_CANCoder_Create1(deviceNumber);
 }
 
 /*

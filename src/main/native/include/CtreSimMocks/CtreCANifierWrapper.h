@@ -20,7 +20,9 @@ public:
     void Receive(const std::string& aName, uint8_t* aBuffer, int aSize);
     void Send(const std::string& aName, uint8_t* aBuffer, int aSize);
 
-    /////////////////////////////////////////////////////////////
+    ctre::phoenix::ErrorCode GetLastError();
+
+    //////////////////////////////////////////
     void GetDescription(char* toFill, int toFillByteSz, size_t* numBytesFilled);
     void SetLEDOutput(uint32_t dutyCycle, uint32_t ledChannel);
     void SetGeneralOutputs(uint32_t outputsBits, uint32_t isOutputBits);
@@ -30,7 +32,6 @@ public:
     void GetGeneralInputs(bool allPins[], uint32_t capacity);
     void GetGeneralInput(uint32_t inputPin, bool* measuredInput);
     void GetPWMInput(uint32_t pwmChannel, double dutyCycleAndPeriod[2]);
-    ctre::phoenix::ErrorCode GetLastError();
     void GetBusVoltage(double* batteryVoltage);
     void GetQuadraturePosition(int* pos);
     void SetQuadraturePosition(int pos);

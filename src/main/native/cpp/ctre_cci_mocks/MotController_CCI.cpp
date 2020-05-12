@@ -30,6 +30,7 @@ void* c_MotController_Create2(int deviceID, const char* model)
 
 void c_MotController_DestroyAll(void)
 {
+    LOG_UNSUPPORTED_CAN_FUNC("");
 }
 
 ctre::phoenix::ErrorCode c_MotController_Destroy(void* handle)
@@ -41,8 +42,7 @@ ctre::phoenix::ErrorCode c_MotController_Destroy(void* handle)
 
 ctre::phoenix::ErrorCode c_MotController_GetDeviceNumber(void* handle, int* deviceNumber)
 {
-    auto* wrapper = ConvertToWrapper(handle);
-    *deviceNumber = wrapper->mDeviceId;
+    ConvertToWrapper(handle)->GetDeviceNumber(deviceNumber);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -485,9 +485,7 @@ ctre::phoenix::ErrorCode c_MotController_PushMotionProfileTrajectory(void* handl
 
 ctre::phoenix::ErrorCode c_MotController_PushMotionProfileTrajectory_2(void* handle, double position, double velocity, double headingDeg, int profileSlotSelect0, int profileSlotSelect1, bool isLastPoint, bool zeroPos, int durationMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("")
-    //    auto* wrapper = ConvertToWrapper(handle);
-    //    wrapper->Send("PushMotionProfileTrajectory_2", position, velocity, headingDeg, profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos, durationMs);
+    ConvertToWrapper(handle)->PushMotionProfileTrajectory_2(position, velocity, headingDeg, profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos, durationMs);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -636,7 +634,7 @@ ctre::phoenix::ErrorCode c_MotController_ConfigSetCustomParam(void* handle, int 
 
 ctre::phoenix::ErrorCode c_MotController_ConfigGetCustomParam(void* handle, int* readValue, int paramIndex, int timoutMs)
 {
-    ConvertToWrapper(handle)->ConfigGetCustomParam(readValue, paramIndex, timoutMs);
+    ConvertToWrapper(handle)->ConfigGetCustomParam(readValue, paramIndex);
     return (ctre::phoenix::ErrorCode)0;
 }
 
@@ -876,21 +874,13 @@ ctre::phoenix::ErrorCode c_MotController_ConfigGetMotorCommutation(void* handle,
 
 ctre::phoenix::ErrorCode c_MotController_ConfigSupplyCurrentLimit(void* handle, const double* params, int paramCnt, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("")
-    //    RECEIVE_HELPER("ConfigSupplyCurrentLimit", sizeof(*params) + sizeof(paramCnt) + sizeof(timeoutMs));
-    //    PoplateReceiveResults(buffer, params, buffer_pos);
-    //    PoplateReceiveResults(buffer, &paramCnt, buffer_pos);
-    //    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
+    ConvertToWrapper(handle)->ConfigSupplyCurrentLimit(params, paramCnt);
     return (ctre::phoenix::ErrorCode)0;
 }
 
 ctre::phoenix::ErrorCode c_MotController_ConfigStatorCurrentLimit(void* handle, const double* params, int paramCnt, int timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("")
-    //    RECEIVE_HELPER("ConfigStatorCurrentLimit", sizeof(*params) + sizeof(paramCnt) + sizeof(timeoutMs));
-    //    PoplateReceiveResults(buffer, params, buffer_pos);
-    //    PoplateReceiveResults(buffer, &paramCnt, buffer_pos);
-    //    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
+    ConvertToWrapper(handle)->ConfigStatorCurrentLimit(params, paramCnt);
     return (ctre::phoenix::ErrorCode)0;
 }
 

@@ -10,7 +10,7 @@
 
 namespace
 {
-SnobotSim::CtreMotControllerWrapper* ConvertToWrapper(jlong aHandle)
+void* ConvertToWrapper(jlong aHandle)
 {
     return reinterpret_cast<SnobotSim::CtreMotControllerWrapper*>(aHandle);
 }
@@ -949,9 +949,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_PushMotionProfileTraject
    jdouble headingDeg, jint profileSlotSelect0, jint profileSlotSelect1,
    jboolean isLastPoint, jboolean zeroPos, jint durationMs)
 {
-    return (jint)c_MotController_PushMotionProfileTrajectory_2(
-            ConvertToWrapper(handle), position, velocity, headingDeg,
-            profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos, durationMs);
+    return (jint)c_MotController_PushMotionProfileTrajectory_2(ConvertToWrapper(handle), position, velocity, headingDeg, profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos, durationMs);
 }
 
 /*
@@ -967,10 +965,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_PushMotionProfileTraject
    jint profileSlotSelect1, jboolean isLastPoint, jboolean zeroPos0,
    jint timeDur, jboolean useAuxPID)
 {
-    return (jint)c_MotController_PushMotionProfileTrajectory_3(
-            ConvertToWrapper(handle), position, velocity,
-            arbFeedFwd, auxiliaryPos, auxiliaryVel, auxiliaryArbFeedFwd,
-            profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos0, timeDur, useAuxPID);
+    return (jint)c_MotController_PushMotionProfileTrajectory_3(ConvertToWrapper(handle), position, velocity, arbFeedFwd, auxiliaryPos, auxiliaryVel, auxiliaryArbFeedFwd, profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos0, timeDur, useAuxPID);
 }
 
 /*
@@ -1035,6 +1030,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetMotionProfileStatus
   (JNIEnv* env, jclass, jlong handle, jintArray result)
 {
+
     static const int kSize = 9;
     int output[kSize];
 
@@ -1077,6 +1073,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetMotionProfileStatus2
   (JNIEnv* env, jclass, jlong handle, jintArray result)
 {
+
     static const int kSize = 11;
     int output[kSize];
 
@@ -1182,8 +1179,7 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigRemoteSensorClosed
   (JNIEnv*, jclass, jlong handle,
    jboolean remoteSensorClosedLoopDisableNeutralOnLOS, jint timeoutMs)
 {
-    return (jint)c_MotController_ConfigRemoteSensorClosedLoopDisableNeutralOnLOS(ConvertToWrapper(handle),
-            remoteSensorClosedLoopDisableNeutralOnLOS, timeoutMs);
+    return (jint)c_MotController_ConfigRemoteSensorClosedLoopDisableNeutralOnLOS(ConvertToWrapper(handle), remoteSensorClosedLoopDisableNeutralOnLOS, timeoutMs);
 }
 
 /*
@@ -1312,9 +1308,9 @@ JNIEXPORT jboolean JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_HasResetOccurred
   (JNIEnv*, jclass, jlong handle)
 {
-    bool hasResetOccured = false;
-    c_MotController_HasResetOccurred(ConvertToWrapper(handle), &hasResetOccured);
-    return hasResetOccured;
+    bool output = false;
+    c_MotController_HasResetOccurred(ConvertToWrapper(handle), &output);
+    return output;
 }
 
 /*
@@ -1833,19 +1829,6 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigStatorCurrentLimit
 
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
- * Method:    ConfigBrakeCurrentLimit
- * Signature: (J[DI)I
- */
-JNIEXPORT jint JNICALL
-Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigBrakeCurrentLimit
-  (JNIEnv*, jclass, jlong, jdoubleArray, jint)
-{
-    LOG_UNSUPPORTED_CAN_FUNC("");
-    return 0;
-}
-
-/*
- * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
  * Method:    ConfigSupplyCurrentLimitEnable
  * Signature: (JZI)I
  */
@@ -1972,41 +1955,38 @@ Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetIntegratedSensorVeloc
 
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
- * Method:    ConfigAbsoluteSensorRange
+ * Method:    ConfigIntegratedSensorAbsoluteRange
  * Signature: (JII)I
  */
 JNIEXPORT jint JNICALL
-Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigAbsoluteSensorRange
-  (JNIEnv*, jclass, jlong, jint, jint)
+Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigIntegratedSensorAbsoluteRange
+  (JNIEnv*, jclass, jlong handle, jint absoluteSensorRange, jint timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
-    return 0;
+    return (jint)c_MotController_ConfigIntegratedSensorAbsoluteRange(ConvertToWrapper(handle), (ctre::phoenix::sensors::AbsoluteSensorRange)absoluteSensorRange, timeoutMs);
 }
 
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
- * Method:    ConfigMagnetOffset
+ * Method:    ConfigIntegratedSensorOffset
  * Signature: (JDI)I
  */
 JNIEXPORT jint JNICALL
-Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigMagnetOffset
-  (JNIEnv*, jclass, jlong, jdouble, jint)
+Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigIntegratedSensorOffset
+  (JNIEnv*, jclass, jlong handle, jdouble offsetDegrees, jint timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
-    return 0;
+    return (jint)c_MotController_ConfigIntegratedSensorOffset(ConvertToWrapper(handle), offsetDegrees, timeoutMs);
 }
 
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
- * Method:    ConfigSensorInitializationStrategy
+ * Method:    ConfigIntegratedSensorInitializationStrategy
  * Signature: (JII)I
  */
 JNIEXPORT jint JNICALL
-Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigSensorInitializationStrategy
-  (JNIEnv*, jclass, jlong, jint, jint)
+Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigIntegratedSensorInitializationStrategy
+  (JNIEnv*, jclass, jlong handle, jint initializationStrategy, jint timeoutMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
-    return 0;
+    return (jint)c_MotController_ConfigIntegratedSensorInitializationStrategy(ConvertToWrapper(handle), (ctre::phoenix::sensors::SensorInitializationStrategy)initializationStrategy, timeoutMs);
 }
 
 } // extern "C"

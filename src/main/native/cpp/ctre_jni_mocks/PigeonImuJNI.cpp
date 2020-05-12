@@ -8,23 +8,19 @@
 #include "com_ctre_phoenix_sensors_PigeonImuJNI.h"
 #include "ctre/phoenix/cci/PigeonIMU_CCI.h"
 
-#define GET_THREE_AXIS(type, capType, funcName, size)      \
-                                                           \
-    type angles[size]; /* NOLINT */                        \
-    funcName(ConvertToWrapper(handle), angles);            \
-                                                           \
-    j##type fill[size];                                    \
-    for (int i = 0; i < size; ++i)                         \
-    {                                                      \
-        fill[i] = angles[i];                               \
-    }                                                      \
-                                                           \
-    env->Set##capType##ArrayRegion(result, 0, size, fill); \
+#define GET_THREE_AXIS(type, capType, funcName, result, size) \
+    type angles[size]; /* NOLINT */                           \
+    funcName(ConvertToWrapper(handle), angles);               \
+    j##type fill[size];                                       \
+    for (int i = 0; i < size; ++i)                            \
+    {                                                         \
+        fill[i] = angles[i];                                  \
+    }                                                         \
+    env->Set##capType##ArrayRegion(result, 0, size, fill);    \
     return 0;
-
 namespace
 {
-SnobotSim::CtrePigeonIMUWrapper* ConvertToWrapper(jlong aHandle)
+void* ConvertToWrapper(jlong aHandle)
 {
     return reinterpret_cast<SnobotSim::CtrePigeonIMUWrapper*>(aHandle);
 }
@@ -39,9 +35,9 @@ extern "C" {
  */
 JNIEXPORT jlong JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1new_1PigeonImu_1Talon
-  (JNIEnv*, jclass, jint talonId)
+  (JNIEnv*, jclass, jint deviceNumber)
 {
-    return (jlong)c_PigeonIMU_Create2(talonId);
+    return (jlong)c_PigeonIMU_Create2(deviceNumber);
 }
 
 /*
@@ -51,9 +47,9 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1new_1PigeonImu_1Talon
  */
 JNIEXPORT jlong JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1new_1PigeonImu
-  (JNIEnv*, jclass, jint pigeonId)
+  (JNIEnv*, jclass, jint deviceNumber)
 {
-    return (jlong)c_PigeonIMU_Create1(pigeonId);
+    return (jlong)c_PigeonIMU_Create1(deviceNumber);
 }
 
 /*
@@ -307,9 +303,9 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetGeneralStatus
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1Get6dQuaternion
-  (JNIEnv* env, jclass, jlong handle, jdoubleArray result)
+  (JNIEnv* env, jclass, jlong handle, jdoubleArray wxyz)
 {
-    GET_THREE_AXIS(double, Double, c_PigeonIMU_Get6dQuaternion, 4);
+    GET_THREE_AXIS(double, Double, c_PigeonIMU_Get6dQuaternion, wxyz, 4);
 }
 
 /*
@@ -319,9 +315,9 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1Get6dQuaternion
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetYawPitchRoll
-  (JNIEnv* env, jclass, jlong handle, jdoubleArray result)
+  (JNIEnv* env, jclass, jlong handle, jdoubleArray ypr)
 {
-    GET_THREE_AXIS(double, Double, c_PigeonIMU_GetYawPitchRoll, 3);
+    GET_THREE_AXIS(double, Double, c_PigeonIMU_GetYawPitchRoll, ypr, 3);
 }
 
 /*
@@ -331,9 +327,9 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetYawPitchRoll
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetAccumGyro
-  (JNIEnv* env, jclass, jlong handle, jdoubleArray result)
+  (JNIEnv* env, jclass, jlong handle, jdoubleArray xyz_deg)
 {
-    GET_THREE_AXIS(double, Double, c_PigeonIMU_GetAccumGyro, 3);
+    GET_THREE_AXIS(double, Double, c_PigeonIMU_GetAccumGyro, xyz_deg, 3);
 }
 
 /*
@@ -413,9 +409,9 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetUpTime
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetRawMagnetometer
-  (JNIEnv* env, jclass, jlong handle, jshortArray result)
+  (JNIEnv* env, jclass, jlong handle, jshortArray rm_xyz)
 {
-    GET_THREE_AXIS(short, Short, c_PigeonIMU_GetRawMagnetometer, 3); // NOLINT
+    GET_THREE_AXIS(short, Short, c_PigeonIMU_GetRawMagnetometer, rm_xyz, 3); // NOLINT
 }
 
 /*
@@ -425,9 +421,9 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetRawMagnetometer
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetBiasedMagnetometer
-  (JNIEnv* env, jclass, jlong handle, jshortArray result)
+  (JNIEnv* env, jclass, jlong handle, jshortArray bm_xyz)
 {
-    GET_THREE_AXIS(short, Short, c_PigeonIMU_GetBiasedMagnetometer, 3); // NOLINT
+    GET_THREE_AXIS(short, Short, c_PigeonIMU_GetBiasedMagnetometer, bm_xyz, 3); // NOLINT
 }
 
 /*
@@ -437,9 +433,9 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetBiasedMagnetometer
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetBiasedAccelerometer
-  (JNIEnv* env, jclass, jlong handle, jshortArray result)
+  (JNIEnv* env, jclass, jlong handle, jshortArray ba_xyz)
 {
-    GET_THREE_AXIS(short, Short, c_PigeonIMU_GetBiasedAccelerometer, 3); // NOLINT
+    GET_THREE_AXIS(short, Short, c_PigeonIMU_GetBiasedAccelerometer, ba_xyz, 3); // NOLINT
 }
 
 /*
@@ -449,9 +445,9 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetBiasedAccelerometer
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetRawGyro
-  (JNIEnv* env, jclass, jlong handle, jdoubleArray result)
+  (JNIEnv* env, jclass, jlong handle, jdoubleArray xyz_dps)
 {
-    GET_THREE_AXIS(double, Double, c_PigeonIMU_GetRawGyro, 3);
+    GET_THREE_AXIS(double, Double, c_PigeonIMU_GetRawGyro, xyz_dps, 3);
 }
 
 /*
@@ -461,9 +457,9 @@ Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetRawGyro
  */
 JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetAccelerometerAngles
-  (JNIEnv* env, jclass, jlong handle, jdoubleArray result)
+  (JNIEnv* env, jclass, jlong handle, jdoubleArray tiltAngles)
 {
-    GET_THREE_AXIS(double, Double, c_PigeonIMU_GetAccelerometerAngles, 3);
+    GET_THREE_AXIS(double, Double, c_PigeonIMU_GetAccelerometerAngles, tiltAngles, 3);
 }
 
 /*
@@ -475,7 +471,8 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetFusedHeading
   (JNIEnv* env, jclass, jlong handle, jdoubleArray result)
 {
-    GET_THREE_AXIS(double, Double, c_PigeonIMU_GetFusedHeading1, 3);
+    LOG_UNSUPPORTED_CAN_FUNC("");
+    return 0;
 }
 
 /*

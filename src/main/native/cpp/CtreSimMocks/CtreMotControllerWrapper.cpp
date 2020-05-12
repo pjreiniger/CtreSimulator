@@ -1,4 +1,5 @@
 
+
 #include "CtreSimMocks/CtreMotControllerWrapper.h"
 
 #include <vector>
@@ -11,13 +12,13 @@
     Receive(paramName, buffer, size);   \
     uint32_t buffer_pos = 0;
 
-std::vector<SnobotSim::CTRE_CallbackFunc> gMotorControllerCallbacks;
+std::vector<SnobotSim::CTRE_CallbackFunc> gMotControllerCallbacks;
 
 void SnobotSim::SetMotControllerCallback(
         SnobotSim::CTRE_CallbackFunc callback)
 {
-    gMotorControllerCallbacks.clear();
-    gMotorControllerCallbacks.push_back(callback);
+    gMotControllerCallbacks.clear();
+    gMotControllerCallbacks.push_back(callback);
 }
 
 SnobotSim::CtreMotControllerWrapper::CtreMotControllerWrapper(int aDeviceId) :
@@ -29,9 +30,9 @@ SnobotSim::CtreMotControllerWrapper::CtreMotControllerWrapper(int aDeviceId) :
 void SnobotSim::CtreMotControllerWrapper::Send(const std::string& aName,
         uint8_t* aBuffer, int aSize)
 {
-    if (!gMotorControllerCallbacks.empty())
+    if (!gMotControllerCallbacks.empty())
     {
-        gMotorControllerCallbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
+        gMotControllerCallbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
     }
     else
     {
@@ -43,9 +44,9 @@ void SnobotSim::CtreMotControllerWrapper::Receive(const std::string& aName,
         uint8_t* aBuffer,
         int aSize)
 {
-    if (!gMotorControllerCallbacks.empty())
+    if (!gMotControllerCallbacks.empty())
     {
-        gMotorControllerCallbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
+        gMotControllerCallbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
     }
     else
     {
@@ -470,9 +471,7 @@ void SnobotSim::CtreMotControllerWrapper::PushMotionProfileTrajectory(double pos
 
 void SnobotSim::CtreMotControllerWrapper::PushMotionProfileTrajectory_2(double position, double velocity, double headingDeg, int profileSlotSelect0, int profileSlotSelect1, bool isLastPoint, bool zeroPos, int durationMs)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("")
-    //
-    //    Send("PushMotionProfileTrajectory_2", position, velocity, headingDeg, profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos, durationMs);
+    Send("PushMotionProfileTrajectory_2", position, velocity, headingDeg, profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos, durationMs);
 }
 
 void SnobotSim::CtreMotControllerWrapper::PushMotionProfileTrajectory_3(double position, double velocity, double arbFeedFwd, double auxiliaryPos, double auxiliaryVel, double auxiliaryArbFeedFwd, uint32_t profileSlotSelect0, uint32_t profileSlotSelect1, bool isLastPoint, bool zeroPos0, uint32_t timeDur, bool useAuxPID)
@@ -597,14 +596,6 @@ void SnobotSim::CtreMotControllerWrapper::ConfigPulseWidthPeriod_FilterWindowSz(
     Send("ConfigPulseWidthPeriod_FilterWindowSz", pulseWidthPeriod_FilterWindowSz);
 }
 
-ctre::phoenix::ErrorCode SnobotSim::CtreMotControllerWrapper::GetLastError()
-{
-    int lastError = 0;
-    RECEIVE_HELPER("GetLastError", sizeof(lastError));
-    PoplateReceiveResults(buffer, &lastError, buffer_pos);
-    return (ctre::phoenix::ErrorCode)lastError;
-}
-
 void SnobotSim::CtreMotControllerWrapper::GetFirmwareVersion(int* version)
 {
     RECEIVE_HELPER("GetFirmwareVersion", sizeof(*version));
@@ -622,12 +613,11 @@ void SnobotSim::CtreMotControllerWrapper::ConfigSetCustomParam(int newValue, int
     Send("ConfigSetCustomParam", newValue, paramIndex);
 }
 
-void SnobotSim::CtreMotControllerWrapper::ConfigGetCustomParam(int* readValue, int paramIndex, int timoutMs)
+void SnobotSim::CtreMotControllerWrapper::ConfigGetCustomParam(int* readValue, int paramIndex)
 {
-    RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex) + sizeof(timoutMs));
+    RECEIVE_HELPER("ConfigGetCustomParam", sizeof(*readValue) + sizeof(paramIndex));
     PoplateReceiveResults(buffer, readValue, buffer_pos);
     PoplateReceiveResults(buffer, &paramIndex, buffer_pos);
-    PoplateReceiveResults(buffer, &timoutMs, buffer_pos);
 }
 
 void SnobotSim::CtreMotControllerWrapper::ConfigSetParameter(int param, double value, uint8_t subValue, int ordinal)
@@ -941,4 +931,12 @@ void SnobotSim::CtreMotControllerWrapper::ConfigIntegratedSensorOffset(double of
 void SnobotSim::CtreMotControllerWrapper::ConfigIntegratedSensorInitializationStrategy(ctre::phoenix::sensors::SensorInitializationStrategy initializationStrategy)
 {
     Send("ConfigIntegratedSensorInitializationStrategy", initializationStrategy);
+}
+
+ctre::phoenix::ErrorCode SnobotSim::CtreMotControllerWrapper::GetLastError()
+{
+    int lastError = 0;
+    RECEIVE_HELPER("GetLastError", sizeof(lastError));
+    PoplateReceiveResults(buffer, &lastError, buffer_pos);
+    return (ctre::phoenix::ErrorCode)lastError;
 }

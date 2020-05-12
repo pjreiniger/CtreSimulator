@@ -151,7 +151,7 @@ Java_com_snobot_simulator_ctre_CtreJni_registerCanPigeonImuCallback
         }
     };
 
-    SnobotSim::SetPigeonCallback(callbackFunc);
+    SnobotSim::SetPigeonIMUCallback(callbackFunc);
 }
 
 /*
@@ -199,7 +199,7 @@ Java_com_snobot_simulator_ctre_CtreJni_registerCanCanifierCallback
         }
     };
 
-    SnobotSim::SetCanifierCallback(callbackFunc);
+    SnobotSim::SetCANifierCallback(callbackFunc);
 }
 
 /*
@@ -247,7 +247,7 @@ Java_com_snobot_simulator_ctre_CtreJni_registerCanBuffTrajPointStreamCallback
         }
     };
 
-    SnobotSim::SetBuffTrajPiontStreamCallback(callbackFunc);
+    SnobotSim::SetBuffTrajPointStreamCallback(callbackFunc);
 }
 
 /*

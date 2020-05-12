@@ -1,0 +1,38 @@
+package com.snobot.simulator.ctre;
+
+import java.nio.ByteBuffer;
+
+import com.ctre.phoenix.motion.TrajectoryPoint;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import org.junit.jupiter.api.Test;
+
+public class TestBaseTalonFunctions
+{
+    private CtreCallback mTestCallback = new CtreCallback()
+    {
+
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
+        {
+            System.out.println("Getting BaseTalon callback " + aName);
+        }
+    };
+
+    @Test
+    public void testAllFunctions()
+    {
+
+        TalonSRX talon = new TalonSRX(0);
+        CtreJni.registerCanMotorCallback(mTestCallback);
+
+        TrajectoryPoint trajectoryPoint = new TrajectoryPoint();
+        trajectoryPoint.timeDur = 10;
+{{ functions }}
+
+    }
+}

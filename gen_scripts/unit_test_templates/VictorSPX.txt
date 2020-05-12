@@ -1,0 +1,32 @@
+package com.snobot.simulator.ctre;
+
+import java.nio.ByteBuffer;
+
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPXConfiguration;
+import com.ctre.phoenix.motorcontrol.can.VictorSPXPIDSetConfiguration;
+
+import org.junit.jupiter.api.Test;
+
+public class TestVictorSPXFunctions
+{
+    private CtreCallback mTestCallback = new CtreCallback()
+    {
+
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
+        {
+            System.out.println("Getting VictorSPX callback " + aName);
+        }
+    };
+
+    @Test
+    public void testAllFunctions()
+    {
+        CtreJni.registerCanMotorCallback(mTestCallback);
+
+        VictorSPX victor = new VictorSPX(0);
+{{ functions }}
+
+    }
+}

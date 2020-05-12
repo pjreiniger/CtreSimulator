@@ -1,4 +1,5 @@
 
+
 #include "CtreSimMocks/CtreCANifierWrapper.h"
 
 #include <vector>
@@ -11,13 +12,13 @@
     Receive(paramName, buffer, size);   \
     uint32_t buffer_pos = 0;
 
-std::vector<SnobotSim::CTRE_CallbackFunc> gCanifierCallbacks;
+std::vector<SnobotSim::CTRE_CallbackFunc> gCANifierCallbacks;
 
-void SnobotSim::SetCanifierCallback(
+void SnobotSim::SetCANifierCallback(
         SnobotSim::CTRE_CallbackFunc callback)
 {
-    gCanifierCallbacks.clear();
-    gCanifierCallbacks.push_back(callback);
+    gCANifierCallbacks.clear();
+    gCANifierCallbacks.push_back(callback);
 }
 
 SnobotSim::CtreCANifierWrapper::CtreCANifierWrapper(int aDeviceId) :
@@ -29,9 +30,9 @@ SnobotSim::CtreCANifierWrapper::CtreCANifierWrapper(int aDeviceId) :
 void SnobotSim::CtreCANifierWrapper::Send(const std::string& aName,
         uint8_t* aBuffer, int aSize)
 {
-    if (!gCanifierCallbacks.empty())
+    if (!gCANifierCallbacks.empty())
     {
-        gCanifierCallbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
+        gCANifierCallbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
     }
     else
     {
@@ -43,9 +44,9 @@ void SnobotSim::CtreCANifierWrapper::Receive(const std::string& aName,
         uint8_t* aBuffer,
         int aSize)
 {
-    if (!gCanifierCallbacks.empty())
+    if (!gCANifierCallbacks.empty())
     {
-        gCanifierCallbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
+        gCANifierCallbacks[0](aName.c_str(), mDeviceId, aBuffer, aSize);
     }
     else
     {
@@ -105,14 +106,6 @@ void SnobotSim::CtreCANifierWrapper::GetPWMInput(uint32_t pwmChannel, double dut
     PoplateReceiveResults(buffer, &pwmChannel, buffer_pos);
     PoplateReceiveResults(buffer, &dutyCycleAndPeriod[0], buffer_pos);
     PoplateReceiveResults(buffer, &dutyCycleAndPeriod[1], buffer_pos);
-}
-
-ctre::phoenix::ErrorCode SnobotSim::CtreCANifierWrapper::GetLastError()
-{
-    int error = 0;
-    RECEIVE_HELPER("GetLastError", sizeof(error));
-    PoplateReceiveResults(buffer, &error, buffer_pos);
-    return (ctre::phoenix::ErrorCode)error;
 }
 
 void SnobotSim::CtreCANifierWrapper::GetBusVoltage(double* batteryVoltage)
@@ -259,4 +252,12 @@ void SnobotSim::CtreCANifierWrapper::GetStatusFramePeriod(int frame, int* period
 void SnobotSim::CtreCANifierWrapper::SetControlFramePeriod(int frame, int periodMs)
 {
     Send("SetControlFramePeriod", frame, periodMs);
+}
+
+ctre::phoenix::ErrorCode SnobotSim::CtreCANifierWrapper::GetLastError()
+{
+    int error = 0;
+    RECEIVE_HELPER("GetLastError", sizeof(error));
+    PoplateReceiveResults(buffer, &error, buffer_pos);
+    return (ctre::phoenix::ErrorCode)error;
 }

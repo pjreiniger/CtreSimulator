@@ -79,8 +79,7 @@ Java_com_ctre_phoenix_motion_BuffTrajPointStreamJNI_Write
    jint profileSlotSelect1, jboolean isLastPoint, jboolean zeroPos,
    jint timeDur, jboolean useAuxPID)
 {
-    return (jint)c_BuffTrajPointStream_Write(ConvertToWrapper(handle), position, velocity, arbFeedFwd, auxiliaryPos,
-            auxiliaryVel, auxiliaryArbFeedFwd, profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos, timeDur, useAuxPID);
+    return (jint)c_BuffTrajPointStream_Write(ConvertToWrapper(handle), position, velocity, arbFeedFwd, auxiliaryPos, auxiliaryVel, auxiliaryArbFeedFwd, profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos, timeDur, useAuxPID);
 }
 
 } // extern "C"

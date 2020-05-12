@@ -1,0 +1,21 @@
+#include "ctre/phoenix/cci/{{ cci_class_name }}.h"
+
+#include <cstring>
+#include <vector>
+
+#include "CtreSimMocks/{{ wrapper_class_name }}.h"
+#include "CtreSimUtils/MockHooks.h"
+
+namespace
+{
+SnobotSim::{{ wrapper_class_name }}* ConvertToWrapper(void* param)
+{
+    return reinterpret_cast<SnobotSim::{{ wrapper_class_name }}*>(param);
+}
+} // namespace
+
+extern "C" {
+
+{{functions}}
+
+} // extern "C"

@@ -1,0 +1,51 @@
+package com.snobot.simulator.ctre;
+
+import java.nio.ByteBuffer;
+
+import org.junit.jupiter.api.Test;
+
+import com.ctre.phoenix.motion.TrajectoryPoint;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
+
+public class TestTalonSRXFunctions
+{
+    private CtreCallback mTestCallback = new CtreCallback()
+    {
+
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
+        {
+            System.out.println("Getting callback " + aName);
+        }
+    };
+    private CtreCallback mTestBuffTrajPointStreamCallback = new CtreCallback()
+    {
+
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
+        {
+            System.out.println("Getting TrajPoint callback " + aName);
+        }
+    };
+
+    @Test
+    public void testAllFunctions()
+    {
+
+        TalonSRX talon = new TalonSRX(0);
+        CtreJni.registerCanBuffTrajPointStreamCallback(mTestBuffTrajPointStreamCallback);
+        CtreJni.registerCanMotorCallback(mTestCallback);
+
+        TrajectoryPoint trajectoryPoint = new TrajectoryPoint();
+        trajectoryPoint.timeDur = 10;
+
+        //////////////////////////////////////////////
+
+{{ functions }}
+
+    }
+}

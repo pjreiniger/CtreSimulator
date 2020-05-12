@@ -132,8 +132,8 @@ extern "C"{
     CCIEXPORT ctre::phoenix::ErrorCode c_MotController_ConfigPulseWidthPeriod_FilterWindowSz(void *handle,
             int pulseWidthPeriod_FilterWindowSz, int timeoutMs);
     CCIEXPORT ctre::phoenix::ErrorCode c_MotController_GetLastError(void *handle);
-	CCIEXPORT ctre::phoenix::ErrorCode c_MotController_GetFirmwareVersion(void *handle, int *);
-	CCIEXPORT ctre::phoenix::ErrorCode c_MotController_HasResetOccurred(void *handle,bool *);
+	CCIEXPORT ctre::phoenix::ErrorCode c_MotController_GetFirmwareVersion(void *handle, int * version);
+	CCIEXPORT ctre::phoenix::ErrorCode c_MotController_HasResetOccurred(void *handle,bool * output);
 	CCIEXPORT ctre::phoenix::ErrorCode c_MotController_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs);
 	CCIEXPORT ctre::phoenix::ErrorCode c_MotController_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs);
 	CCIEXPORT ctre::phoenix::ErrorCode c_MotController_ConfigSetParameter(void *handle, int param, double value, uint8_t subValue, int ordinal, int timeoutMs);

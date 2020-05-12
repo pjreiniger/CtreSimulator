@@ -30,7 +30,7 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_motion_BuffTrajPointStreamJNI_Destr
  * Method:    Destroy
  * Signature: (J)V
  */
-JNIEXPORT int JNICALL Java_com_ctre_phoenix_motion_BuffTrajPointStreamJNI_Destroy
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motion_BuffTrajPointStreamJNI_Destroy
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -38,7 +38,7 @@ JNIEXPORT int JNICALL Java_com_ctre_phoenix_motion_BuffTrajPointStreamJNI_Destro
  * Method:    Clear
  * Signature: (J)V
  */
-JNIEXPORT int JNICALL Java_com_ctre_phoenix_motion_BuffTrajPointStreamJNI_Clear
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motion_BuffTrajPointStreamJNI_Clear
   (JNIEnv *, jclass, jlong);
 
 /*

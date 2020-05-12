@@ -17,16 +17,18 @@ public:
     explicit CtrePigeonIMUWrapper(int aDeviceId);
     const int mDeviceId;
 
-    void Send(const std::string& aName, uint8_t* aBuffer, int aSize);
     void Receive(const std::string& aName, uint8_t* aBuffer, int aSize);
+    void Send(const std::string& aName, uint8_t* aBuffer, int aSize);
 
-    //////////////////////////////////////////////////////////////////
+    ctre::phoenix::ErrorCode GetLastError();
+
+    //////////////////////////////////////////
     void GetDescription(char* toFill, int toFillByteSz, size_t* numBytesFilled);
     void ConfigSetParameter(int param, double value, uint8_t subValue, int ordinal);
     void ConfigGetParameter(int param, double* value, int ordinal);
     void ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal);
     void ConfigSetCustomParam(int newValue, int paramIndex);
-    void ConfigGetCustomParam(int* readValue, int paramIndex, int timoutMs);
+    void ConfigGetCustomParam(int* readValue, int paramIndex);
     void ConfigFactoryDefault();
     void SetYaw(double angleDeg);
     void AddYaw(double angleDeg);
@@ -40,7 +42,6 @@ public:
     void SetCompassAngle(double angleDeg);
     void EnterCalibrationMode(int calMode);
     void GetGeneralStatus(int* state, int* currentMode, int* calibrationError, int* bCalIsBooting, double* tempC, int* upTimeSec, int* noMotionBiasCount, int* tempCompensationCount, int* lastError);
-    ctre::phoenix::ErrorCode GetLastError();
     void Get6dQuaternion(double wxyz[4]);
     void GetYawPitchRoll(double ypr[3]);
     void GetAccumGyro(double xyz_deg[3]);

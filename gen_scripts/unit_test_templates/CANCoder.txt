@@ -1,0 +1,39 @@
+package com.snobot.simulator.ctre;
+
+import java.nio.ByteBuffer;
+
+import org.junit.jupiter.api.Test;
+
+import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
+import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.CANCoderFaults;
+import com.ctre.phoenix.sensors.CANCoderStatusFrame;
+import com.ctre.phoenix.sensors.CANCoderStickyFaults;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+import com.ctre.phoenix.sensors.SensorTimeBase;
+import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
+
+public class TestCANCoderFunctions
+{
+    private CtreCallback mTestCallback = new CtreCallback()
+    {
+
+        @Override
+        public void callback(String aName, int aDeviceId, ByteBuffer aBuffer, int aCount)
+        {
+            System.out.println("Getting CANCoder callback " + aName);
+        }
+    };
+
+    @Test
+    public void testAllFunctions()
+    {
+        CANCoder canCoder = new CANCoder(0);
+        CtreJni.registerCanPigeonImuCallback(mTestCallback);
+
+{{ functions }}
+
+    }
+}
