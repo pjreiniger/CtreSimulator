@@ -471,8 +471,7 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetFusedHeading
   (JNIEnv* env, jclass, jlong handle, jdoubleArray result)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
-    return 0;
+    GET_THREE_AXIS(double, Double, c_PigeonIMU_GetFusedHeading1, result, 3);
 }
 
 /*
