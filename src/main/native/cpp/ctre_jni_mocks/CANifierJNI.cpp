@@ -112,7 +112,6 @@ JNIEXPORT void JNICALL
 Java_com_ctre_phoenix_CANifierJNI_JNI_1GetGeneralInputs
   (JNIEnv*, jclass, jlong handle, jbooleanArray allPins)
 {
-
     const int kCapacity = 11;
     bool allPinsArray[kCapacity];
 

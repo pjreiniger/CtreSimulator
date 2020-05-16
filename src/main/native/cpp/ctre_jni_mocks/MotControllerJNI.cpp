@@ -1030,7 +1030,6 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetMotionProfileStatus
   (JNIEnv* env, jclass, jlong handle, jintArray result)
 {
-
     static const int kSize = 9;
     int output[kSize];
 
@@ -1073,7 +1072,6 @@ JNIEXPORT jint JNICALL
 Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_GetMotionProfileStatus2
   (JNIEnv* env, jclass, jlong handle, jintArray result)
 {
-
     static const int kSize = 11;
     int output[kSize];
 
