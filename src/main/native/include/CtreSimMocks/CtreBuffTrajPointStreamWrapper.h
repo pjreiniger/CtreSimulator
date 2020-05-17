@@ -16,6 +16,7 @@ public:
     using BaseCtreWrapper::Send;
 
     CtreBuffTrajPointStreamWrapper();
+    const int mDeviceId;
 
     void Receive(const std::string& aName, uint8_t* aBuffer, int aSize);
     void Send(const std::string& aName, uint8_t* aBuffer, int aSize);

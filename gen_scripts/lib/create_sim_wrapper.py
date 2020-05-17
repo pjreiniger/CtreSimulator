@@ -305,14 +305,14 @@ class SimWrapperGenerator():
                     num_slots=num_slots,
                 ))
 
-        with open(header_output_file, 'w') as f:
-            f.write(
-                Template(header_template_text).render(
-                    header_functions=header_output,
-                    wrapper_class_name=self.wrapper_class_name,
-                    has_device_id=self.has_device_id,
-                    cci_class_name=self.cci_class_name,
-                    normal_sim_device_variables=normal_sim_device_variables,
-                    slotted_sim_device_variables=slotted_sim_device_variables,
-                    num_slots=num_slots
-                ))
+#         with open(header_output_file, 'w') as f:
+#             f.write(
+#                 Template(header_template_text).render(
+#                     header_functions=header_output,
+#                     wrapper_class_name=self.wrapper_class_name,
+#                     has_device_id=self.has_device_id,
+#                     cci_class_name=self.cci_class_name,
+#                     normal_sim_device_variables=normal_sim_device_variables,
+#                     slotted_sim_device_variables=slotted_sim_device_variables,
+#                     num_slots=num_slots
+#                 ))

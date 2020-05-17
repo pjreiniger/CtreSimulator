@@ -72,8 +72,8 @@ model {
                         includes = ["**/*.cpp"]
                     }
                     exportedHeaders {
-                        srcDirs = ["src/main/native/include", 
-                                   "ctre_source/cci/native/include", 
+                        srcDirs = ["src/main/native/include",
+                                   "ctre_source/cci/native/include",
                                    "ctre_source/core/native/include"]
                     }
                 }
@@ -134,12 +134,12 @@ model {
 }
 
 ext.get_os_arc_name = {
-    
+
     if (org.gradle.internal.os.OperatingSystem.current().isMacOsX())
     {
         return "osx" + getCurrentArch();
     }
-    
+
     return org.gradle.internal.os.OperatingSystem.current().getFamilyName() + getCurrentArch()
 }
 
