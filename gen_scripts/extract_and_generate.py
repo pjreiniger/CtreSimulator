@@ -155,12 +155,12 @@ def main():
     create_dir_if_missing(SNOBOT_CCI_SOURCE_DIR)
     create_dir_if_missing(JAVA_TEST_DIR)
 
-    __delete_sources()
-    extract_source_files(version, "../ctre_source", redownload=True)
-    generate_cci(definitions)
-    generate_jni(definitions)
+#     __delete_sources()
+#     extract_source_files(version, "../ctre_source", redownload=True)
+#     generate_cci(definitions)
+#     generate_jni(definitions)
     generate_wrapper(definitions)
-    generate_unit_tests()
+#     generate_unit_tests()
 
     os.chdir(PROJECT_DIR)
     subprocess.call("wpiformat")

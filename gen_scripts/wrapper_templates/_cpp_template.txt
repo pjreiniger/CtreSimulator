@@ -6,10 +6,10 @@
 
 #include "CtreSimUtils/MockHooks.h"
 
-#define RECEIVE_HELPER(paramName, size)                                  \
-    uint8_t buffer[size]; /* NOLINT */                                   \
-    std::memset(&buffer[0], 0, size);                                    \
-    Receive(paramName, buffer, size);                           \
+#define RECEIVE_HELPER(paramName, size) \
+    uint8_t buffer[size]; /* NOLINT */  \
+    std::memset(&buffer[0], 0, size);   \
+    Receive(paramName, buffer, size);   \
     uint32_t buffer_pos = 0;
 
 std::vector<SnobotSim::CTRE_CallbackFunc> g{{ stripped_cci_class_name }}Callbacks;
@@ -23,7 +23,21 @@ void SnobotSim::Set{{ stripped_cci_class_name }}Callback(
 
 SnobotSim::{{ wrapper_class_name }}::{{ wrapper_class_name }}({% if has_device_id %}int aDeviceId) :
         mDeviceId(aDeviceId & 0x3F){% else %}){% endif %}
+        m_simDevice(std::string("{{ wrapper_class_name }} " + std::to_string(aDeviceId)).c_str(), aDeviceId)
 {
+
+{% for variable_tuple in normal_sim_device_variables %}
+    m_{{ variable_tuple[0] }} = m_simDevice.CreateDouble("{{ variable_tuple[0] }}", false, 0);{% endfor %}
+
+
+{% if slotted_sim_device_variables %}
+    for (int slotId = 0; slotId < {{num_slots}}; ++slotId)
+    {
+{% for variable_tuple in slotted_sim_device_variables %}
+        m_slotted_variables[slotId].m_{{ variable_tuple[0] }} = m_simDevice.CreateDouble(std::string("{{ variable_tuple[0] }}[" + std::to_string(slotId) + "]").c_str(), false, 0);{% endfor %}
+    }
+{% endif %}
+
     Send("Create");
 }
 

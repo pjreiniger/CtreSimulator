@@ -5,6 +5,7 @@
 
 #include "CtreSimUtils/BaseCtreWrapper.h"
 #include "ctre/phoenix/cci/CANifier_CCI.h"
+#include "simulation/SimDeviceSim.h"
 
 namespace SnobotSim
 {
@@ -57,6 +58,66 @@ public:
     void SetStatusFramePeriod(int frame, uint8_t periodMs);
     void GetStatusFramePeriod(int frame, int* periodMs);
     void SetControlFramePeriod(int frame, int periodMs);
+
+protected:
+    hal::SimDevice m_simDevice;
+
+    hal::SimDouble m_BusVoltage_batteryVoltage;
+    hal::SimDouble m_ConfigClearPositionOnLimitF_clearPositionOnLimitF;
+    hal::SimDouble m_ConfigClearPositionOnLimitR_clearPositionOnLimitR;
+    hal::SimDouble m_ConfigClearPositionOnQuadIdx_clearPositionOnQuadIdx;
+    hal::SimDouble m_ConfigGetCustomParam_paramIndex;
+    hal::SimDouble m_ConfigGetCustomParam_readValue;
+    hal::SimDouble m_ConfigGetParameter_6_ordinal;
+    hal::SimDouble m_ConfigGetParameter_6_param;
+    hal::SimDouble m_ConfigGetParameter_6_subValue;
+    hal::SimDouble m_ConfigGetParameter_6_valueRecieved;
+    hal::SimDouble m_ConfigGetParameter_6_valueToSend;
+    hal::SimDouble m_ConfigGetParameter_ordinal;
+    hal::SimDouble m_ConfigGetParameter_param;
+    hal::SimDouble m_ConfigGetParameter_value;
+    hal::SimDouble m_ConfigSetCustomParam_newValue;
+    hal::SimDouble m_ConfigSetCustomParam_paramIndex;
+    hal::SimDouble m_ConfigSetParameter_ordinal;
+    hal::SimDouble m_ConfigSetParameter_param;
+    hal::SimDouble m_ConfigSetParameter_subValue;
+    hal::SimDouble m_ConfigSetParameter_value;
+    hal::SimDouble m_ConfigVelocityMeasurementPeriod_period;
+    hal::SimDouble m_ConfigVelocityMeasurementWindow_window;
+    hal::SimDouble m_ControlFramePeriod_frame;
+    hal::SimDouble m_ControlFramePeriod_periodMs;
+    hal::SimDouble m_Create1_deviceNumber;
+    hal::SimDouble m_Description_numBytesFilled;
+    hal::SimDouble m_Description_toFill;
+    hal::SimDouble m_Description_toFillByteSz;
+    hal::SimDouble m_EnablePWMOutput_bEnable;
+    hal::SimDouble m_EnablePWMOutput_pwmChannel;
+    hal::SimDouble m_Faults_param;
+    hal::SimDouble m_FirmwareVersion_firmwareVers;
+    hal::SimDouble m_GeneralInput_inputPin;
+    hal::SimDouble m_GeneralInput_measuredInput;
+    hal::SimDouble m_GeneralInputs_allPins;
+    hal::SimDouble m_GeneralInputs_capacity;
+    hal::SimDouble m_GeneralOutput_outputEnable;
+    hal::SimDouble m_GeneralOutput_outputPin;
+    hal::SimDouble m_GeneralOutput_outputValue;
+    hal::SimDouble m_GeneralOutputs_isOutputBits;
+    hal::SimDouble m_GeneralOutputs_outputsBits;
+    hal::SimDouble m_HasResetOccurred_hasReset;
+    hal::SimDouble m_LEDOutput_dutyCycle;
+    hal::SimDouble m_LEDOutput_ledChannel;
+    hal::SimDouble m_LastError_error;
+    hal::SimDouble m_PWMInput_dutyCycleAndPeriod;
+    hal::SimDouble m_PWMInput_pwmChannel;
+    hal::SimDouble m_PWMOutput_dutyCycle;
+    hal::SimDouble m_PWMOutput_pwmChannel;
+    hal::SimDouble m_QuadraturePosition_pos;
+    hal::SimDouble m_QuadratureSensor_pos;
+    hal::SimDouble m_QuadratureSensor_vel;
+    hal::SimDouble m_QuadratureVelocity_vel;
+    hal::SimDouble m_StatusFramePeriod_frame;
+    hal::SimDouble m_StatusFramePeriod_periodMs;
+    hal::SimDouble m_StickyFaults_param;
 };
 
 } // namespace SnobotSim

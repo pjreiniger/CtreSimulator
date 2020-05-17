@@ -50,11 +50,6 @@ model {
 
         def jniLibraryTaskList = createComponentZipTasks($.components, [libraryName], zipBaseName, Zip, project, includeStandardZipFormat)
 
-        def createAllTask
-        if(!project.hasProperty('ciBuild')) {
-            createAllTask = createAllCombined(project.packageNativeFilesInJar, "", "", Jar, project)
-        }
-
         publications {
             snobot_sim_java(MavenPublication) {
                 groupId 'com.snobot.simulator'
@@ -72,11 +67,6 @@ model {
 
                 artifact cppHeadersZip
                 artifact cppSourcesZip
-                artifact project.packageNativeFilesInJar
-
-                if(!project.hasProperty('ciBuild')) {
-                    artifact createAllTask
-                }
             }
         }
 

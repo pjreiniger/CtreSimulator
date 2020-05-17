@@ -7,28 +7,25 @@ plugins {
     id "cpp"
     id "java"
     id "eclipse"
+
+//    id "checkstyle"
+//    id "pmd"
+//    id "jacoco"
 }
 
+ext.allwpilibVersion = '2020.2.2'
 ext.ctre_library_version = "5.17.2"
-ext.release_version = ctre_library_version + "_V1"
+ext.release_version = ctre_library_version + "_V2"
 
 repositories {
     mavenCentral()
     mavenLocal()
     maven {
-        url "https://frcmaven.wpi.edu/artifactory/development/"
+        url "https://frcmaven.wpi.edu/artifactory/release/"
     }
     maven {
         url 'http://devsite.ctr-electronics.com/maven/release/'
     }
-}
-
-ext.allwpilibVersion = {
-    return '2020.1.2'
-}
-
-ext.getWpiUtilVersion = {
-    return allwpilibVersion()
 }
 
 sourceSets {
@@ -42,6 +39,24 @@ sourceSets {
 
 apply from: "config.gradle"
 model {
+    dependencyConfigs {
+        wpiutil(DependencyConfig) {
+            groupId = 'edu.wpi.first.wpiutil'
+            artifactId = 'wpiutil-cpp'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            version = allwpilibVersion
+            sharedConfigs = [ CtreSimulation: [], CtreSimulationDev:[] ]
+        }
+        halsim(DependencyConfig) {
+            groupId = 'edu.wpi.first.hal'
+            artifactId = 'hal-cpp'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            version = allwpilibVersion
+            sharedConfigs = [ CtreSimulation: [], CtreSimulationDev:[] ]
+        }
+    }
 
     components {
         CtreSimulation(JniNativeLibrarySpec) {
@@ -57,46 +72,83 @@ model {
                         includes = ["**/*.cpp"]
                     }
                     exportedHeaders {
-                        srcDirs = ["src/main/native/include",
-                                   "ctre_source/cci/native/include",
+                        srcDirs = ["src/main/native/include", 
+                                   "ctre_source/cci/native/include", 
                                    "ctre_source/core/native/include"]
                     }
                 }
             }
         }
-    }
-}
+        // By default, a development executable will be generated. This is to help the case of
+        // testing specific functionality of the library.
+        CtreSimulationDev(NativeExecutableSpec) {
+            targetBuildTypes 'release'
+            sources {
+                cpp {
 
-
-task packageNativeFilesInJar(type: Jar) {
-    destinationDir = project.buildDir
-    classifier = org.gradle.internal.os.OperatingSystem.current().getFamilyName() + getCurrentArch();
-    if (org.gradle.internal.os.OperatingSystem.current().isMacOsX())
-    {
-        classifier = "osx" + getCurrentArch();
-    }
-
-    project.model {
-        binaries {
-            withType(SharedLibraryBinarySpec) { binary ->
-                if (binary.component.name == "CtreSimulation")
-                {
-                    dependsOn binary.buildTask
-                    from(binary.sharedLibraryFile) {
-
-                        into NativeUtils.getPlatformPath(binary)
+                    source {
+                        srcDirs "${projectDir}"
+                        include 'dummy.cpp'
+                    }
+                    exportedHeaders {
+                        srcDir 'src/main/native/include'
+                        if (project.hasProperty('generatedHeaders')) {
+                            srcDir generatedHeaders
+                        }
                     }
                 }
             }
+            binaries.all {
+                lib library: "CtreSimulation", linkage: 'shared'
+            }
+        }
+    }
+    tasks {
+        def c = $.components
+        project.tasks.create('runCpp', Exec) {
+            def found = false
+            def systemArch = getCurrentArch()
+            c.each {
+                if (it in NativeExecutableSpec && it.name == "CtreSimulationDev") {
+                    it.binaries.each {
+                        if (!found) {
+                            def arch = it.targetPlatform.name
+                            if (arch == systemArch) {
+                                dependsOn it.tasks.install
+                                commandLine it.tasks.install.runScriptFile.get().asFile.toString()
+                                def filePath = it.tasks.install.installDirectory.get().toString() + File.separatorChar + 'lib'
+                                test.dependsOn it.tasks.install
+                                test.systemProperty 'java.library.path', filePath
+                                test.environment 'LD_LIBRARY_PATH', filePath
+                                test.workingDir filePath
+
+                                found = true
+                            }
+                        }
+                    }
+                }
+            }
+            println("Found " + found)
         }
     }
 }
 
+ext.get_os_arc_name = {
+    
+    if (org.gradle.internal.os.OperatingSystem.current().isMacOsX())
+    {
+        return "osx" + getCurrentArch();
+    }
+    
+    return org.gradle.internal.os.OperatingSystem.current().getFamilyName() + getCurrentArch()
+}
 
 dependencies {
 
-    testCompile 'edu.wpi.first.wpiutil:wpiutil-java:' + getWpiUtilVersion()
-    testCompile 'edu.wpi.first.wpilibj:wpilibj-java:' + allwpilibVersion()
+    compile 'edu.wpi.first.wpiutil:wpiutil-java:' + allwpilibVersion
+    compile 'edu.wpi.first.wpilibj:wpilibj-java:' + allwpilibVersion
+    compile 'edu.wpi.first.hal:hal-java:' + allwpilibVersion
+    testRuntime 'edu.wpi.first.hal:hal-jni:' + allwpilibVersion + ':' + get_os_arc_name()
 
     testCompile 'org.junit.jupiter:junit-jupiter-api:5.2.0'
     testCompile 'org.junit.jupiter:junit-jupiter-params:5.2.0'
@@ -106,23 +158,47 @@ dependencies {
     compile 'org.apache.logging.log4j:log4j-api:2.11.0'
     compile 'org.apache.logging.log4j:log4j-core:2.11.0'
 
-    testRuntime packageNativeFilesInJar.outputs.files
+//    testRuntime packageNativeFilesInJar.outputs.files
     testCompile "com.ctre.phoenix:api-java:" + ctre_library_version
     testCompile "com.ctre.phoenix:wpiapi-java:" + ctre_library_version
 }
-
-System.out.println("Home: " + System.getProperty("user.home"))
-System.out.println("M2 : " + System.getenv("M2_HOME"))
 
 test {
     useJUnitPlatform()
     testLogging {
         events TestLogEvent.FAILED,
-               TestLogEvent.SKIPPED
-               //TestLogEvent.STANDARD_OUT
+               TestLogEvent.SKIPPED,
+               TestLogEvent.STANDARD_OUT
         exceptionFormat "full"
     }
 }
+
+/////////////////////////////////////////////////////////////////////////////////
+// Style/Formatting stuff
+//checkstyle {
+//    toolVersion = "8.12"
+//    configDir = file("${project.rootDir}/styleguide")
+//    config = resources.text.fromFile(new File(configDir, "checkstyle.xml"))
+//}
+//
+//pmd {
+//    toolVersion = '6.7.0'
+//    consoleOutput  = true
+//    reportsDir = file("${project.buildDir}/reports/pmd")
+//    ruleSetFiles = files(file("$rootDir/styleguide/pmd-ruleset.xml"))
+//    ruleSets = []
+//}
+//
+//jacocoTestReport {
+//    reports {
+//        xml.enabled true
+//        html.enabled true
+//    }
+//}
+//check.dependsOn jacocoTestReport
+//
+//
+/////////////////////////////////////////////////////////////////////////////////
 
 jar {
     exclude('com/ctre/**')
@@ -132,18 +208,6 @@ javadoc {
     failOnError = false
 }
 
-
-eclipse.classpath.file.whenMerged { classpath ->
-    classpath.entries.each {
-        if(it.path.contains("CtreSimulator")) {
-            it.setNativeLibraryLocation("$rootDir/build/libs/ctreSimulation/shared/release")
-        }
-    }
-}
-
-tasks.withType(Test) {
-    systemProperty "java.library.path", "$rootDir/build/libs/ctreSimulation/shared/release"
-}
 
 wrapper {
     gradleVersion = '5.0'
