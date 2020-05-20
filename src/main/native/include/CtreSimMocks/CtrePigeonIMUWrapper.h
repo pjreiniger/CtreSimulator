@@ -130,7 +130,9 @@ protected:
     hal::SimDouble m_GeneralStatus_upTimeSec;
     hal::SimDouble m_HasResetOccurred_hasReset;
     hal::SimDouble m_LastError_value;
-    hal::SimDouble m_RawGyro_xyz_dps;
+    hal::SimDouble m_RawGyro_xyz_dps_0;
+    hal::SimDouble m_RawGyro_xyz_dps_1;
+    hal::SimDouble m_RawGyro_xyz_dps_2;
     hal::SimDouble m_RawMagnetometer_rm_xyz;
     hal::SimDouble m_ResetCount_value;
     hal::SimDouble m_ResetFlags_value;
@@ -141,7 +143,9 @@ protected:
     hal::SimDouble m_Temp_value;
     hal::SimDouble m_TemperatureCompensationDisable_bTempCompDisable;
     hal::SimDouble m_UpTime_value;
-    hal::SimDouble m_YawPitchRoll_ypr;
+    hal::SimDouble m_YawPitchRoll_ypr_0;
+    hal::SimDouble m_YawPitchRoll_ypr_1;
+    hal::SimDouble m_YawPitchRoll_ypr_2;
     hal::SimDouble m_Yaw_angleDeg;
 };
 

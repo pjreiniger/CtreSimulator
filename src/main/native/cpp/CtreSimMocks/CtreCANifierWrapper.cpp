@@ -120,7 +120,7 @@ void SnobotSim::CtreCANifierWrapper::GetDescription(char* toFill, int toFillByte
     PoplateReceiveResults(buffer, &toFillByteSz, buffer_pos);
     PoplateReceiveResults(buffer, numBytesFilled, buffer_pos);
 
-//    *toFillByteSz = m_Description_toFillByteSz.Get();
+    //    *toFillByteSz = m_Description_toFillByteSz.Get();
     *toFill = m_Description_toFill.Get();
     *numBytesFilled = m_Description_numBytesFilled.Get();
 }
@@ -182,13 +182,13 @@ void SnobotSim::CtreCANifierWrapper::GetGeneralInput(uint32_t inputPin, bool* me
     PoplateReceiveResults(buffer, measuredInput, buffer_pos);
 
     *measuredInput = m_GeneralInput_measuredInput.Get();
-//    *inputPin = m_GeneralInput_inputPin.Get();
+    //    *inputPin = m_GeneralInput_inputPin.Get();
 }
 
 void SnobotSim::CtreCANifierWrapper::GetPWMInput(uint32_t pwmChannel, double dutyCycleAndPeriod[2])
 {
     m_PWMInput_pwmChannel.Set(pwmChannel);
-//    m_PWMInput_dutyCycleAndPeriod.Set(dutyCycleAndPeriod);
+    //    m_PWMInput_dutyCycleAndPeriod.Set(dutyCycleAndPeriod);
 
     Send("GetPWMInput", pwmChannel, dutyCycleAndPeriod[0], dutyCycleAndPeriod[1]);
 }
@@ -294,8 +294,8 @@ void SnobotSim::CtreCANifierWrapper::ConfigGetParameter(int param, double* value
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 
     *value = m_ConfigGetParameter_value.Get();
-//    *param = m_ConfigGetParameter_param.Get();
-//    *ordinal = m_ConfigGetParameter_ordinal.Get();
+    //    *param = m_ConfigGetParameter_param.Get();
+    //    *ordinal = m_ConfigGetParameter_ordinal.Get();
 }
 
 void SnobotSim::CtreCANifierWrapper::ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal)
@@ -307,11 +307,11 @@ void SnobotSim::CtreCANifierWrapper::ConfigGetParameter_6(int32_t param, int32_t
     PoplateReceiveResults(buffer, subValue, buffer_pos);
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 
-//    *valueToSend = m_ConfigGetParameter_6_valueToSend.Get();
+    //    *valueToSend = m_ConfigGetParameter_6_valueToSend.Get();
     *valueRecieved = m_ConfigGetParameter_6_valueRecieved.Get();
     *subValue = m_ConfigGetParameter_6_subValue.Get();
-//    *param = m_ConfigGetParameter_6_param.Get();
-//    *ordinal = m_ConfigGetParameter_6_ordinal.Get();
+    //    *param = m_ConfigGetParameter_6_param.Get();
+    //    *ordinal = m_ConfigGetParameter_6_ordinal.Get();
 }
 
 void SnobotSim::CtreCANifierWrapper::ConfigSetCustomParam(int newValue, int paramIndex)
@@ -329,7 +329,7 @@ void SnobotSim::CtreCANifierWrapper::ConfigGetCustomParam(int* readValue, int pa
     PoplateReceiveResults(buffer, &paramIndex, buffer_pos);
 
     *readValue = m_ConfigGetCustomParam_readValue.Get();
-//    *paramIndex = m_ConfigGetCustomParam_paramIndex.Get();
+    //    *paramIndex = m_ConfigGetCustomParam_paramIndex.Get();
 }
 
 void SnobotSim::CtreCANifierWrapper::ConfigFactoryDefault()
@@ -391,7 +391,7 @@ void SnobotSim::CtreCANifierWrapper::GetStatusFramePeriod(int frame, int* period
     PoplateReceiveResults(buffer, periodMs, buffer_pos);
 
     *periodMs = m_StatusFramePeriod_periodMs.Get();
-//    *frame = m_StatusFramePeriod_frame.Get();
+    //    *frame = m_StatusFramePeriod_frame.Get();
 }
 
 void SnobotSim::CtreCANifierWrapper::SetControlFramePeriod(int frame, int periodMs)
