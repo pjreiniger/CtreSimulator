@@ -22,7 +22,7 @@ void SnobotSim::Set{{ stripped_cci_class_name }}Callback(
 }
 
 SnobotSim::{{ wrapper_class_name }}::{{ wrapper_class_name }}({% if has_device_id %}int aDeviceId) :
-        mDeviceId(aDeviceId & 0x3F){% else %}){% endif %}
+        mDeviceId(aDeviceId & 0x3F),{% else %}mDeviceId(0),){% endif %}
         m_simDevice(std::string("{{ wrapper_class_name }} " + std::to_string(aDeviceId)).c_str(), aDeviceId)
 {
 

@@ -163,7 +163,7 @@ def main():
 #     generate_unit_tests()
 
     os.chdir(PROJECT_DIR)
-    subprocess.call("wpiformat")
+    # subprocess.call("wpiformat")
 
 
 

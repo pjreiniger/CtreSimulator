@@ -26,6 +26,7 @@ SnobotSim::CtreMotControllerWrapper::CtreMotControllerWrapper(int aDeviceId) :
         m_simDevice(std::string("CtreMotControllerWrapper " + std::to_string(aDeviceId)).c_str(), aDeviceId)
 {
 
+
     m_ActiveTrajectoryAll_heading = m_simDevice.CreateDouble("ActiveTrajectoryAll_heading", false, 0);
     m_ActiveTrajectoryAll_pos = m_simDevice.CreateDouble("ActiveTrajectoryAll_pos", false, 0);
     m_ActiveTrajectoryAll_vel = m_simDevice.CreateDouble("ActiveTrajectoryAll_vel", false, 0);
@@ -238,6 +239,8 @@ SnobotSim::CtreMotControllerWrapper::CtreMotControllerWrapper(int aDeviceId) :
     m__4_demand1Type = m_simDevice.CreateDouble("_4_demand1Type", false, 0);
     m__4_mode = m_simDevice.CreateDouble("_4_mode", false, 0);
 
+
+
     for (int slotId = 0; slotId < 6; ++slotId)
     {
 
@@ -266,6 +269,7 @@ SnobotSim::CtreMotControllerWrapper::CtreMotControllerWrapper(int aDeviceId) :
         m_slotted_variables[slotId].m_SelectedSensorPosition_sensorPos = m_simDevice.CreateDouble(std::string("SelectedSensorPosition_sensorPos[" + std::to_string(slotId) + "]").c_str(), false, 0);
         m_slotted_variables[slotId].m_SelectedSensorVelocity_param = m_simDevice.CreateDouble(std::string("SelectedSensorVelocity_param[" + std::to_string(slotId) + "]").c_str(), false, 0);
     }
+
 
     Send("Create");
 }
@@ -299,7 +303,10 @@ void SnobotSim::CtreMotControllerWrapper::Receive(const std::string& aName,
 
 void SnobotSim::CtreMotControllerWrapper::GetDeviceNumber(int* deviceNumber)
 {
-    *deviceNumber = mDeviceId;
+    RECEIVE_HELPER("GetDeviceNumber", sizeof(*deviceNumber));
+    PoplateReceiveResults(buffer, deviceNumber, buffer_pos);
+
+    *deviceNumber = m_DeviceNumber_deviceNumber.Get();
 }
 
 void SnobotSim::CtreMotControllerWrapper::GetDescription(char* toFill, int toFillByteSz, size_t* numBytesFilled)
@@ -309,14 +316,17 @@ void SnobotSim::CtreMotControllerWrapper::GetDescription(char* toFill, int toFil
     PoplateReceiveResults(buffer, &toFillByteSz, buffer_pos);
     PoplateReceiveResults(buffer, numBytesFilled, buffer_pos);
 
-    //    *toFillByteSz = m_Description_toFillByteSz.Get();
+    *toFillByteSz = m_Description_toFillByteSz.Get();
     *toFill = m_Description_toFill.Get();
     *numBytesFilled = m_Description_numBytesFilled.Get();
 }
 
 void SnobotSim::CtreMotControllerWrapper::GetBaseID(int* baseArbId)
 {
-    *baseArbId = mDeviceId;
+    RECEIVE_HELPER("GetBaseID", sizeof(*baseArbId));
+    PoplateReceiveResults(buffer, baseArbId, buffer_pos);
+
+    *baseArbId = m_BaseID_baseArbId.Get();
 }
 
 void SnobotSim::CtreMotControllerWrapper::SetDemand(int mode, int demand0, int demand1)
@@ -577,7 +587,7 @@ void SnobotSim::CtreMotControllerWrapper::GetStatusFramePeriod(int frame, int* p
     PoplateReceiveResults(buffer, periodMs, buffer_pos);
 
     *periodMs = m_StatusFramePeriod_periodMs.Get();
-    //    *frame = m_StatusFramePeriod_frame.Get();
+    *frame = m_StatusFramePeriod_frame.Get();
 }
 
 void SnobotSim::CtreMotControllerWrapper::ConfigVelocityMeasurementPeriod(int period)
@@ -914,9 +924,9 @@ void SnobotSim::CtreMotControllerWrapper::PushMotionProfileTrajectory_3(double p
 
 void SnobotSim::CtreMotControllerWrapper::StartMotionProfile(void* streamHandle, uint32_t minBufferedPts, ctre::phoenix::motorcontrol::ControlMode controlMode)
 {
-    //    m_StartMotionProfile_streamHandle.Set(streamHandle);
+    m_StartMotionProfile_streamHandle.Set(streamHandle);
     m_StartMotionProfile_minBufferedPts.Set(minBufferedPts);
-    //    m_StartMotionProfile_controlMode.Set(controlMode);
+    m_StartMotionProfile_controlMode.Set(controlMode);
 
     Send("StartMotionProfile", streamHandle, minBufferedPts, controlMode);
 }
@@ -1116,7 +1126,7 @@ void SnobotSim::CtreMotControllerWrapper::ConfigGetCustomParam(int* readValue, i
     PoplateReceiveResults(buffer, &paramIndex, buffer_pos);
 
     *readValue = m_ConfigGetCustomParam_readValue.Get();
-    //    *paramIndex = m_ConfigGetCustomParam_paramIndex.Get();
+    *paramIndex = m_ConfigGetCustomParam_paramIndex.Get();
 }
 
 void SnobotSim::CtreMotControllerWrapper::ConfigSetParameter(int param, double value, uint8_t subValue, int ordinal)
@@ -1137,8 +1147,8 @@ void SnobotSim::CtreMotControllerWrapper::ConfigGetParameter(int param, double* 
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 
     *value = m_ConfigGetParameter_value.Get();
-    //    *param = m_ConfigGetParameter_param.Get();
-    //    *ordinal = m_ConfigGetParameter_ordinal.Get();
+    *param = m_ConfigGetParameter_param.Get();
+    *ordinal = m_ConfigGetParameter_ordinal.Get();
 }
 
 void SnobotSim::CtreMotControllerWrapper::ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal)
@@ -1150,11 +1160,11 @@ void SnobotSim::CtreMotControllerWrapper::ConfigGetParameter_6(int32_t param, in
     PoplateReceiveResults(buffer, subValue, buffer_pos);
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 
-    //    *valueToSend = m_ConfigGetParameter_6_valueToSend.Get();
+    *valueToSend = m_ConfigGetParameter_6_valueToSend.Get();
     *valueRecieved = m_ConfigGetParameter_6_valueRecieved.Get();
     *subValue = m_ConfigGetParameter_6_subValue.Get();
-    //    *param = m_ConfigGetParameter_6_param.Get();
-    //    *ordinal = m_ConfigGetParameter_6_ordinal.Get();
+    *param = m_ConfigGetParameter_6_param.Get();
+    *ordinal = m_ConfigGetParameter_6_ordinal.Get();
 }
 
 void SnobotSim::CtreMotControllerWrapper::ConfigPeakCurrentLimit(int amps)
@@ -1437,7 +1447,7 @@ void SnobotSim::CtreMotControllerWrapper::GetClosedLoopTarget(int* value, int pi
 
 void SnobotSim::CtreMotControllerWrapper::ConfigMotorCommutation(ctre::phoenix::motorcontrol::MotorCommutation motorCommutation)
 {
-    //    m_ConfigMotorCommutation_motorCommutation.Set(motorCommutation);
+    m_ConfigMotorCommutation_motorCommutation.Set((ctre::phoenix::motorcontrol::MotorCommutation) motorCommutation);
 
     Send("ConfigMotorCommutation", motorCommutation);
 }
@@ -1447,25 +1457,27 @@ void SnobotSim::CtreMotControllerWrapper::ConfigGetMotorCommutation(ctre::phoeni
     RECEIVE_HELPER("ConfigGetMotorCommutation", sizeof(*motorCommutation));
     PoplateReceiveResults(buffer, motorCommutation, buffer_pos);
 
-    //    *motorCommutation = m_ConfigGetMotorCommutation_motorCommutation.Get();
+    *motorCommutation = static_cast<ctre::phoenix::motorcontrol::MotorCommutation>(static_cast<int>(m_ConfigGetMotorCommutation_motorCommutation.Get()));
 }
 
 void SnobotSim::CtreMotControllerWrapper::ConfigSupplyCurrentLimit(const double* params, int paramCnt)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("")
-    //    RECEIVE_HELPER("ConfigSupplyCurrentLimit", sizeof(*params) + sizeof(paramCnt) + sizeof(timeoutMs));
-    //    PoplateReceiveResults(buffer, params, buffer_pos);
-    //    PoplateReceiveResults(buffer, &paramCnt, buffer_pos);
-    //    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
+    RECEIVE_HELPER("ConfigSupplyCurrentLimit", sizeof(*params) + sizeof(paramCnt));
+    PoplateReceiveResults(buffer, params, buffer_pos);
+    PoplateReceiveResults(buffer, &paramCnt, buffer_pos);
+
+    *params = m_ConfigSupplyCurrentLimit_params.Get();
+    *paramCnt = m_ConfigSupplyCurrentLimit_paramCnt.Get();
 }
 
 void SnobotSim::CtreMotControllerWrapper::ConfigStatorCurrentLimit(const double* params, int paramCnt)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("")
-    //    RECEIVE_HELPER("ConfigStatorCurrentLimit", sizeof(*params) + sizeof(paramCnt) + sizeof(timeoutMs));
-    //    PoplateReceiveResults(buffer, params, buffer_pos);
-    //    PoplateReceiveResults(buffer, &paramCnt, buffer_pos);
-    //    PoplateReceiveResults(buffer, &timeoutMs, buffer_pos);
+    RECEIVE_HELPER("ConfigStatorCurrentLimit", sizeof(*params) + sizeof(paramCnt));
+    PoplateReceiveResults(buffer, params, buffer_pos);
+    PoplateReceiveResults(buffer, &paramCnt, buffer_pos);
+
+    *params = m_ConfigStatorCurrentLimit_params.Get();
+    *paramCnt = m_ConfigStatorCurrentLimit_paramCnt.Get();
 }
 
 void SnobotSim::CtreMotControllerWrapper::ConfigSupplyCurrentLimitEnable(bool enable)
@@ -1491,7 +1503,7 @@ void SnobotSim::CtreMotControllerWrapper::ConfigGetSupplyCurrentLimit(double* to
 
     *toFill = m_ConfigGetSupplyCurrentLimit_toFill.Get();
     *fillCnt = m_ConfigGetSupplyCurrentLimit_fillCnt.Get();
-    //    *fillCapacity = m_ConfigGetSupplyCurrentLimit_fillCapacity.Get();
+    *fillCapacity = m_ConfigGetSupplyCurrentLimit_fillCapacity.Get();
 }
 
 void SnobotSim::CtreMotControllerWrapper::ConfigGetStatorCurrentLimit(double* toFill, int* fillCnt, int fillCapacity)
@@ -1503,7 +1515,7 @@ void SnobotSim::CtreMotControllerWrapper::ConfigGetStatorCurrentLimit(double* to
 
     *toFill = m_ConfigGetStatorCurrentLimit_toFill.Get();
     *fillCnt = m_ConfigGetStatorCurrentLimit_fillCnt.Get();
-    //    *fillCapacity = m_ConfigGetStatorCurrentLimit_fillCapacity.Get();
+    *fillCapacity = m_ConfigGetStatorCurrentLimit_fillCapacity.Get();
 }
 
 void SnobotSim::CtreMotControllerWrapper::SetIntegratedSensorPosition(double newpos)
@@ -1552,10 +1564,3 @@ void SnobotSim::CtreMotControllerWrapper::ConfigIntegratedSensorInitializationSt
     Send("ConfigIntegratedSensorInitializationStrategy", initializationStrategy);
 }
 
-ctre::phoenix::ErrorCode SnobotSim::CtreMotControllerWrapper::GetLastError()
-{
-    int lastError = 0;
-    RECEIVE_HELPER("GetLastError", sizeof(lastError));
-    PoplateReceiveResults(buffer, &lastError, buffer_pos);
-    return (ctre::phoenix::ErrorCode)lastError;
-}

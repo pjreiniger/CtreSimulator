@@ -26,15 +26,27 @@ SnobotSim::CtrePigeonIMUWrapper::CtrePigeonIMUWrapper(int aDeviceId) :
         m_simDevice(std::string("CtrePigeonIMUWrapper " + std::to_string(aDeviceId)).c_str(), aDeviceId)
 {
 
-    m_6dQuaternion_wxyz = m_simDevice.CreateDouble("6dQuaternion_wxyz", false, 0);
+
+    m_6dQuaternion_wxyz_0 = m_simDevice.CreateDouble("6dQuaternion_wxyz_0", false, 0);
+    m_6dQuaternion_wxyz_1 = m_simDevice.CreateDouble("6dQuaternion_wxyz_1", false, 0);
+    m_6dQuaternion_wxyz_2 = m_simDevice.CreateDouble("6dQuaternion_wxyz_2", false, 0);
+    m_6dQuaternion_wxyz_3 = m_simDevice.CreateDouble("6dQuaternion_wxyz_3", false, 0);
     m_AbsoluteCompassHeading_value = m_simDevice.CreateDouble("AbsoluteCompassHeading_value", false, 0);
-    m_AccelerometerAngles_tiltAngles = m_simDevice.CreateDouble("AccelerometerAngles_tiltAngles", false, 0);
-    m_AccumGyro_xyz_deg = m_simDevice.CreateDouble("AccumGyro_xyz_deg", false, 0);
+    m_AccelerometerAngles_tiltAngles_0 = m_simDevice.CreateDouble("AccelerometerAngles_tiltAngles_0", false, 0);
+    m_AccelerometerAngles_tiltAngles_1 = m_simDevice.CreateDouble("AccelerometerAngles_tiltAngles_1", false, 0);
+    m_AccelerometerAngles_tiltAngles_2 = m_simDevice.CreateDouble("AccelerometerAngles_tiltAngles_2", false, 0);
+    m_AccumGyro_xyz_deg_0 = m_simDevice.CreateDouble("AccumGyro_xyz_deg_0", false, 0);
+    m_AccumGyro_xyz_deg_1 = m_simDevice.CreateDouble("AccumGyro_xyz_deg_1", false, 0);
+    m_AccumGyro_xyz_deg_2 = m_simDevice.CreateDouble("AccumGyro_xyz_deg_2", false, 0);
     m_AccumZAngle_angleDeg = m_simDevice.CreateDouble("AccumZAngle_angleDeg", false, 0);
     m_AddFusedHeading_angleDeg = m_simDevice.CreateDouble("AddFusedHeading_angleDeg", false, 0);
     m_AddYaw_angleDeg = m_simDevice.CreateDouble("AddYaw_angleDeg", false, 0);
-    m_BiasedAccelerometer_ba_xyz = m_simDevice.CreateDouble("BiasedAccelerometer_ba_xyz", false, 0);
-    m_BiasedMagnetometer_bm_xyz = m_simDevice.CreateDouble("BiasedMagnetometer_bm_xyz", false, 0);
+    m_BiasedAccelerometer_ba_xyz_0 = m_simDevice.CreateDouble("BiasedAccelerometer_ba_xyz_0", false, 0);
+    m_BiasedAccelerometer_ba_xyz_1 = m_simDevice.CreateDouble("BiasedAccelerometer_ba_xyz_1", false, 0);
+    m_BiasedAccelerometer_ba_xyz_2 = m_simDevice.CreateDouble("BiasedAccelerometer_ba_xyz_2", false, 0);
+    m_BiasedMagnetometer_bm_xyz_0 = m_simDevice.CreateDouble("BiasedMagnetometer_bm_xyz_0", false, 0);
+    m_BiasedMagnetometer_bm_xyz_1 = m_simDevice.CreateDouble("BiasedMagnetometer_bm_xyz_1", false, 0);
+    m_BiasedMagnetometer_bm_xyz_2 = m_simDevice.CreateDouble("BiasedMagnetometer_bm_xyz_2", false, 0);
     m_CompassAngle_angleDeg = m_simDevice.CreateDouble("CompassAngle_angleDeg", false, 0);
     m_CompassDeclination_angleDegOffset = m_simDevice.CreateDouble("CompassDeclination_angleDegOffset", false, 0);
     m_CompassFieldStrength_value = m_simDevice.CreateDouble("CompassFieldStrength_value", false, 0);
@@ -85,7 +97,9 @@ SnobotSim::CtrePigeonIMUWrapper::CtrePigeonIMUWrapper(int aDeviceId) :
     m_RawGyro_xyz_dps_0 = m_simDevice.CreateDouble("RawGyro_xyz_dps_0", false, 0);
     m_RawGyro_xyz_dps_1 = m_simDevice.CreateDouble("RawGyro_xyz_dps_1", false, 0);
     m_RawGyro_xyz_dps_2 = m_simDevice.CreateDouble("RawGyro_xyz_dps_2", false, 0);
-    m_RawMagnetometer_rm_xyz = m_simDevice.CreateDouble("RawMagnetometer_rm_xyz", false, 0);
+    m_RawMagnetometer_rm_xyz_0 = m_simDevice.CreateDouble("RawMagnetometer_rm_xyz_0", false, 0);
+    m_RawMagnetometer_rm_xyz_1 = m_simDevice.CreateDouble("RawMagnetometer_rm_xyz_1", false, 0);
+    m_RawMagnetometer_rm_xyz_2 = m_simDevice.CreateDouble("RawMagnetometer_rm_xyz_2", false, 0);
     m_ResetCount_value = m_simDevice.CreateDouble("ResetCount_value", false, 0);
     m_ResetFlags_value = m_simDevice.CreateDouble("ResetFlags_value", false, 0);
     m_State_state = m_simDevice.CreateDouble("State_state", false, 0);
@@ -99,6 +113,9 @@ SnobotSim::CtrePigeonIMUWrapper::CtrePigeonIMUWrapper(int aDeviceId) :
     m_YawPitchRoll_ypr_1 = m_simDevice.CreateDouble("YawPitchRoll_ypr_1", false, 0);
     m_YawPitchRoll_ypr_2 = m_simDevice.CreateDouble("YawPitchRoll_ypr_2", false, 0);
     m_Yaw_angleDeg = m_simDevice.CreateDouble("Yaw_angleDeg", false, 0);
+
+
+
 
     Send("Create");
 }
@@ -137,7 +154,7 @@ void SnobotSim::CtrePigeonIMUWrapper::GetDescription(char* toFill, int toFillByt
     PoplateReceiveResults(buffer, &toFillByteSz, buffer_pos);
     PoplateReceiveResults(buffer, numBytesFilled, buffer_pos);
 
-    //    *toFillByteSz = m_Description_toFillByteSz.Get();
+    *toFillByteSz = m_Description_toFillByteSz.Get();
     *toFill = m_Description_toFill.Get();
     *numBytesFilled = m_Description_numBytesFilled.Get();
 }
@@ -160,8 +177,8 @@ void SnobotSim::CtrePigeonIMUWrapper::ConfigGetParameter(int param, double* valu
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 
     *value = m_ConfigGetParameter_value.Get();
-    //    *param = m_ConfigGetParameter_param.Get();
-    //    *ordinal = m_ConfigGetParameter_ordinal.Get();
+    *param = m_ConfigGetParameter_param.Get();
+    *ordinal = m_ConfigGetParameter_ordinal.Get();
 }
 
 void SnobotSim::CtrePigeonIMUWrapper::ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal)
@@ -173,11 +190,11 @@ void SnobotSim::CtrePigeonIMUWrapper::ConfigGetParameter_6(int32_t param, int32_
     PoplateReceiveResults(buffer, subValue, buffer_pos);
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 
-    //    *valueToSend = m_ConfigGetParameter_6_valueToSend.Get();
+    *valueToSend = m_ConfigGetParameter_6_valueToSend.Get();
     *valueRecieved = m_ConfigGetParameter_6_valueRecieved.Get();
     *subValue = m_ConfigGetParameter_6_subValue.Get();
-    //    *param = m_ConfigGetParameter_6_param.Get();
-    //    *ordinal = m_ConfigGetParameter_6_ordinal.Get();
+    *param = m_ConfigGetParameter_6_param.Get();
+    *ordinal = m_ConfigGetParameter_6_ordinal.Get();
 }
 
 void SnobotSim::CtrePigeonIMUWrapper::ConfigSetCustomParam(int newValue, int paramIndex)
@@ -195,7 +212,7 @@ void SnobotSim::CtrePigeonIMUWrapper::ConfigGetCustomParam(int* readValue, int p
     PoplateReceiveResults(buffer, &paramIndex, buffer_pos);
 
     *readValue = m_ConfigGetCustomParam_readValue.Get();
-    //    *paramIndex = m_ConfigGetCustomParam_paramIndex.Get();
+    *paramIndex = m_ConfigGetCustomParam_paramIndex.Get();
 }
 
 void SnobotSim::CtrePigeonIMUWrapper::ConfigFactoryDefault()
@@ -311,7 +328,10 @@ void SnobotSim::CtrePigeonIMUWrapper::Get6dQuaternion(double wxyz[4])
     PoplateReceiveResults(buffer, &wxyz[2], buffer_pos);
     PoplateReceiveResults(buffer, &wxyz[3], buffer_pos);
 
-    *wxyz = m_6dQuaternion_wxyz.Get();
+    *wxyz_3 = m_6dQuaternion_wxyz_3.Get();
+    *wxyz_2 = m_6dQuaternion_wxyz_2.Get();
+    *wxyz_1 = m_6dQuaternion_wxyz_1.Get();
+    *wxyz_0 = m_6dQuaternion_wxyz_0.Get();
 }
 
 void SnobotSim::CtrePigeonIMUWrapper::GetYawPitchRoll(double ypr[3])
@@ -321,9 +341,9 @@ void SnobotSim::CtrePigeonIMUWrapper::GetYawPitchRoll(double ypr[3])
     PoplateReceiveResults(buffer, &ypr[1], buffer_pos);
     PoplateReceiveResults(buffer, &ypr[2], buffer_pos);
 
-    ypr[0] = m_YawPitchRoll_ypr_0.Get();
-    ypr[1] = m_YawPitchRoll_ypr_1.Get();
-    ypr[2] = m_YawPitchRoll_ypr_2.Get();
+    *ypr_2 = m_YawPitchRoll_ypr_2.Get();
+    *ypr_1 = m_YawPitchRoll_ypr_1.Get();
+    *ypr_0 = m_YawPitchRoll_ypr_0.Get();
 }
 
 void SnobotSim::CtrePigeonIMUWrapper::GetAccumGyro(double xyz_deg[3])
@@ -333,7 +353,9 @@ void SnobotSim::CtrePigeonIMUWrapper::GetAccumGyro(double xyz_deg[3])
     PoplateReceiveResults(buffer, &xyz_deg[1], buffer_pos);
     PoplateReceiveResults(buffer, &xyz_deg[2], buffer_pos);
 
-    *xyz_deg = m_AccumGyro_xyz_deg.Get();
+    *xyz_deg_2 = m_AccumGyro_xyz_deg_2.Get();
+    *xyz_deg_1 = m_AccumGyro_xyz_deg_1.Get();
+    *xyz_deg_0 = m_AccumGyro_xyz_deg_0.Get();
 }
 
 void SnobotSim::CtrePigeonIMUWrapper::GetAbsoluteCompassHeading(double* value)
@@ -391,7 +413,9 @@ void SnobotSim::CtrePigeonIMUWrapper::GetRawMagnetometer(short rm_xyz[3])
     PoplateReceiveResults(buffer, &rm_xyz[1], buffer_pos);
     PoplateReceiveResults(buffer, &rm_xyz[2], buffer_pos);
 
-    *rm_xyz = m_RawMagnetometer_rm_xyz.Get();
+    *rm_xyz_2 = m_RawMagnetometer_rm_xyz_2.Get();
+    *rm_xyz_1 = m_RawMagnetometer_rm_xyz_1.Get();
+    *rm_xyz_0 = m_RawMagnetometer_rm_xyz_0.Get();
 }
 
 void SnobotSim::CtrePigeonIMUWrapper::GetBiasedMagnetometer(short bm_xyz[3])
@@ -401,7 +425,9 @@ void SnobotSim::CtrePigeonIMUWrapper::GetBiasedMagnetometer(short bm_xyz[3])
     PoplateReceiveResults(buffer, &bm_xyz[1], buffer_pos);
     PoplateReceiveResults(buffer, &bm_xyz[2], buffer_pos);
 
-    *bm_xyz = m_BiasedMagnetometer_bm_xyz.Get();
+    *bm_xyz_2 = m_BiasedMagnetometer_bm_xyz_2.Get();
+    *bm_xyz_1 = m_BiasedMagnetometer_bm_xyz_1.Get();
+    *bm_xyz_0 = m_BiasedMagnetometer_bm_xyz_0.Get();
 }
 
 void SnobotSim::CtrePigeonIMUWrapper::GetBiasedAccelerometer(short ba_xyz[3])
@@ -411,7 +437,9 @@ void SnobotSim::CtrePigeonIMUWrapper::GetBiasedAccelerometer(short ba_xyz[3])
     PoplateReceiveResults(buffer, &ba_xyz[1], buffer_pos);
     PoplateReceiveResults(buffer, &ba_xyz[2], buffer_pos);
 
-    *ba_xyz = m_BiasedAccelerometer_ba_xyz.Get();
+    *ba_xyz_2 = m_BiasedAccelerometer_ba_xyz_2.Get();
+    *ba_xyz_1 = m_BiasedAccelerometer_ba_xyz_1.Get();
+    *ba_xyz_0 = m_BiasedAccelerometer_ba_xyz_0.Get();
 }
 
 void SnobotSim::CtrePigeonIMUWrapper::GetRawGyro(double xyz_dps[3])
@@ -421,9 +449,9 @@ void SnobotSim::CtrePigeonIMUWrapper::GetRawGyro(double xyz_dps[3])
     PoplateReceiveResults(buffer, &xyz_dps[1], buffer_pos);
     PoplateReceiveResults(buffer, &xyz_dps[2], buffer_pos);
 
-    xyz_dps[0] = m_RawGyro_xyz_dps_0.Get();
-    xyz_dps[1] = m_RawGyro_xyz_dps_1.Get();
-    xyz_dps[2] = m_RawGyro_xyz_dps_2.Get();
+    *xyz_dps_2 = m_RawGyro_xyz_dps_2.Get();
+    *xyz_dps_1 = m_RawGyro_xyz_dps_1.Get();
+    *xyz_dps_0 = m_RawGyro_xyz_dps_0.Get();
 }
 
 void SnobotSim::CtrePigeonIMUWrapper::GetAccelerometerAngles(double tiltAngles[3])
@@ -433,7 +461,9 @@ void SnobotSim::CtrePigeonIMUWrapper::GetAccelerometerAngles(double tiltAngles[3
     PoplateReceiveResults(buffer, &tiltAngles[1], buffer_pos);
     PoplateReceiveResults(buffer, &tiltAngles[2], buffer_pos);
 
-    *tiltAngles = m_AccelerometerAngles_tiltAngles.Get();
+    *tiltAngles_2 = m_AccelerometerAngles_tiltAngles_2.Get();
+    *tiltAngles_1 = m_AccelerometerAngles_tiltAngles_1.Get();
+    *tiltAngles_0 = m_AccelerometerAngles_tiltAngles_0.Get();
 }
 
 void SnobotSim::CtrePigeonIMUWrapper::GetFusedHeading2(int* bIsFusing, int* bIsValid, double* value, int* lastError)
@@ -534,7 +564,7 @@ void SnobotSim::CtrePigeonIMUWrapper::GetStatusFramePeriod(int frame, int* perio
     PoplateReceiveResults(buffer, periodMs, buffer_pos);
 
     *periodMs = m_StatusFramePeriod_periodMs.Get();
-    //    *frame = m_StatusFramePeriod_frame.Get();
+    *frame = m_StatusFramePeriod_frame.Get();
 }
 
 void SnobotSim::CtrePigeonIMUWrapper::SetControlFramePeriod(int frame, int periodMs)
@@ -545,10 +575,3 @@ void SnobotSim::CtrePigeonIMUWrapper::SetControlFramePeriod(int frame, int perio
     Send("SetControlFramePeriod", frame, periodMs);
 }
 
-ctre::phoenix::ErrorCode SnobotSim::CtrePigeonIMUWrapper::GetLastError()
-{
-    int lastError = 0;
-    RECEIVE_HELPER("GetLastError", sizeof(lastError));
-    PoplateReceiveResults(buffer, &lastError, buffer_pos);
-    return (ctre::phoenix::ErrorCode)lastError;
-}

@@ -21,10 +21,10 @@ void SnobotSim::SetBuffTrajPointStreamCallback(
     gBuffTrajPointStreamCallbacks.push_back(callback);
 }
 
-SnobotSim::CtreBuffTrajPointStreamWrapper::CtreBuffTrajPointStreamWrapper() :
-        mDeviceId(0),
-        m_simDevice(std::string("CtreBuffTrajPointStreamWrapper " + std::to_string(mDeviceId)).c_str(), mDeviceId)
+SnobotSim::CtreBuffTrajPointStreamWrapper::CtreBuffTrajPointStreamWrapper(mDeviceId(0),)
+        m_simDevice(std::string("CtreBuffTrajPointStreamWrapper " + std::to_string(aDeviceId)).c_str(), aDeviceId)
 {
+
 
     m_Lookup_outObject = m_simDevice.CreateDouble("Lookup_outObject", false, 0);
     m_Write_arbFeedFwd = m_simDevice.CreateDouble("Write_arbFeedFwd", false, 0);
@@ -39,6 +39,9 @@ SnobotSim::CtreBuffTrajPointStreamWrapper::CtreBuffTrajPointStreamWrapper() :
     m_Write_useAuxPID = m_simDevice.CreateDouble("Write_useAuxPID", false, 0);
     m_Write_velocity = m_simDevice.CreateDouble("Write_velocity", false, 0);
     m_Write_zeroPos = m_simDevice.CreateDouble("Write_zeroPos", false, 0);
+
+
+
 
     Send("Create");
 }
@@ -94,9 +97,11 @@ void SnobotSim::CtreBuffTrajPointStreamWrapper::Write(double position, double ve
     Send("Write", position, velocity, arbFeedFwd, auxiliaryPos, auxiliaryVel, auxiliaryArbFeedFwd, profileSlotSelect0, profileSlotSelect1, isLastPoint, zeroPos, timeDur, useAuxPID);
 }
 
-void SnobotSim::CtreBuffTrajPointStreamWrapper::Lookup(void** outObject)
+void SnobotSim::CtreBuffTrajPointStreamWrapper::Lookup(void ** outObject)
 {
-    LOG_UNSUPPORTED_CAN_FUNC("");
-    // RECEIVE_HELPER("Lookup", sizeof(*outObject));
-    // PoplateReceiveResults(buffer, outObject, buffer_pos);
+    RECEIVE_HELPER("Lookup", sizeof(*outObject));
+    PoplateReceiveResults(buffer, outObject, buffer_pos);
+
+    *outObject = m_Lookup_outObject.Get();
 }
+

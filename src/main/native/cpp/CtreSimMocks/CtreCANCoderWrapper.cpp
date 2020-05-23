@@ -26,6 +26,7 @@ SnobotSim::CtreCANCoderWrapper::CtreCANCoderWrapper(int aDeviceId) :
         m_simDevice(std::string("CtreCANCoderWrapper " + std::to_string(aDeviceId)).c_str(), aDeviceId)
 {
 
+
     m_AbsolutePosition_pos = m_simDevice.CreateDouble("AbsolutePosition_pos", false, 0);
     m_BusVoltage_batteryVoltage = m_simDevice.CreateDouble("BusVoltage_batteryVoltage", false, 0);
     m_ConfigAbsoluteSensorRange_absoluteSensorRange = m_simDevice.CreateDouble("ConfigAbsoluteSensorRange_absoluteSensorRange", false, 0);
@@ -71,6 +72,9 @@ SnobotSim::CtreCANCoderWrapper::CtreCANCoderWrapper(int aDeviceId) :
     m_StickyFaults_param = m_simDevice.CreateDouble("StickyFaults_param", false, 0);
     m_Velocity_vel = m_simDevice.CreateDouble("Velocity_vel", false, 0);
 
+
+
+
     Send("Create");
 }
 
@@ -108,7 +112,7 @@ void SnobotSim::CtreCANCoderWrapper::GetDescription(char* toFill, int toFillByte
     PoplateReceiveResults(buffer, &toFillByteSz, buffer_pos);
     PoplateReceiveResults(buffer, numBytesFilled, buffer_pos);
 
-    //    *toFillByteSz = m_Description_toFillByteSz.Get();
+    *toFillByteSz = m_Description_toFillByteSz.Get();
     *toFill = m_Description_toFill.Get();
     *numBytesFilled = m_Description_numBytesFilled.Get();
 }
@@ -120,7 +124,7 @@ void SnobotSim::CtreCANCoderWrapper::GetLastUnitString(char* toFill, int toFillB
     PoplateReceiveResults(buffer, &toFillByteSz, buffer_pos);
     PoplateReceiveResults(buffer, numBytesFilled, buffer_pos);
 
-    //    *toFillByteSz = m_LastUnitString_toFillByteSz.Get();
+    *toFillByteSz = m_LastUnitString_toFillByteSz.Get();
     *toFill = m_LastUnitString_toFill.Get();
     *numBytesFilled = m_LastUnitString_numBytesFilled.Get();
 }
@@ -146,7 +150,7 @@ void SnobotSim::CtreCANCoderWrapper::GetMagnetFieldStrength(ctre::phoenix::senso
     RECEIVE_HELPER("GetMagnetFieldStrength", sizeof(*magnetFieldStrength));
     PoplateReceiveResults(buffer, magnetFieldStrength, buffer_pos);
 
-    //    *magnetFieldStrength = m_MagnetFieldStrength_magnetFieldStrength.Get();
+    *magnetFieldStrength = m_MagnetFieldStrength_magnetFieldStrength.Get();
 }
 
 void SnobotSim::CtreCANCoderWrapper::GetPosition(double* pos)
@@ -230,10 +234,14 @@ void SnobotSim::CtreCANCoderWrapper::ConfigSensorInitializationStrategy(ctre::ph
 
 void SnobotSim::CtreCANCoderWrapper::ConfigFeedbackCoefficient(double sensorCoefficient, const char* unitString, ctre::phoenix::sensors::SensorTimeBase sensortimeBase)
 {
-    //    RECEIVE_HELPER("ConfigFeedbackCoefficient", sizeof(sensorCoefficient) + sizeof(*unitString) + sizeof(sensortimeBase));
-    //    PoplateReceiveResults(buffer, &sensorCoefficient, buffer_pos);
-    //    PoplateReceiveResults(buffer, unitString, buffer_pos);
-    //    PoplateReceiveResults(buffer, &sensortimeBase, buffer_pos);
+    RECEIVE_HELPER("ConfigFeedbackCoefficient", sizeof(sensorCoefficient) + sizeof(*unitString) + sizeof(sensortimeBase));
+    PoplateReceiveResults(buffer, &sensorCoefficient, buffer_pos);
+    PoplateReceiveResults(buffer, unitString, buffer_pos);
+    PoplateReceiveResults(buffer, &sensortimeBase, buffer_pos);
+
+    *unitString = m_ConfigFeedbackCoefficient_unitString.Get();
+    *sensortimeBase = m_ConfigFeedbackCoefficient_sensortimeBase.Get();
+    *sensorCoefficient = m_ConfigFeedbackCoefficient_sensorCoefficient.Get();
 }
 
 void SnobotSim::CtreCANCoderWrapper::ConfigSetParameter(int param, double value, uint8_t subValue, int ordinal)
@@ -254,8 +262,8 @@ void SnobotSim::CtreCANCoderWrapper::ConfigGetParameter(int param, double* value
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 
     *value = m_ConfigGetParameter_value.Get();
-    //    *param = m_ConfigGetParameter_param.Get();
-    //    *ordinal = m_ConfigGetParameter_ordinal.Get();
+    *param = m_ConfigGetParameter_param.Get();
+    *ordinal = m_ConfigGetParameter_ordinal.Get();
 }
 
 void SnobotSim::CtreCANCoderWrapper::ConfigGetParameter_6(int32_t param, int32_t valueToSend, int32_t* valueRecieved, uint8_t* subValue, int32_t ordinal)
@@ -267,11 +275,11 @@ void SnobotSim::CtreCANCoderWrapper::ConfigGetParameter_6(int32_t param, int32_t
     PoplateReceiveResults(buffer, subValue, buffer_pos);
     PoplateReceiveResults(buffer, &ordinal, buffer_pos);
 
-    //    *valueToSend = m_ConfigGetParameter_6_valueToSend.Get();
+    *valueToSend = m_ConfigGetParameter_6_valueToSend.Get();
     *valueRecieved = m_ConfigGetParameter_6_valueRecieved.Get();
     *subValue = m_ConfigGetParameter_6_subValue.Get();
-    //    *param = m_ConfigGetParameter_6_param.Get();
-    //    *ordinal = m_ConfigGetParameter_6_ordinal.Get();
+    *param = m_ConfigGetParameter_6_param.Get();
+    *ordinal = m_ConfigGetParameter_6_ordinal.Get();
 }
 
 void SnobotSim::CtreCANCoderWrapper::ConfigSetCustomParam(int newValue, int paramIndex)
@@ -289,7 +297,7 @@ void SnobotSim::CtreCANCoderWrapper::ConfigGetCustomParam(int* readValue, int pa
     PoplateReceiveResults(buffer, &paramIndex, buffer_pos);
 
     *readValue = m_ConfigGetCustomParam_readValue.Get();
-    //    *paramIndex = m_ConfigGetCustomParam_paramIndex.Get();
+    *paramIndex = m_ConfigGetCustomParam_paramIndex.Get();
 }
 
 void SnobotSim::CtreCANCoderWrapper::ConfigFactoryDefault()
@@ -351,13 +359,6 @@ void SnobotSim::CtreCANCoderWrapper::GetStatusFramePeriod(int frame, int* period
     PoplateReceiveResults(buffer, periodMs, buffer_pos);
 
     *periodMs = m_StatusFramePeriod_periodMs.Get();
-    //    *frame = m_StatusFramePeriod_frame.Get();
+    *frame = m_StatusFramePeriod_frame.Get();
 }
 
-ctre::phoenix::ErrorCode SnobotSim::CtreCANCoderWrapper::GetLastError()
-{
-    int lastError = 0;
-    RECEIVE_HELPER("GetLastError", sizeof(lastError));
-    PoplateReceiveResults(buffer, &lastError, buffer_pos);
-    return (ctre::phoenix::ErrorCode)lastError;
-}
